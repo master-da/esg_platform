@@ -42,7 +42,7 @@ test: test-unit test-db ## All engine tests
 test-unit: ## Engine unit tests (no database)
 	$(ENGINE) uv run pytest -m "not db" -q
 
-test-db: ## DB / RLS / API integration tests (needs `make up` + `make engine`)
+test-db: ## DB / RLS / API integration tests (needs `make up`; the engine runs in-process)
 	$(ENGINE) uv run pytest -m db -q
 
 e2e: ## Playwright golden path (needs engine + web running)

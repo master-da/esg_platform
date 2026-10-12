@@ -367,3 +367,23 @@ def manual_entry(project_id: str, key: str, body: ManualEntry, tx: Tx = Depends(
     create_records(tx, p, t, rows, file_id=file_id, source_type="manual_entry", review_status=status)
     tx.log_event(str(p["company_id"]), "public.uploaded_files", file_id, "MANUAL_ENTRY", {"terminal": t.key})
     return {"file_id": file_id}
+
+
+@router.get("/internal/review-queue")
+def review_queue(tx: Tx = Depends(user_tx)):
+    """Internal reviewers: files with preliminary calculations awaiting confirmation, and open factor requests."""
+    require_internal(tx)
+    files = tx.all(
+        """select fs.file_id, fs.original_name, fs.uploaded_at, fs.records, fs.project_id, fs.terminal_key,
+                  c.legal_name as company, p.name as project, t.name as category
+           from public.v_file_status fs join public.companies c on c.id = fs.company_id
+           join public.projects p on p.id = fs.project_id join ref.terminals t on t.key = fs.terminal_key
+           where fs.status = 'PRELIMINARY' order by fs.uploaded_at"""
+    )
+    requests = tx.all(
+        """select k.id, k.title, k.description, k.created_at, k.project_id, k.terminal_key, c.legal_name as company,
+                  p.name as project
+           from public.tasks k join public.companies c on c.id = k.company_id join public.projects p on p.id = k.project_id
+           where k.kind = 'factor_request' and k.status = 'open' order by k.created_at"""
+    )
+    return {"files": files, "factor_requests": requests}

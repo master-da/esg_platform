@@ -30,16 +30,44 @@ def cleanup_test_data() -> None:
 
     with psycopg.connect("postgresql://postgres:postgres@127.0.0.1:54322/postgres", autocommit=True) as conn:
         conn.execute("set session_replication_role = replica")
-        users = [r[0] for r in conn.execute(
-            "select id from auth.users where email like %s", (f"%@{TEST_EMAIL_DOMAIN}",)).fetchall()]
-        companies = [r[0] for r in conn.execute(
-            "select id from public.companies where legal_name like 'Test a %' or legal_name like 'Test b %'").fetchall()]
+        users = [
+            r[0]
+            for r in conn.execute(
+                "select id from auth.users where email like %s", (f"%@{TEST_EMAIL_DOMAIN}",)
+            ).fetchall()
+        ]
+        companies = [
+            r[0]
+            for r in conn.execute(
+                "select id from public.companies where legal_name like 'Test a %' or legal_name like 'Test b %'"
+            ).fetchall()
+        ]
         if companies:
-            for table in ("emission_calculations", "file_reviews", "bill_extractions", "validation_issues", "categorizations",
-                          "activity_records", "uploaded_files", "tasks", "notes", "project_categories", "denominators",
-                          "wq_samples", "labour_monthly", "incidents"):
+            for table in (
+                "emission_calculations",
+                "file_reviews",
+                "bill_extractions",
+                "validation_issues",
+                "categorizations",
+                "activity_records",
+                "uploaded_files",
+                "tasks",
+                "notes",
+                "project_categories",
+                "denominators",
+                "wq_samples",
+                "labour_monthly",
+                "incidents",
+                "assumptions",
+                "verifications",
+                "reports",
+                "permits",
+                "company_frameworks",
+            ):
                 conn.execute(f"delete from public.{table} where company_id = any(%s)", (companies,))
-            conn.execute("update public.projects set current_version_id = null where company_id = any(%s)", (companies,))
+            conn.execute(
+                "update public.projects set current_version_id = null where company_id = any(%s)", (companies,)
+            )
             conn.execute("delete from public.calculation_versions where company_id = any(%s)", (companies,))
             conn.execute("delete from public.projects where company_id = any(%s)", (companies,))
             conn.execute("delete from public.memberships where company_id = any(%s)", (companies,))
@@ -49,9 +77,14 @@ def cleanup_test_data() -> None:
         conn.execute("delete from public.wq_samples where parameter_key like 'testparam_%'")
         conn.execute("delete from ref.wq_thresholds where regulator = 'TEST'")
         conn.execute("delete from ref.wq_parameters where key like 'testparam_%'")
-        conn.execute("delete from lib.factor_conversions where emission_factor_id in "
-                     "(select id from lib.emission_factors where source_name like 'Test fixture%')")
+        conn.execute(
+            "delete from lib.factor_conversions where emission_factor_id in "
+            "(select id from lib.emission_factors where source_name like 'Test fixture%')"
+        )
         conn.execute("delete from lib.emission_factors where source_name like 'Test fixture%'")
+        conn.execute("delete from ref.framework_metric_mappings where framework_key like 'TEST_%'")
+        conn.execute("delete from ref.frameworks where key like 'TEST_%'")
+        conn.execute("delete from ref.regulatory_requirements where code like 'TEST-%'")
         if users:
             conn.execute("delete from public.internal_users where user_id = any(%s)", (users,))
             conn.execute("delete from public.memberships where user_id = any(%s)", (users,))

@@ -7,7 +7,7 @@ import type { NavSection } from "@/components/app/nav-config";
 
 export function Sidebar({ sections }: { sections: NavSection[] }) {
   const pathname = usePathname();
-  const isActive = (href: string) => (href === "/home" ? pathname === "/home" : pathname.startsWith(href));
+  const isActive = (href: string) => (href === "/home" ? pathname === "/home" : pathname === href || pathname.startsWith(`${href}/`));
   return (
     <aside className="hidden w-60 shrink-0 border-r bg-sidebar md:block">
       <div className="sticky top-0 flex h-dvh flex-col">

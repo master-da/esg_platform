@@ -1,0 +1,51 @@
+[
+  {
+    "code": "BD-DOE-ECR2023-LOCATION-CLEARANCE", "version": 1,
+    "regulator": "Department of Environment (DoE), Bangladesh",
+    "law": "Environment Conservation Act 1995; Environment Conservation Rules 2023 (SRO No. 53)",
+    "title": "Obtain a location clearance certificate before establishing the facility",
+    "description": "Industrial units in the Yellow, Orange and Red categories must obtain location clearance before environmental clearance.",
+    "frequency": "Once, before establishment",
+    "required_metric_key": null,
+    "required_document": "Location clearance certificate",
+    "source_url": "https://leap.unep.org/en/countries/bd/national-legislation/environment-conservation-rules-2023-sro-no-53",
+    "effective_date": "2023-03-05",
+    "applicability_conditions": {"all": [{"field": "facility.environmental_classification", "op": "in", "value": ["YELLOW", "ORANGE", "RED"]}]},
+    "applies_universally": false,
+    "status": "NEEDS_REVIEW",
+    "review_note": "Confirmed from secondary summaries of ECR 2023 (UNEP LEAP record, Enviliance). Verify against the official gazette schedule."
+  },
+  {
+    "code": "BD-DOE-ECR2023-ECC", "version": 1,
+    "regulator": "Department of Environment (DoE), Bangladesh",
+    "law": "Environment Conservation Act 1995; Environment Conservation Rules 2023 (SRO No. 53)",
+    "title": "Hold a valid Environmental Clearance Certificate (ECC) and renew it before expiry",
+    "description": "Industrial units classified Green, Yellow, Orange or Red require environmental clearance; the certificate must be renewed periodically.",
+    "frequency": "Renew before expiry (validity period depends on category; confirm in the Rules)",
+    "required_metric_key": null,
+    "required_document": "Environmental Clearance Certificate",
+    "source_url": "https://leap.unep.org/en/countries/bd/national-legislation/environment-conservation-rules-2023-sro-no-53",
+    "effective_date": "2023-03-05",
+    "applicability_conditions": {"all": [{"field": "facility.environmental_classification", "op": "in", "value": ["GREEN", "YELLOW", "ORANGE", "RED"]}]},
+    "applies_universally": false,
+    "status": "NEEDS_REVIEW",
+    "review_note": "Renewal periods per category are not seeded: they come only from secondary sources so far."
+  },
+  {
+    "code": "BD-DIFE-SAFETY-COMMITTEE", "version": 1,
+    "regulator": "Department of Inspection for Factories and Establishments (DIFE)",
+    "law": "Bangladesh Labour Act 2006, section 90A; Bangladesh Labour Rules 2015 (S.R.O. No. 291-Law/2015), rule 81",
+    "title": "Constitute a Safety Committee (6-12 members, equal employer and worker representatives)",
+    "description": "Every factory or industrial establishment where 50 or more workers are employed at any time of the year must form a Safety Committee; a new factory within 9 months of starting production.",
+    "frequency": "Ongoing; form within 9 months of starting production",
+    "required_metric_key": "HEADCOUNT_AVG",
+    "required_document": "Safety Committee formation record",
+    "source_url": "https://bef.org.bd/wp-content/uploads/2021/08/Bangladesh-Labour-Rules-2015-English_Unofficial.pdf",
+    "effective_date": "2015-09-15",
+    "applicability_conditions": {"all": [{"field": "facility.employee_count", "op": "gte", "value": 50},
+                                         {"field": "facility.facility_type", "op": "in", "value": ["MANUFACTURING", "WAREHOUSE", "UTILITY"]}]},
+    "applies_universally": false,
+    "status": "NEEDS_REVIEW",
+    "review_note": "Rule 81 text checked in the unofficial English translation of the gazette (15 September 2015). A 2025-2026 amendment may widen scope beyond factories; review."
+  }
+]

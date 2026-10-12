@@ -97,4 +97,22 @@ test("golden path: project -> upload -> categorize -> calculate -> review -> loc
   await page.goto("/home/results");
   await page.getByLabel("Project").selectOption({ label: `${division} · LOCKED` });
   await expect(page.getByText("Scope 1 · Mobile combustion")).toBeVisible();
+
+  // 9. Exports: the audit workbook, then the PDF report (only offered once a project is approved or locked).
+  await page.goto("/home/reports");
+  await page.getByLabel("Project").selectOption({ label: `${division} · LOCKED` });
+  await page.getByRole("button", { name: /^Audit export/ }).click();
+  await page.getByRole("button", { name: "Check data" }).click();
+  const [audit] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: /^Export/ }).click()]);
+  expect(audit.suggestedFilename()).toMatch(/\.xlsx$/);
+  await page.getByRole("button", { name: /^Custom/ }).click();
+  await page.getByRole("button", { name: "PDF report" }).click();
+  await page.getByRole("button", { name: "Check data" }).click();
+  const [pdf] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: /^Export/ }).click()]);
+  expect(pdf.suggestedFilename()).toMatch(/\.pdf$/);
+  const head = await new Promise<Buffer>((resolve, reject) => {
+    pdf.createReadStream().then((s) => { const chunks: Buffer[] = []; s.on("data", (c) => chunks.push(c)); s.on("end", () => resolve(Buffer.concat(chunks))); s.on("error", reject); });
+  });
+  expect(head.subarray(0, 5).toString()).toBe("%PDF-");
+  await expect(page.getByRole("row", { name: new RegExp(audit.suggestedFilename().replace(/[.]/g, "\\.")) })).toBeVisible();
 });

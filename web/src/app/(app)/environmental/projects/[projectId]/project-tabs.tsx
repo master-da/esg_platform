@@ -14,6 +14,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect } from "@/components/app/native-select";
+import { AssumptionsPanel, type Assumption, type Verification } from "./assumptions-panel";
 import { StatusBadge } from "@/components/app/status-badge";
 
 type Note = { id: string; body: string; created_at: string; terminal_key: string | null; profiles: { full_name: string | null } | null };
@@ -29,8 +30,9 @@ const CAT_STATUS: Record<string, { label: string; tone: "green" | "amber" | "red
   NOT_APPLICABLE: { label: "Not applicable", tone: "blue" },
 };
 
-export function ProjectTabs({ detail, files, notes, issues, members, coverage, canWrite }: {
-  detail: ProjectDetail; files: FileStatus[]; notes: Note[]; issues: IssueRow[]; members: Member[]; coverage: Coverage[]; canWrite: boolean;
+export function ProjectTabs({ detail, files, notes, issues, members, coverage, assumptions, verifications, isInternal, canWrite }: {
+  detail: ProjectDetail; files: FileStatus[]; notes: Note[]; issues: IssueRow[]; members: Member[]; coverage: Coverage[];
+  assumptions: Assumption[]; verifications: Verification[]; isInternal: boolean; canWrite: boolean;
 }) {
   const pid = detail.project.id;
   const terminalName = new Map(detail.categories.map((c) => [c.terminal_key, c.name]));
@@ -47,6 +49,7 @@ export function ProjectTabs({ detail, files, notes, issues, members, coverage, c
         <TabsTrigger value="uploads">All uploads ({files.length})</TabsTrigger>
         <TabsTrigger value="quality">Quality checks{qualityCount ? <span className="ml-1 size-1.5 rounded-full bg-red-600" /> : null}</TabsTrigger>
         <TabsTrigger value="notes">Notes</TabsTrigger>
+        <TabsTrigger value="assumptions">Assumptions</TabsTrigger>
         <TabsTrigger value="versions">Versions</TabsTrigger>
       </TabsList>
 
@@ -87,6 +90,11 @@ export function ProjectTabs({ detail, files, notes, issues, members, coverage, c
 
       <TabsContent value="notes">
         <NotesPanel pid={pid} companyId={detail.project.company_id} notes={notes.filter((n) => !n.terminal_key)} canWrite={canWrite} />
+      </TabsContent>
+
+      <TabsContent value="assumptions">
+        <AssumptionsPanel companyId={detail.project.company_id} projectId={pid} assumptions={assumptions} verifications={verifications}
+          canWrite={canWrite} isInternal={isInternal} />
       </TabsContent>
 
       <TabsContent value="versions">

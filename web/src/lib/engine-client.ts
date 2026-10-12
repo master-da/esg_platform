@@ -37,3 +37,21 @@ export async function engineDownload(path: string, fallbackName: string): Promis
   a.click();
   URL.revokeObjectURL(url);
 }
+
+/** POST a request whose response is a file, and save it with the server-provided name. */
+export async function engineDownloadPost(path: string, json: unknown, fallbackName: string): Promise<void> {
+  const res = await fetch(`${ENGINE_URL}${path}`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${await token()}`, "Content-Type": "application/json" },
+    body: JSON.stringify(json),
+  });
+  const blob = await parseEngineResponse<Blob>(res);
+  const disposition = res.headers.get("content-disposition") ?? "";
+  const match = /filename\*?=(?:UTF-8'')?"?([^";]+)"?/i.exec(disposition);
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = match ? decodeURIComponent(match[1]) : fallbackName;
+  a.click();
+  URL.revokeObjectURL(url);
+}

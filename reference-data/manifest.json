@@ -106,6 +106,33 @@
       ]
     },
     {
+      "table": "ref.frameworks",
+      "file": "ref/frameworks.csv",
+      "key": [
+        "key"
+      ]
+    },
+    {
+      "table": "ref.framework_metric_mappings",
+      "file": "ref/framework_metric_mappings.csv",
+      "key": [
+        "framework_key",
+        "metric_key",
+        "disclosure_ref"
+      ]
+    },
+    {
+      "table": "ref.regulatory_requirements",
+      "file": "ref/regulatory_requirements.json",
+      "key": [
+        "code",
+        "version"
+      ],
+      "json_columns": [
+        "applicability_conditions"
+      ]
+    },
+    {
       "table": "lib.taxonomy_nodes",
       "file": "lib/taxonomy_nodes.csv",
       "key": [

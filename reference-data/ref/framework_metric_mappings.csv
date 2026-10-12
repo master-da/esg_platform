@@ -1,0 +1,50 @@
+framework_key,metric_key,disclosure_ref,disclosure_title,sort
+GRI,GHG_SCOPE_1,305-1,Direct (Scope 1) GHG emissions,0
+GRI,GHG_SCOPE_2,305-2,Energy indirect (Scope 2) GHG emissions,1
+GRI,GHG_SCOPE_3,305-3,Other indirect (Scope 3) GHG emissions,2
+GRI,ENERGY_TOTAL,302-1,Energy consumption within the organization,3
+GRI,ENERGY_INTENSITY,302-3,Energy intensity,4
+GRI,WATER_WITHDRAWAL,303-3,Water withdrawal,5
+GRI,WATER_DISCHARGE,303-4,Water discharge,6
+GRI,WATER_CONSUMPTION,303-5,Water consumption,7
+GRI,WASTE_TOTAL,306-3,Waste generated,8
+GRI,WASTE_RECYCLED,306-4,Waste diverted from disposal,9
+GRI,NEW_HIRES,401-1,New employee hires and employee turnover,10
+GRI,TURNOVER_RATE,401-1,New employee hires and employee turnover,11
+GRI,HOURS_WORKED,403-9,Work-related injuries,12
+GRI,LTI_COUNT,403-9,Work-related injuries,13
+GRI,LTIFR,403-9,Work-related injuries,14
+GRI,INJURY_RATE,403-9,Work-related injuries,15
+GRI,FATALITIES,403-9,Work-related injuries,16
+GRI,TRAINING_HOURS_PER_EMPLOYEE,404-1,Average hours of training per year per employee,17
+GHG_PROTOCOL,GHG_SCOPE_1,Scope 1,Scope 1,0
+GHG_PROTOCOL,GHG_SCOPE_2,Scope 2 (location-based),Scope 2 (location-based),1
+GHG_PROTOCOL,GHG_SCOPE_3,Scope 3 by category,Scope 3 by category,2
+GHG_PROTOCOL,GHG_TOTAL,Total Scopes 1-3,Total Scopes 1-3,3
+CDP_STYLE,GHG_SCOPE_1,Scope 1 emissions,Scope 1 emissions,0
+CDP_STYLE,GHG_SCOPE_2,Scope 2 emissions (location-based),Scope 2 emissions (location-based),1
+CDP_STYLE,GHG_SCOPE_3,Scope 3 emissions,Scope 3 emissions,2
+CDP_STYLE,ENERGY_TOTAL,Energy consumption,Energy consumption,3
+CDP_STYLE,ENERGY_RENEWABLE_SHARE,Renewable energy share,Renewable energy share,4
+CDP_STYLE,WATER_WITHDRAWAL,Water withdrawals,Water withdrawals,5
+CDP_STYLE,WATER_DISCHARGE,Water discharges,Water discharges,6
+CDP_STYLE,WATER_CONSUMPTION,Water consumption,Water consumption,7
+BASIC_ESG,GHG_SCOPE_1,GHG_SCOPE_1,,0
+BASIC_ESG,GHG_SCOPE_2,GHG_SCOPE_2,,1
+BASIC_ESG,GHG_SCOPE_3,GHG_SCOPE_3,,2
+BASIC_ESG,GHG_TOTAL,GHG_TOTAL,,3
+BASIC_ESG,ENERGY_TOTAL,ENERGY_TOTAL,,4
+BASIC_ESG,ENERGY_RENEWABLE_SHARE,ENERGY_RENEWABLE_SHARE,,5
+BASIC_ESG,ENERGY_INTENSITY,ENERGY_INTENSITY,,6
+BASIC_ESG,WATER_WITHDRAWAL,WATER_WITHDRAWAL,,7
+BASIC_ESG,WATER_DISCHARGE,WATER_DISCHARGE,,8
+BASIC_ESG,WATER_CONSUMPTION,WATER_CONSUMPTION,,9
+BASIC_ESG,WASTE_TOTAL,WASTE_TOTAL,,10
+BASIC_ESG,WASTE_HAZARDOUS,WASTE_HAZARDOUS,,11
+BASIC_ESG,WASTE_RECYCLING_RATE,WASTE_RECYCLING_RATE,,12
+BASIC_ESG,HEADCOUNT_AVG,HEADCOUNT_AVG,,13
+BASIC_ESG,TURNOVER_RATE,TURNOVER_RATE,,14
+BASIC_ESG,TRAINING_HOURS_PER_EMPLOYEE,TRAINING_HOURS_PER_EMPLOYEE,,15
+BASIC_ESG,LTIFR,LTIFR,,16
+BASIC_ESG,FATALITIES,FATALITIES,,17
+BASIC_ESG,LOST_DAYS,LOST_DAYS,,18

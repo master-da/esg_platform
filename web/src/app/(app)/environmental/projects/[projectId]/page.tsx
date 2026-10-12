@@ -18,12 +18,14 @@ export default async function ProjectPage(props: PageProps<"/environmental/proje
     engineGet<Coverage[]>(`/projects/${projectId}/coverage`),
   ]);
   const supabase = await createClient();
-  const [files, notes, issues, members] = await Promise.all([
+  const [files, notes, issues, members, assumptions, verifications] = await Promise.all([
     supabase.from("v_file_status").select("*").eq("project_id", projectId).order("uploaded_at", { ascending: false }),
     supabase.from("notes").select("id, body, created_at, terminal_key, profiles(full_name)").eq("project_id", projectId).order("created_at", { ascending: false }),
     supabase.from("validation_issues").select("file_id, row_number, field, problem").in(
       "file_id", (await supabase.from("v_file_status").select("file_id").eq("project_id", projectId)).data?.map((f) => f.file_id) ?? []),
     supabase.from("memberships").select("user_id, profiles(full_name, email)").eq("company_id", detail.project.company_id).eq("status", "active"),
+    supabase.from("assumptions").select("id, category, statement, created_at, profiles!assumptions_created_by_fkey(full_name)").eq("project_id", projectId).order("created_at"),
+    supabase.from("verifications").select("*").eq("project_id", projectId).order("statement_date"),
   ]);
   const p = detail.project;
   return (
@@ -48,6 +50,9 @@ export default async function ProjectPage(props: PageProps<"/environmental/proje
         issues={(issues.data ?? []) as never}
         members={(members.data ?? []) as never}
         coverage={coverage}
+        assumptions={(assumptions.data ?? []) as never}
+        verifications={(verifications.data ?? []) as never}
+        isInternal={ctx.isInternal}
         canWrite={canWrite(ctx) && !["APPROVED", "LOCKED"].includes(p.stage)}
       />
     </>

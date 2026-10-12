@@ -57,3 +57,16 @@ python -I reference-data/sources/build_factors.py \
 14-digit example: Stationary combustion `01010000000000` › Non-renewable `01010000001000` ›
 Liquid `01010000001200` › Petrol `01010000001201`. The final digit scheme is an open PRD item.
 Codes never reach client-facing APIs. Clients see only `ref.taxonomy_labels` (description paths).
+
+## Compliance and reporting data
+
+| Data | Source | Status |
+|---|---|---|
+| `ref/regulatory_requirements.json`: ECC and location clearance | Environment Conservation Rules 2023 (SRO No. 53). <https://leap.unep.org/en/countries/bd/national-legislation/environment-conservation-rules-2023-sro-no-53>, cross-checked against <https://enviliance.com/regions/south-asia/bd/report_10406> | `NEEDS_REVIEW` |
+| `ref/regulatory_requirements.json`: Safety Committee | Bangladesh Labour Rules 2015 (S.R.O. No. 291-Law/2015), rule 81, unofficial English translation. <https://bef.org.bd/wp-content/uploads/2021/08/Bangladesh-Labour-Rules-2015-English_Unofficial.pdf> | `NEEDS_REVIEW` (a 2025–26 amendment may widen scope) |
+| `ref/frameworks.csv`, `ref/framework_metric_mappings.csv` | GHG Protocol Corporate Standard; GRI 302/303/305/306/401/403/404 disclosure numbers. The CDP-style layout is modelled on CDP topics and is not an official CDP submission. | mapping data, editable at `/internal/reference` |
+| `ref/wq_parameters.csv` | Parameter names and units only | **No effluent limits seeded.** The ECR 2023 Schedule limits could only be found in secondary sources, so an internal user enters each limit with its regulator, regulation and source URL on the Water page. Until then, samples show `NO_THRESHOLD`. |
+
+Every requirement carries its regulator, law, source URL and effective date (all `NOT NULL`).
+Applicability is a JSON condition evaluated by the engine. A requirement that applies to everyone must
+say so explicitly (`applies_universally`). An empty condition never matches by accident.

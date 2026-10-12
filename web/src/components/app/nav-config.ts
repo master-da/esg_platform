@@ -4,14 +4,17 @@ export type NavItem = { label: string; href: string; internalOnly?: boolean };
 export type NavSection = { label: string; items: NavItem[]; internalOnly?: boolean };
 
 // Left navigation (PRD "Navigation & Information Architecture").
-// Social / Governance sub-sections are not defined in the PRD; placement here is provisional.
+// Social / Governance sub-sections are not defined in the PRD; their placement here is provisional.
 export const NAV: NavSection[] = [
   {
     label: "Home",
     items: [
       { label: "Overview", href: "/home" },
-      { label: "Company & facilities", href: "/home/company" },
+      { label: "Insights", href: "/home/insights" },
       { label: "Results", href: "/home/results" },
+      { label: "Reports & exports", href: "/home/reports" },
+      { label: "Reporting frameworks", href: "/home/frameworks" },
+      { label: "Company & facilities", href: "/home/company" },
     ],
   },
   {
@@ -31,6 +34,13 @@ export const NAV: NavSection[] = [
     ],
   },
   {
+    label: "Governance",
+    items: [
+      { label: "Regulatory requirements", href: "/governance/regulations" },
+      { label: "Permits & licences", href: "/governance/permits" },
+    ],
+  },
+  {
     label: "Settings",
     items: [
       { label: "Users & roles", href: "/settings/users" },
@@ -41,7 +51,9 @@ export const NAV: NavSection[] = [
     label: "Internal",
     internalOnly: true,
     items: [
+      { label: "Review queue", href: "/internal/review" },
       { label: "Emission factor library", href: "/internal/library" },
+      { label: "Reference data", href: "/internal/reference" },
       { label: "Audit log", href: "/internal/audit-log" },
     ],
   },

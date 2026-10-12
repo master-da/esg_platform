@@ -1,0 +1,5 @@
+key,name,version,description,source_url,sort
+GHG_PROTOCOL,GHG Protocol Corporate Standard,Revised edition + Scope 2 Guidance,"Scope 1, 2 (location-based) and 3 emissions by category.",https://ghgprotocol.org/corporate-standard,10
+GRI,GRI Standards,"GRI 302 (2016), 303 (2018), 305 (2016), 306 (2020), 401 (2016), 403 (2018), 404 (2016)",Topic disclosures for energy; water; emissions; waste; employment; occupational health and safety; training.,https://www.globalreporting.org/standards/,20
+CDP_STYLE,CDP-style climate disclosure,Platform layout,A climate disclosure layout modelled on CDP topics. It is not an official CDP submission.,https://www.cdp.net/,30
+BASIC_ESG,Basic ESG KPIs,Platform set,The platform's core environmental and social KPIs.,,40

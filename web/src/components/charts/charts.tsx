@@ -67,8 +67,9 @@ export function TrendLines({ data, x, series, unit, height = 220, digits = 2 }: 
 }
 
 /** Stacked (or single) columns. 24px max, 4px rounded data-end, 2px surface gap between segments. */
-export function StackedColumns({ data, x, series, unit, height = 240, digits = 2 }: {
+export function StackedColumns({ data, x, series, unit, height = 240, digits = 2, onSelect }: {
   data: Row[]; x: string; series: Series[]; unit?: string; height?: number; digits?: number;
+  onSelect?: (row: Row, seriesKey: string) => void;
 }) {
   return (
     <ResponsiveContainer width="100%" height={height}>
@@ -80,7 +81,9 @@ export function StackedColumns({ data, x, series, unit, height = 240, digits = 2
         {series.length > 1 && <Legend iconType="square" itemSorter={null} formatter={legendText} wrapperStyle={{ fontSize: 12 }} />}
         {series.map((s, i) => (
           <Bar key={s.key} dataKey={s.key} name={s.label} stackId="stack" fill={s.color} maxBarSize={24}
-            stroke={CHART.surface} strokeWidth={2} radius={i === series.length - 1 ? [4, 4, 0, 0] : 0} isAnimationActive={false} />
+            stroke={CHART.surface} strokeWidth={2} radius={i === series.length - 1 ? [4, 4, 0, 0] : 0} isAnimationActive={false}
+            cursor={onSelect ? "pointer" : undefined}
+            onClick={onSelect ? (d: { payload?: Row }) => d.payload && onSelect(d.payload, s.key) : undefined} />
         ))}
       </BarChart>
     </ResponsiveContainer>
@@ -88,8 +91,9 @@ export function StackedColumns({ data, x, series, unit, height = 240, digits = 2
 }
 
 /** Horizontal magnitude bars for a breakdown (e.g. by category or facility). */
-export function BreakdownBars({ data, color, unit, digits = 2 }: {
-  data: { label: string; value: number }[]; color: string; unit?: string; digits?: number;
+export function BreakdownBars({ data, color, unit, digits = 2, onSelect }: {
+  data: { label: string; value: number; key?: string }[]; color: string; unit?: string; digits?: number;
+  onSelect?: (item: { label: string; value: number; key?: string }) => void;
 }) {
   const height = Math.max(120, data.length * 34 + 24);
   return (
@@ -100,8 +104,23 @@ export function BreakdownBars({ data, color, unit, digits = 2 }: {
         <YAxis type="category" dataKey="label" {...axisProps} axisLine={false} width={180} />
         <Tooltip formatter={(v) => [`${fmt(v, digits)}${unit ? ` ${unit}` : ""}`, ""]} separator="" cursor={{ fill: "rgba(11,11,11,0.04)" }} />
         <Bar dataKey="value" fill={color} maxBarSize={24} radius={[0, 4, 4, 0]} isAnimationActive={false}
+          cursor={onSelect ? "pointer" : undefined}
+          onClick={onSelect ? (d: { payload?: { label: string; value: number; key?: string } }) => d.payload && onSelect(d.payload) : undefined}
           label={{ position: "right", fill: CHART.secondary, fontSize: 11, formatter: (v: unknown) => compact(Number(v)) }} />
       </BarChart>
+    </ResponsiveContainer>
+  );
+}
+
+/** Small trend line for a stat tile (no axes); missing points stay gaps. */
+export function Sparkline({ data, color }: { data: { label: string; value: number | null }[]; color: string }) {
+  return (
+    <ResponsiveContainer width="100%" height={40}>
+      <LineChart data={data} margin={{ top: 4, right: 4, bottom: 4, left: 4 }}>
+        <Line dataKey="value" stroke={color} strokeWidth={2} dot={{ r: 3, fill: color, stroke: CHART.surface, strokeWidth: 2 }}
+          connectNulls={false} isAnimationActive={false} />
+        <Tooltip formatter={(v) => [fmt(v), ""]} labelFormatter={(_, p) => String(p?.[0]?.payload?.label ?? "")} separator="" />
+      </LineChart>
     </ResponsiveContainer>
   );
 }
