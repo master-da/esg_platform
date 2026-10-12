@@ -37,8 +37,8 @@ class Conversion:
     from_unit: str
     to_unit: str
     multiplier: Decimal
-    kind: str                      # generic | factor | fx | factor+generic
-    source: str                    # definition / citation shown in the calculation trail
+    kind: str  # generic | factor | fx | factor+generic
+    source: str  # definition / citation shown in the calculation trail
 
 
 class UnitGraph:
@@ -49,7 +49,7 @@ class UnitGraph:
             self._adj.setdefault(frm, []).append((to, Decimal(mult), definition))
             self._adj.setdefault(to, []).append((frm, ddiv(Decimal(1), Decimal(mult)), definition))
         for k in self._adj:
-            self._adj[k].sort(key=lambda e: e[0])   # deterministic traversal
+            self._adj[k].sort(key=lambda e: e[0])  # deterministic traversal
 
     def dimension(self, unit: str) -> str | None:
         return self.dimensions.get(unit)
@@ -89,26 +89,42 @@ class FxRate:
     base: str
     quote: str
     year: int
-    rate: Decimal        # quote per 1 base
+    rate: Decimal  # quote per 1 base
     source_name: str
 
 
-def to_factor_unit(qty_unit: str, factor_unit: str, factor_conversions: tuple[FactorConversion, ...],
-                   graph: UnitGraph, fx: dict[tuple[str, str, int], FxRate], year: int) -> Conversion | None:
+def to_factor_unit(
+    qty_unit: str,
+    factor_unit: str,
+    factor_conversions: tuple[FactorConversion, ...],
+    graph: UnitGraph,
+    fx: dict[tuple[str, str, int], FxRate],
+    year: int,
+) -> Conversion | None:
     """Find the multiplier that turns `qty_unit` into the factor's activity unit, or None."""
     generic = graph.generic(qty_unit, factor_unit)
     if generic is not None:
         return generic
 
     if graph.dimension(qty_unit) == "currency" and graph.dimension(factor_unit) == "currency":
-        direct = fx.get((factor_unit, qty_unit, year))      # e.g. USD->BDT rate: BDT per USD
+        direct = fx.get((factor_unit, qty_unit, year))  # e.g. USD->BDT rate: BDT per USD
         if direct:
-            return Conversion(qty_unit, factor_unit, ddiv(Decimal(1), direct.rate), "fx",
-                              f"{direct.source_name}, {year}: {direct.rate} {qty_unit} per {factor_unit}")
+            return Conversion(
+                qty_unit,
+                factor_unit,
+                ddiv(Decimal(1), direct.rate),
+                "fx",
+                f"{direct.source_name}, {year}: {direct.rate} {qty_unit} per {factor_unit}",
+            )
         inverse = fx.get((qty_unit, factor_unit, year))
         if inverse:
-            return Conversion(qty_unit, factor_unit, inverse.rate, "fx",
-                              f"{inverse.source_name}, {year}: {inverse.rate} {factor_unit} per {qty_unit}")
+            return Conversion(
+                qty_unit,
+                factor_unit,
+                inverse.rate,
+                "fx",
+                f"{inverse.source_name}, {year}: {inverse.rate} {factor_unit} per {qty_unit}",
+            )
         return None
 
     for fc in sorted(factor_conversions, key=lambda c: (c.from_unit, c.to_unit)):

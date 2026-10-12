@@ -79,6 +79,16 @@
       ]
     },
     {
+      "table": "ref.terminals",
+      "file": "terminals",
+      "key": [
+        "key"
+      ],
+      "json_columns": [
+        "config"
+      ]
+    },
+    {
       "table": "lib.taxonomy_nodes",
       "file": "lib/taxonomy_nodes.csv",
       "key": [
@@ -140,6 +150,17 @@
         "base_currency",
         "quote_currency",
         "year"
+      ]
+    },
+    {
+      "table": "lib.categorization_rules",
+      "file": "lib/categorization_rules.json",
+      "key": [
+        "terminal_key",
+        "match"
+      ],
+      "json_columns": [
+        "match"
       ]
     }
   ]

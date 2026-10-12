@@ -13,10 +13,26 @@ from app.calc.engine import Activity, Factor, calculate_emissions, resolve_facto
 from app.calc.units import FactorConversion, FxRate, UnitGraph, to_factor_unit
 
 GRAPH = UnitGraph(
-    {"kg": "mass", "t": "mass", "L": "volume", "m3": "volume", "kWh": "energy", "MWh": "energy", "MJ": "energy",
-     "GJ": "energy", "km": "distance", "BDT": "currency", "USD": "currency"},
-    [("t", "kg", D("1000"), "SI"), ("m3", "L", D("1000"), "SI"), ("MWh", "kWh", D("1000"), "SI"),
-     ("kWh", "MJ", D("3.6"), "exact"), ("GJ", "MJ", D("1000"), "SI")],
+    {
+        "kg": "mass",
+        "t": "mass",
+        "L": "volume",
+        "m3": "volume",
+        "kWh": "energy",
+        "MWh": "energy",
+        "MJ": "energy",
+        "GJ": "energy",
+        "km": "distance",
+        "BDT": "currency",
+        "USD": "currency",
+    },
+    [
+        ("t", "kg", D("1000"), "SI"),
+        ("m3", "L", D("1000"), "SI"),
+        ("MWh", "kWh", D("1000"), "SI"),
+        ("kWh", "MJ", D("3.6"), "exact"),
+        ("GJ", "MJ", D("1000"), "SI"),
+    ],
 )
 FX = {("USD", "BDT", 2025): FxRate("USD", "BDT", 2025, D("121.920836605034"), "World Bank WDI")}
 T0 = datetime(2025, 1, 1, tzinfo=UTC)
@@ -26,11 +42,25 @@ DIESEL_T_PER_L = D("3203.91143") / D("2.66155")
 
 def diesel(**overrides) -> Factor:
     base = {
-        "id": "f1", "factor_code": "01010000001202-GLOBAL", "version": 1, "taxonomy_node_id": "n1",
-        "geography_code": "GLOBAL", "activity_unit": "L", "co2e": D("2.66155"), "co2e_co2": D("2.62818"),
-        "co2e_ch4": D("0.00029"), "co2e_n2o": D("0.03308"), "gwp_version": "AR5", "source_name": "DESNZ 2025",
-        "source_url": None, "source_year": 2025, "valid_from": date(2025, 1, 1), "valid_to": date(2025, 12, 31),
-        "status": "active", "activated_at": T0, "retired_at": None,
+        "id": "f1",
+        "factor_code": "01010000001202-GLOBAL",
+        "version": 1,
+        "taxonomy_node_id": "n1",
+        "geography_code": "GLOBAL",
+        "activity_unit": "L",
+        "co2e": D("2.66155"),
+        "co2e_co2": D("2.62818"),
+        "co2e_ch4": D("0.00029"),
+        "co2e_n2o": D("0.03308"),
+        "gwp_version": "AR5",
+        "source_name": "DESNZ 2025",
+        "source_url": None,
+        "source_year": 2025,
+        "valid_from": date(2025, 1, 1),
+        "valid_to": date(2025, 12, 31),
+        "status": "active",
+        "activated_at": T0,
+        "retired_at": None,
         "conversions": (FactorConversion("t", "L", DIESEL_T_PER_L, "DESNZ 2025"),),
     }
     base.update(overrides)
@@ -61,7 +91,10 @@ def test_generic_same_dimension_conversion():
 def test_cross_dimension_uses_the_factors_own_conversion_and_reproduces_per_tonne_factor():
     r = calculate_emissions(Activity(D("1"), "t", date(2025, 3, 1)), diesel(), GRAPH, FX)
     assert r.conversion.kind == "factor"
-    assert r.co2e_kg.quantize(D("0.00001")) == D("3203.91143")
+    assert r.co2e_kg == D("3203.91143")
+    r = calculate_emissions(Activity(D("1.5"), "t", date(2025, 3, 1)), diesel(), GRAPH, FX)
+    assert r.co2e_kg == D("4805.867145"), "final result is rounded once to 6 dp (half-even)"
+    assert r.formula.endswith("= 4805.867145 kg CO2e")
 
 
 def test_cross_dimension_chains_generic_then_factor_conversion():
@@ -116,6 +149,7 @@ def test_to_factor_unit_identity():
 
 
 # -- factor resolution ------------------------------------------------------------------
+
 
 def test_fallback_country_then_region_then_global():
     g = diesel(id="g", geography_code="GLOBAL")

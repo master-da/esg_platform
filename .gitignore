@@ -22,3 +22,4 @@ supabase/.temp/
 supabase/.branches/
 
 .DS_Store
+web/test-results/

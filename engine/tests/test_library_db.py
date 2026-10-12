@@ -23,9 +23,16 @@ YEAR = random.randint(2200, 9000)
 
 
 def _draft(**over) -> dict:
-    body = {"geography_code": "BD", "activity_unit": "L", "co2e": "2.5", "gwp_version": "AR5",
-            "source_name": "Test fixture (not a real factor)", "source_year": YEAR,
-            "valid_from": f"{YEAR}-01-01", "valid_to": f"{YEAR}-12-31"}
+    body = {
+        "geography_code": "BD",
+        "activity_unit": "L",
+        "co2e": "2.5",
+        "gwp_version": "AR5",
+        "source_name": "Test fixture (not a real factor)",
+        "source_year": YEAR,
+        "valid_from": f"{YEAR}-01-01",
+        "valid_to": f"{YEAR}-12-31",
+    }
     body.update(over)
     return body
 
@@ -51,8 +58,9 @@ def test_factor_lifecycle_and_overlap_resolution(engine, platform_admin):
     assert engine.post(f"/library/factors/{a['id']}/activate", headers=h).status_code == 200
 
     # A second factor overlapping the same node/geography/period cannot also be active.
-    b = engine.post("/library/factors", headers=h, json=_draft(taxonomy_node_id=leaf["id"], co2e="2.6",
-                                                               valid_from=f"{YEAR}-06-01")).json()
+    b = engine.post(
+        "/library/factors", headers=h, json=_draft(taxonomy_node_id=leaf["id"], co2e="2.6", valid_from=f"{YEAR}-06-01")
+    ).json()
     r = engine.post(f"/library/factors/{b['id']}/activate", headers=h)
     assert r.status_code == 409 and "overlaps" in r.json()["detail"]
 
@@ -61,8 +69,10 @@ def test_factor_lifecycle_and_overlap_resolution(engine, platform_admin):
     assert engine.post(f"/library/factors/{b['id']}/activate", headers=h).status_code == 200
 
     # Active factors are immutable; corrections go through a new version.
-    assert engine.patch(f"/library/factors/{b['id']}", headers=h,
-                        json=_draft(taxonomy_node_id=leaf["id"])).status_code == 409
+    assert (
+        engine.patch(f"/library/factors/{b['id']}", headers=h, json=_draft(taxonomy_node_id=leaf["id"])).status_code
+        == 409
+    )
     nv = engine.post(f"/library/factors/{b['id']}/new-version", headers=h)
     assert nv.status_code == 201 and nv.json()["version"] == b["version"] + 1
     engine.delete(f"/library/factors/{nv.json()['id']}", headers=h)
@@ -79,11 +89,20 @@ def test_factor_requires_source_unit_geography_and_validity(engine, platform_adm
 
 def test_factor_codes_are_not_exposed_to_clients(tenant_a):
     s = get_settings()
-    spec = httpx.get(f"{s.supabase_url}/rest/v1/", headers={"apikey": s.supabase_publishable_key,
-                                                            "Authorization": f"Bearer {tenant_a.tokens['VIEWER']}",
-                                                            "Accept-Profile": "ref"}, timeout=20).text
+    spec = httpx.get(
+        f"{s.supabase_url}/rest/v1/",
+        headers={
+            "apikey": s.supabase_publishable_key,
+            "Authorization": f"Bearer {tenant_a.tokens['VIEWER']}",
+            "Accept-Profile": "ref",
+        },
+        timeout=20,
+    ).text
     assert "factor_code" not in spec
     assert '"code"' not in Rest(tenant_a.tokens["VIEWER"]).get("taxonomy_labels", schema="ref", limit=1).text
-    labels = Rest(tenant_a.tokens["VIEWER"]).get("taxonomy_labels", schema="ref",
-                                                 path="eq.s1.stationary.nonrenewable.liquid.petrol").json()
+    labels = (
+        Rest(tenant_a.tokens["VIEWER"])
+        .get("taxonomy_labels", schema="ref", path="eq.s1.stationary.nonrenewable.liquid.petrol")
+        .json()
+    )
     assert labels[0]["display_path"] == "Scope 1 > Stationary combustion > Non-renewable fuels > Liquid > Petrol"

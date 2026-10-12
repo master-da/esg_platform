@@ -1,7 +1,7 @@
 """Database access.
 
 Every request runs in ONE transaction that carries the caller's verified JWT claims, so
-Postgres RLS policies and audit triggers see the real user (auth.uid()).
+Postgres RLS policies and audit triggers see the real user (app.uid()).
 
 * By default the transaction runs as role `authenticated` -> RLS applies exactly as it would
   for a direct PostgREST call. Use it for reads and for authorisation checks.
@@ -88,8 +88,14 @@ class Tx:
     def execute(self, sql: str, params: Any = None) -> None:
         self.conn.execute(sql, params)
 
-    def log_event(self, company_id: str | None, entity: str, entity_id: str | None, action: str,
-                  detail: dict[str, Any] | None = None) -> None:
+    def log_event(
+        self,
+        company_id: str | None,
+        entity: str,
+        entity_id: str | None,
+        action: str,
+        detail: dict[str, Any] | None = None,
+    ) -> None:
         with self.privileged():
             self.conn.execute(
                 "select app.log_event(%s, %s, %s, %s, %s::jsonb)",

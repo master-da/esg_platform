@@ -42,9 +42,6 @@ grant usage on schema ref to authenticated, engine_app;
 grant usage on schema lib to engine_app;
 grant usage on schema public to engine_app;
 grant usage on schema extensions to engine_app;
--- auth.uid()/auth.jwt() are used for actor attribution while the engine acts privileged.
-grant usage on schema auth to engine_app;
-grant execute on function auth.uid(), auth.jwt(), auth.role() to engine_app;
 
 -- -----------------------------------------------------------------------------
 -- Generic helpers
@@ -254,6 +251,12 @@ begin
 end $$;
 create trigger on_auth_user_created after insert on auth.users
   for each row execute function app.handle_new_user();
+
+-- The calling user's id. The engine role cannot be granted USAGE on the auth schema, so engine SQL
+-- uses this wrapper (it reads the same request.jwt.claims that auth.uid() reads).
+create or replace function app.uid() returns uuid
+language sql stable security definer set search_path = '' as $$ select auth.uid() $$;
+grant execute on function app.uid() to authenticated, engine_app;
 
 -- -----------------------------------------------------------------------------
 -- RBAC helpers (SECURITY DEFINER so policies can consult memberships without recursion)

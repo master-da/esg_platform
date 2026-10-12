@@ -17,11 +17,11 @@ from app.supabase_admin import invite_user
 router = APIRouter(tags=["users"])
 
 # Syntax check only; the invitation email itself proves the address works.
-EmailStr = Annotated[str, StringConstraints(strip_whitespace=True, to_lower=True,
-                                            pattern=r"^[^@\s]+@[^@\s]+\.[^@\s]+$", max_length=254)]
+EmailStr = Annotated[
+    str, StringConstraints(strip_whitespace=True, to_lower=True, pattern=r"^[^@\s]+@[^@\s]+\.[^@\s]+$", max_length=254)
+]
 
-ExternalRole = Literal["COMPANY_ADMIN", "SUSTAINABILITY_MANAGER", "FACILITY_MANAGER", "DATA_ENTRY",
-                       "AUDITOR", "VIEWER"]
+ExternalRole = Literal["COMPANY_ADMIN", "SUSTAINABILITY_MANAGER", "FACILITY_MANAGER", "DATA_ENTRY", "AUDITOR", "VIEWER"]
 
 
 class OrganizationIn(BaseModel):
@@ -46,8 +46,7 @@ class OrganizationPatch(BaseModel):
 @router.post("/admin/organizations", status_code=201)
 def create_organization(body: OrganizationIn, tx: Tx = Depends(user_tx)):
     require_internal(tx)
-    requires_crm = tx.scalar("select requires_crm_record from ref.org_categories where code = %s",
-                             (body.org_category,))
+    requires_crm = tx.scalar("select requires_crm_record from ref.org_categories where code = %s", (body.org_category,))
     if requires_crm is None:
         raise HTTPException(422, f"Unknown organization category '{body.org_category}'")
     if requires_crm and not (body.crm_record_id or "").strip():
@@ -57,13 +56,19 @@ def create_organization(body: OrganizationIn, tx: Tx = Depends(user_tx)):
             """insert into public.companies (legal_name, org_category, license_tier, sector_classification_code,
                                              crm_record_id, tax_vat_number)
                values (%s, %s, %s, %s, %s, %s) returning id""",
-            (body.legal_name.strip(), body.org_category, body.license_tier, body.sector_classification_code,
-             body.crm_record_id, body.tax_vat_number),
+            (
+                body.legal_name.strip(),
+                body.org_category,
+                body.license_tier,
+                body.sector_classification_code,
+                body.crm_record_id,
+                body.tax_vat_number,
+            ),
         )
         user_id, sent = invite_user(tx, body.first_admin_email, body.first_admin_name)
         tx.execute(
             """insert into public.memberships (company_id, user_id, role, status, invited_by)
-               values (%s, %s, 'COMPANY_ADMIN', %s, auth.uid())""",
+               values (%s, %s, 'COMPANY_ADMIN', %s, app.uid())""",
             (company["id"], user_id, "invited" if sent else "active"),
         )
     return {"id": str(company["id"]), "invitation_sent": sent}
@@ -93,17 +98,21 @@ class InviteIn(BaseModel):
 def invite_company_user(company_id: str, body: InviteIn, tx: Tx = Depends(user_tx)):
     require_user_admin(tx, company_id)
     with tx.privileged():
-        if tx.scalar("select exists(select 1 from public.internal_users iu join public.profiles p "
-                     "on p.user_id = iu.user_id where lower(p.email) = lower(%s))", (body.email,)):
+        if tx.scalar(
+            "select exists(select 1 from public.internal_users iu join public.profiles p "
+            "on p.user_id = iu.user_id where lower(p.email) = lower(%s))",
+            (body.email,),
+        ):
             raise HTTPException(422, "This email belongs to an internal (platform) user")
         user_id, sent = invite_user(tx, body.email, body.full_name)
-        existing = tx.one("select id from public.memberships where company_id = %s and user_id = %s",
-                          (company_id, user_id))
+        existing = tx.one(
+            "select id from public.memberships where company_id = %s and user_id = %s", (company_id, user_id)
+        )
         if existing:
             raise HTTPException(409, "This user is already a member of the company")
         row = tx.one(
             """insert into public.memberships (company_id, user_id, role, status, invited_by)
-               values (%s, %s, %s, %s, auth.uid()) returning id""",
+               values (%s, %s, %s, %s, app.uid()) returning id""",
             (company_id, user_id, body.role, "invited" if sent else "active"),
         )
     return {"membership_id": str(row["id"]), "invitation_sent": sent}
@@ -116,8 +125,7 @@ class MembershipPatch(BaseModel):
 
 @router.patch("/memberships/{membership_id}")
 def update_membership(membership_id: str, body: MembershipPatch, tx: Tx = Depends(user_tx)):
-    m = tx.one("select id, company_id, user_id, role, status from public.memberships where id = %s",
-               (membership_id,))
+    m = tx.one("select id, company_id, user_id, role, status from public.memberships where id = %s", (membership_id,))
     if not m:
         raise HTTPException(404, "Membership not found")
     require_user_admin(tx, str(m["company_id"]))
@@ -128,11 +136,14 @@ def update_membership(membership_id: str, body: MembershipPatch, tx: Tx = Depend
         if demotes_admin:
             others = tx.scalar(
                 """select count(*) from public.memberships where company_id = %s and role = 'COMPANY_ADMIN'
-                   and status = 'active' and id <> %s""", (m["company_id"], membership_id))
+                   and status = 'active' and id <> %s""",
+                (m["company_id"], membership_id),
+            )
             if others == 0:
                 raise HTTPException(422, "A company must keep at least one active Company Admin")
-        tx.execute("update public.memberships set role = %s, status = %s where id = %s",
-                   (new_role, new_status, membership_id))
+        tx.execute(
+            "update public.memberships set role = %s, status = %s where id = %s", (new_role, new_status, membership_id)
+        )
     return {"updated": True}
 
 
@@ -152,7 +163,7 @@ def create_internal_user(body: InternalUserIn, tx: Tx = Depends(user_tx)):
             raise HTTPException(422, "This user is a client (external) user and cannot be made internal")
         tx.execute(
             """insert into public.internal_users (user_id, internal_role, can_edit_library, created_by)
-               values (%s, %s, %s, auth.uid())
+               values (%s, %s, %s, app.uid())
                on conflict (user_id) do update set internal_role = excluded.internal_role,
                  can_edit_library = excluded.can_edit_library, active = true""",
             (user_id, body.internal_role, body.can_edit_library),
@@ -174,8 +185,10 @@ def update_internal_user(user_id: str, body: InternalUserPatch, tx: Tx = Depends
         return {"updated": False}
     sets = ", ".join(f"{k} = %({k})s" for k in fields)
     with tx.privileged():
-        row = tx.one(f"update public.internal_users set {sets} where user_id = %(uid)s returning user_id",
-                     {**fields, "uid": user_id})
+        row = tx.one(
+            f"update public.internal_users set {sets} where user_id = %(uid)s returning user_id",
+            {**fields, "uid": user_id},
+        )
     if not row:
         raise HTTPException(404, "Internal user not found")
     return {"updated": True}

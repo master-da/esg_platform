@@ -1,9 +1,11 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+import psycopg
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
-from app.api import library, users
+from app.api import categorization, intake, library, projects, results, users
 from app.config import get_settings
 from app.db import close_pool, pool
 
@@ -29,6 +31,19 @@ app.add_middleware(
 
 app.include_router(users.router)
 app.include_router(library.router)
+for module in (projects, intake, categorization, results):
+    app.include_router(module.router)
+
+
+@app.exception_handler(psycopg.errors.RaiseException)
+async def database_rule(_: Request, exc: psycopg.errors.RaiseException):
+    """Business rules enforced by database triggers (locked projects, immutable factors ...)."""
+    return JSONResponse(status_code=409, content={"detail": exc.diag.message_primary})
+
+
+@app.exception_handler(psycopg.errors.InsufficientPrivilege)
+async def database_privilege(_: Request, exc: psycopg.errors.InsufficientPrivilege):
+    return JSONResponse(status_code=403, content={"detail": "You do not have permission to change this data."})
 
 
 @app.get("/health")

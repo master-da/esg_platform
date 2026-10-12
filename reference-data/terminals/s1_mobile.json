@@ -1,0 +1,44 @@
+{
+  "key": "s1_mobile",
+  "module": "ghg",
+  "scope": 1,
+  "category_no": "1.3",
+  "name": "Mobile combustion",
+  "description": "Fuel used by vehicles the company owns or controls (cars, pick-ups, vans, trucks, buses, motorbikes, forklifts).",
+  "excludes": "Upload fuel quantities only. Electricity used by electric vehicles goes in Scope 2; distance travelled in vehicles you do not control goes in Scope 3 (business travel or commuting).",
+  "instructions": "One row per vehicle (or vehicle group), fuel and period. Enter the fuel quantity from fuel receipts, fuel cards or logbooks. Choose the data basis that matches the evidence you hold.",
+  "taxonomy_root": "s1.mobile",
+  "accepts_bills": false,
+  "enabled": true,
+  "template_version": "0.1-provisional",
+  "sort": 13,
+  "config": {
+    "activity_type": "fuel_combustion_mobile",
+    "columns": [
+      {"key": "facility", "header": "Facility", "type": "facility", "required": true},
+      {"key": "period_start", "header": "Period start", "type": "date", "required": true},
+      {"key": "period_end", "header": "Period end", "type": "date", "required": true},
+      {"key": "supplier_name", "header": "Fuel supplier", "type": "text", "required": false},
+      {"key": "vehicle_type", "header": "Vehicle type", "type": "enum", "required": true,
+       "options": ["Car", "Pick-up truck", "Delivery van", "Truck", "Bus", "Motorbike", "Forklift", "Other vehicle"]},
+      {"key": "fuel_type", "header": "Fuel type", "type": "enum", "required": true,
+       "options": ["Diesel", "Petrol / Octane", "CNG", "LPG"]},
+      {"key": "quantity", "header": "Fuel quantity", "type": "decimal", "required": true, "min": 0, "role": "quantity"},
+      {"key": "unit", "header": "Unit", "type": "unit", "required": true, "role": "unit",
+       "options": ["L", "m3", "gal_us", "kg", "t", "kWh"]},
+      {"key": "data_basis", "header": "Data basis", "type": "enum", "required": true, "role": "data_basis",
+       "options": ["Fuel receipts / fuel card", "Supplier statement", "Estimate"]},
+      {"key": "notes", "header": "Notes", "type": "text", "required": false}
+    ],
+    "categorization_keys": ["vehicle_type", "fuel_type"],
+    "quality_grades": {"Fuel receipts / fuel card": "A", "Supplier statement": "B", "Estimate": "C"},
+    "canonical_units": {"volume": "L", "mass": "kg", "energy": "kWh"},
+    "rules": [
+      {"type": "unit_dimension_in", "dimensions": ["volume", "mass", "energy"],
+       "problem": "Distance or other non-fuel quantity entered for mobile combustion",
+       "fix": "Enter the fuel quantity (litres, kg or kWh). Distance-based travel belongs in Scope 3."},
+      {"type": "period_order"},
+      {"type": "period_within_project"}
+    ]
+  }
+}

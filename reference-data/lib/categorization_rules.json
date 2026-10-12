@@ -1,0 +1,7 @@
+[
+  {"terminal_key": "s1_mobile", "match": {"fuel_type": "diesel"}, "taxonomy_code": "01020000010001", "priority": 100, "note": "Fuel type determines the factor; vehicle type is informational"},
+  {"terminal_key": "s1_mobile", "match": {"fuel_type": "petrol / octane"}, "taxonomy_code": "01020000010002", "priority": 100, "note": null},
+  {"terminal_key": "s1_mobile", "match": {"fuel_type": "cng"}, "taxonomy_code": "01020000010003", "priority": 100, "note": null},
+  {"terminal_key": "s1_mobile", "match": {"fuel_type": "lpg"}, "taxonomy_code": "01020000010004", "priority": 100, "note": null},
+  {"terminal_key": "s2_electricity", "match": {"electricity_type": "grid electricity"}, "taxonomy_code": "02010000010001", "priority": 100, "note": "Location-based national grid factor"}
+]

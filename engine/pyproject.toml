@@ -40,4 +40,5 @@ dev = [
 select = ["E", "F", "I", "B", "UP", "SIM", "C4"]
 # B008: FastAPI's Depends()/File() defaults are the framework idiom.
 # SIM117: nested `with` blocks mirror transaction/role scopes and read more clearly.
-ignore = ["B008", "SIM117"]
+# E501: `ruff format` owns line length for code; long lines remain only inside SQL strings.
+ignore = ["B008", "SIM117", "E501"]

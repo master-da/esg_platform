@@ -21,9 +21,12 @@ PASSWORD = "Test-Password-123!"
 
 def login(email: str, password: str = PASSWORD) -> str:
     s = get_settings()
-    r = httpx.post(f"{s.supabase_url}/auth/v1/token?grant_type=password",
-                   headers={"apikey": s.supabase_publishable_key},
-                   json={"email": email, "password": password}, timeout=20)
+    r = httpx.post(
+        f"{s.supabase_url}/auth/v1/token?grant_type=password",
+        headers={"apikey": s.supabase_publishable_key},
+        json={"email": email, "password": password},
+        timeout=20,
+    )
     r.raise_for_status()
     return r.json()["access_token"]
 
@@ -50,16 +53,29 @@ class Rest:
         return httpx.get(f"{self.base}/{resource}", headers=self._h(schema), params=params, timeout=20)
 
     def post(self, resource: str, body, schema: str | None = None) -> httpx.Response:
-        return httpx.post(f"{self.base}/{resource}", headers=self._h(schema, {"Prefer": "return=representation"}),
-                          json=body, timeout=20)
+        return httpx.post(
+            f"{self.base}/{resource}",
+            headers=self._h(schema, {"Prefer": "return=representation"}),
+            json=body,
+            timeout=20,
+        )
 
     def patch(self, resource: str, body, schema: str | None = None, **params) -> httpx.Response:
-        return httpx.patch(f"{self.base}/{resource}", headers=self._h(schema, {"Prefer": "return=representation"}),
-                           params=params, json=body, timeout=20)
+        return httpx.patch(
+            f"{self.base}/{resource}",
+            headers=self._h(schema, {"Prefer": "return=representation"}),
+            params=params,
+            json=body,
+            timeout=20,
+        )
 
     def delete(self, resource: str, schema: str | None = None, **params) -> httpx.Response:
-        return httpx.delete(f"{self.base}/{resource}", headers=self._h(schema, {"Prefer": "return=representation"}),
-                            params=params, timeout=20)
+        return httpx.delete(
+            f"{self.base}/{resource}",
+            headers=self._h(schema, {"Prefer": "return=representation"}),
+            params=params,
+            timeout=20,
+        )
 
     def rpc(self, fn: str, body: dict | None = None) -> httpx.Response:
         return httpx.post(f"{self.base}/rpc/{fn}", headers=self._h(None), json=body or {}, timeout=20)
@@ -81,21 +97,30 @@ def _create_tenant(tag: str) -> Tenant:
     suffix = uuid.uuid4().hex[:8]
     with transaction(None) as tx:
         tx.execute("select set_config('app.source', 'test', true)")
-        company_id = str(tx.scalar(
-            "insert into public.companies (legal_name, crm_record_id) values (%s, 'TEST') returning id",
-            (f"Test {tag} {suffix}",)))
-        facility_id = str(tx.scalar(
-            "insert into public.facilities (company_id, name, facility_type) values (%s, 'Plant 1', 'MANUFACTURING') "
-            "returning id", (company_id,)))
-        cl = str(tx.scalar("select id from public.facilities where company_id = %s and is_company_level",
-                           (company_id,)))
+        company_id = str(
+            tx.scalar(
+                "insert into public.companies (legal_name, crm_record_id) values (%s, 'TEST') returning id",
+                (f"Test {tag} {suffix}",),
+            )
+        )
+        facility_id = str(
+            tx.scalar(
+                "insert into public.facilities (company_id, name, facility_type) values (%s, 'Plant 1', 'MANUFACTURING') "
+                "returning id",
+                (company_id,),
+            )
+        )
+        cl = str(
+            tx.scalar("select id from public.facilities where company_id = %s and is_company_level", (company_id,))
+        )
         tenant = Tenant(company_id, facility_id, cl)
         for role in ROLES:
             email = f"{role.lower()}.{tag}.{suffix}@tests.example"
             uid = create_user(email, PASSWORD)
-            tx.execute("insert into public.memberships (company_id, user_id, role, status) "
-                       "values (%s, %s, %s, 'active')",
-                       (company_id, uid, role))
+            tx.execute(
+                "insert into public.memberships (company_id, user_id, role, status) values (%s, %s, %s, 'active')",
+                (company_id, uid, role),
+            )
             tenant.emails[role] = email
     for role, email in tenant.emails.items():
         tenant.tokens[role] = login(email)
@@ -109,8 +134,10 @@ def _create_internal(role: str, can_edit_library: bool) -> tuple[str, str]:
     email = f"internal.{role.lower()}.{uuid.uuid4().hex[:8]}@tests.example"
     uid = create_user(email, PASSWORD)
     with transaction(None) as tx:
-        tx.execute("insert into public.internal_users (user_id, internal_role, can_edit_library) values (%s, %s, %s)",
-                   (uid, role, can_edit_library))
+        tx.execute(
+            "insert into public.internal_users (user_id, internal_role, can_edit_library) values (%s, %s, %s)",
+            (uid, role, can_edit_library),
+        )
     return uid, login(email)
 
 
@@ -154,7 +181,8 @@ def superuser_conn():
     import psycopg
     from psycopg.rows import dict_row
 
-    conn = psycopg.connect("postgresql://postgres:postgres@127.0.0.1:54322/postgres", row_factory=dict_row,
-                           autocommit=True)
+    conn = psycopg.connect(
+        "postgresql://postgres:postgres@127.0.0.1:54322/postgres", row_factory=dict_row, autocommit=True
+    )
     yield conn
     conn.close()

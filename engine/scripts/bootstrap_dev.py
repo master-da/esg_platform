@@ -31,11 +31,23 @@ COMPANIES = [
         "district": "Gazipur",
         "city": "Gazipur",
         "facilities": [
-            {"name": "Gazipur Factory", "facility_type": "MANUFACTURING", "district": "Gazipur", "city": "Gazipur",
-             "environmental_classification": "RED", "employee_count": 1850, "production_type": "Knit garments",
-             "production_unit": "pieces"},
-            {"name": "Dhaka Head Office", "facility_type": "OFFICE", "district": "Dhaka", "city": "Dhaka",
-             "employee_count": 120},
+            {
+                "name": "Gazipur Factory",
+                "facility_type": "MANUFACTURING",
+                "district": "Gazipur",
+                "city": "Gazipur",
+                "environmental_classification": "RED",
+                "employee_count": 1850,
+                "production_type": "Knit garments",
+                "production_unit": "pieces",
+            },
+            {
+                "name": "Dhaka Head Office",
+                "facility_type": "OFFICE",
+                "district": "Dhaka",
+                "city": "Dhaka",
+                "employee_count": 120,
+            },
         ],
         "users": [
             ("a.rahman@sample.test", "A. Rahman", "COMPANY_ADMIN"),
@@ -54,8 +66,15 @@ COMPANIES = [
         "crm_record_id": "DEV-0002",
         "district": "Narayanganj",
         "city": "Narayanganj",
-        "facilities": [{"name": "Narayanganj Plant", "facility_type": "MANUFACTURING", "district": "Narayanganj",
-                        "city": "Narayanganj", "environmental_classification": "ORANGE"}],
+        "facilities": [
+            {
+                "name": "Narayanganj Plant",
+                "facility_type": "MANUFACTURING",
+                "district": "Narayanganj",
+                "city": "Narayanganj",
+                "environmental_classification": "ORANGE",
+            }
+        ],
         "users": [("admin@other.test", "Other Admin", "COMPANY_ADMIN")],
     },
 ]
@@ -75,7 +94,9 @@ def main() -> None:
             uid = _user(tx, email, name)
             tx.execute(
                 """insert into public.internal_users (user_id, internal_role, can_edit_library)
-                   values (%s, %s, %s) on conflict (user_id) do nothing""", (uid, role, lib))
+                   values (%s, %s, %s) on conflict (user_id) do nothing""",
+                (uid, role, lib),
+            )
             print(f"internal  {email:<28} {role}")
         for c in COMPANIES:
             company_id = tx.scalar("select id from public.companies where legal_name = %s", (c["legal_name"],))
@@ -84,18 +105,22 @@ def main() -> None:
                 cols = ", ".join(fields)
                 company_id = tx.scalar(
                     f"insert into public.companies ({cols}) values ({', '.join(['%s'] * len(fields))}) returning id",
-                    list(fields.values()))
+                    list(fields.values()),
+                )
             for f in c["facilities"]:
                 cols = ["company_id", *f.keys()]
                 tx.execute(
                     f"insert into public.facilities ({', '.join(cols)}) values ({', '.join(['%s'] * len(cols))}) "
-                    "on conflict (company_id, name) do nothing", [company_id, *f.values()])
+                    "on conflict (company_id, name) do nothing",
+                    [company_id, *f.values()],
+                )
             for email, name, role in c["users"]:
                 uid = _user(tx, email, name)
                 tx.execute(
                     """insert into public.memberships (company_id, user_id, role, status)
                        values (%s, %s, %s, 'active') on conflict (company_id, user_id) do nothing""",
-                    (company_id, uid, role))
+                    (company_id, uid, role),
+                )
                 print(f"{c['legal_name'][:20]:<20} {email:<28} {role}")
     close_pool()
     print(f"\nAll dev users share the password: {DEV_PASSWORD}")

@@ -37,7 +37,8 @@ def tree(tx: Tx = Depends(user_tx)):
                       count(f.id) filter (where f.status = 'active') as active_factors,
                       count(f.id) filter (where f.status = 'draft') as draft_factors
                from lib.taxonomy_nodes n left join lib.emission_factors f on f.taxonomy_node_id = n.id
-               group by n.id order by n.path""")
+               group by n.id order by n.path"""
+        )
 
 
 @router.get("/nodes/{node_id}")
@@ -47,15 +48,22 @@ def node_detail(node_id: str, tx: Tx = Depends(user_tx)):
         node = tx.one(
             """select n.id, n.code, n.path::text as path, n.name, n.scope, n.ghg_category, n.is_leaf,
                       l.display_path
-               from lib.taxonomy_nodes n join ref.taxonomy_labels l on l.id = n.id where n.id = %s""", (node_id,))
+               from lib.taxonomy_nodes n join ref.taxonomy_labels l on l.id = n.id where n.id = %s""",
+            (node_id,),
+        )
         if not node:
             raise HTTPException(404, "Node not found")
-        factors = tx.all(f"select {FACTOR_COLS} from lib.emission_factors f where f.taxonomy_node_id = %s "
-                         "order by f.geography_code, f.version desc", (node_id,))
+        factors = tx.all(
+            f"select {FACTOR_COLS} from lib.emission_factors f where f.taxonomy_node_id = %s "
+            "order by f.geography_code, f.version desc",
+            (node_id,),
+        )
         conversions = tx.all(
             """select c.id, c.emission_factor_id, c.from_unit, c.to_unit, c.multiplier, c.source_name, c.source_url,
                       c.note from lib.factor_conversions c join lib.emission_factors f on f.id = c.emission_factor_id
-               where f.taxonomy_node_id = %s order by c.from_unit""", (node_id,))
+               where f.taxonomy_node_id = %s order by c.from_unit""",
+            (node_id,),
+        )
     by_factor: dict[str, list] = {}
     for c in conversions:
         by_factor.setdefault(str(c["emission_factor_id"]), []).append(c)
@@ -93,8 +101,9 @@ class FactorIn(BaseModel):
 
 def _factor(tx: Tx, factor_id: str) -> dict:
     with tx.privileged():
-        row = tx.one(f"select {FACTOR_COLS}, f.taxonomy_node_id from lib.emission_factors f where f.id = %s",
-                     (factor_id,))
+        row = tx.one(
+            f"select {FACTOR_COLS}, f.taxonomy_node_id from lib.emission_factors f where f.id = %s", (factor_id,)
+        )
     if not row:
         raise HTTPException(404, "Factor not found")
     return row
@@ -111,8 +120,11 @@ def create_factor(body: FactorIn, tx: Tx = Depends(user_tx)):
         version = (tx.scalar("select max(version) from lib.emission_factors where factor_code = %s", (code,)) or 0) + 1
         data = body.model_dump()
         cols = ["factor_code", "version", *data.keys()]
-        row = tx.one(f"insert into lib.emission_factors ({', '.join(cols)}) values ({', '.join(['%s'] * len(cols))}) "
-                     "returning id", [code, version, *data.values()])
+        row = tx.one(
+            f"insert into lib.emission_factors ({', '.join(cols)}) values ({', '.join(['%s'] * len(cols))}) "
+            "returning id",
+            [code, version, *data.values()],
+        )
     return {"id": str(row["id"]), "factor_code": code, "version": version}
 
 
@@ -123,8 +135,10 @@ def update_draft(factor_id: str, body: FactorIn, tx: Tx = Depends(user_tx)):
         raise HTTPException(409, "Only draft factors can be edited. Create a new version instead.")
     data = body.model_dump(exclude={"taxonomy_node_id"})
     with tx.privileged():
-        tx.execute(f"update lib.emission_factors set {', '.join(f'{k} = %({k})s' for k in data)} where id = %(id)s",
-                   {**data, "id": factor_id})
+        tx.execute(
+            f"update lib.emission_factors set {', '.join(f'{k} = %({k})s' for k in data)} where id = %(id)s",
+            {**data, "id": factor_id},
+        )
     return {"updated": True}
 
 
@@ -145,7 +159,7 @@ def activate(factor_id: str, tx: Tx = Depends(user_tx)):
     if f["status"] != "draft":
         raise HTTPException(409, f"Factor is already {f['status']}")
     try:
-        with tx.conn.transaction():   # savepoint so a constraint violation can be reported cleanly
+        with tx.conn.transaction():  # savepoint so a constraint violation can be reported cleanly
             with tx.privileged():
                 tx.execute("update lib.emission_factors set status = 'active' where id = %s", (factor_id,))
     except psycopg.errors.ExclusionViolation:
@@ -154,10 +168,14 @@ def activate(factor_id: str, tx: Tx = Depends(user_tx)):
                 """select factor_code, version, valid_from, valid_to from lib.emission_factors
                    where taxonomy_node_id = %s and geography_code = %s and status = 'active'
                      and daterange(valid_from, valid_to, '[]') && daterange(%s, %s, '[]') limit 1""",
-                (f["taxonomy_node_id"], f["geography_code"], f["valid_from"], f["valid_to"]))
-        raise HTTPException(409, f"Validity overlaps active factor {clash['factor_code']} v{clash['version']} "
-                                 f"({clash['valid_from']} to {clash['valid_to']}). Retire it or change this "
-                                 "factor's validity period first.") from None
+                (f["taxonomy_node_id"], f["geography_code"], f["valid_from"], f["valid_to"]),
+            )
+        raise HTTPException(
+            409,
+            f"Validity overlaps active factor {clash['factor_code']} v{clash['version']} "
+            f"({clash['valid_from']} to {clash['valid_to']}). Retire it or change this "
+            "factor's validity period first.",
+        ) from None
     return {"activated": True}
 
 
@@ -177,8 +195,9 @@ def new_version(factor_id: str, tx: Tx = Depends(user_tx)):
     require_library_editor(tx)
     f = _factor(tx, factor_id)
     with tx.privileged():
-        version = tx.scalar("select max(version) + 1 from lib.emission_factors where factor_code = %s",
-                            (f["factor_code"],))
+        version = tx.scalar(
+            "select max(version) + 1 from lib.emission_factors where factor_code = %s", (f["factor_code"],)
+        )
         new_id = tx.scalar(
             """insert into lib.emission_factors (factor_code, version, taxonomy_node_id, geography_code, activity_unit,
                  co2e, co2e_co2, co2e_ch4, co2e_n2o, gwp_version, source_name, source_url, source_year, source_ref,
@@ -186,12 +205,15 @@ def new_version(factor_id: str, tx: Tx = Depends(user_tx)):
                select factor_code, %s, taxonomy_node_id, geography_code, activity_unit, co2e, co2e_co2, co2e_ch4,
                  co2e_n2o, gwp_version, source_name, source_url, source_year, source_ref, methodology, quality_rating,
                  valid_from, valid_to, notes from lib.emission_factors where id = %s returning id""",
-            (version, factor_id))
+            (version, factor_id),
+        )
         tx.execute(
             """insert into lib.factor_conversions (emission_factor_id, from_unit, to_unit, multiplier, source_name,
                  source_url, note)
                select %s, from_unit, to_unit, multiplier, source_name, source_url, note
-               from lib.factor_conversions where emission_factor_id = %s""", (new_id, factor_id))
+               from lib.factor_conversions where emission_factor_id = %s""",
+            (new_id, factor_id),
+        )
     return {"id": str(new_id), "version": version}
 
 
@@ -204,8 +226,9 @@ def mark_reviewed(factor_id: str, body: ReviewIn, tx: Tx = Depends(user_tx)):
     require_library_editor(tx)
     _factor(tx, factor_id)
     with tx.privileged():
-        tx.execute("update lib.emission_factors set advisor_reviewed = %s where id = %s",
-                   (body.advisor_reviewed, factor_id))
+        tx.execute(
+            "update lib.emission_factors set advisor_reviewed = %s where id = %s", (body.advisor_reviewed, factor_id)
+        )
     return {"updated": True}
 
 
@@ -229,8 +252,16 @@ def add_conversion(factor_id: str, body: ConversionIn, tx: Tx = Depends(user_tx)
         row = tx.one(
             """insert into lib.factor_conversions (emission_factor_id, from_unit, to_unit, multiplier, source_name,
                  source_url, note) values (%s, %s, %s, %s, %s, %s, %s) returning id""",
-            (factor_id, body.from_unit, f["activity_unit"], body.multiplier, body.source_name, body.source_url,
-             body.note))
+            (
+                factor_id,
+                body.from_unit,
+                f["activity_unit"],
+                body.multiplier,
+                body.source_name,
+                body.source_url,
+                body.note,
+            ),
+        )
     return {"id": str(row["id"])}
 
 
@@ -242,8 +273,17 @@ def delete_conversion(conversion_id: str, tx: Tx = Depends(user_tx)):
     return {"deleted": True}
 
 
-REQUIRED_IMPORT = ["taxonomy_code", "geography_code", "activity_unit", "co2e", "gwp_version", "source_name",
-                   "source_year", "valid_from", "valid_to"]
+REQUIRED_IMPORT = [
+    "taxonomy_code",
+    "geography_code",
+    "activity_unit",
+    "co2e",
+    "gwp_version",
+    "source_name",
+    "source_year",
+    "valid_from",
+    "valid_to",
+]
 
 
 @router.post("/import")
@@ -279,6 +319,7 @@ def import_csv(file: UploadFile = File(...), tx: Tx = Depends(user_tx)):
             created += 1
         except (HTTPException, psycopg.Error) as exc:
             errors.append(f"Row {i}: {getattr(exc, 'detail', None) or exc}")
-    tx.log_event(None, "lib.emission_factors", None, "IMPORT", {"file": file.filename, "created": created,
-                                                                 "errors": len(errors)})
+    tx.log_event(
+        None, "lib.emission_factors", None, "IMPORT", {"file": file.filename, "created": created, "errors": len(errors)}
+    )
     return {"created": created, "errors": errors}

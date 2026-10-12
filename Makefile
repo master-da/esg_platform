@@ -3,7 +3,7 @@ SHELL := /bin/bash
 ENGINE := cd engine &&
 WEB := cd web &&
 
-.PHONY: help up down env reset refdata bootstrap engine web dev test test-unit test-db e2e lint typecheck
+.PHONY: help up down env reset refdata bootstrap engine web dev test test-unit test-db e2e lint format typecheck
 
 help:
 	@grep -E '^[a-z-]+:.*?## ' $(MAKEFILE_LIST) | awk -F':.*?## ' '{printf "  %-12s %s\n", $$1, $$2}'
@@ -48,6 +48,9 @@ e2e: ## Playwright golden path (needs engine + web running)
 lint: ## Lint engine and web
 	$(ENGINE) uv run ruff check app tests scripts
 	$(WEB) npm run lint
+
+format: ## Format engine code
+	$(ENGINE) uv run ruff format app tests scripts
 
 typecheck: ## Type-check the web app
 	$(WEB) npx tsc --noEmit

@@ -48,8 +48,12 @@ def create_user(email: str, password: str, full_name: str | None = None) -> str:
     resp = httpx.post(
         _url("/auth/v1/admin/users"),
         headers=_headers(),
-        json={"email": email, "password": password, "email_confirm": True,
-              "user_metadata": {"full_name": full_name} if full_name else {}},
+        json={
+            "email": email,
+            "password": password,
+            "email_confirm": True,
+            "user_metadata": {"full_name": full_name} if full_name else {},
+        },
         timeout=20,
     )
     if resp.status_code >= 400:
@@ -58,6 +62,7 @@ def create_user(email: str, password: str, full_name: str | None = None) -> str:
 
 
 # -- Storage -------------------------------------------------------------------------
+
 
 def storage_upload(path: str, data: bytes, content_type: str) -> None:
     bucket = get_settings().storage_bucket

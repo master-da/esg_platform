@@ -20,6 +20,8 @@ ROOT = Path(__file__).resolve().parents[3] / "reference-data"
 
 
 def _rows_from(path: Path) -> list[dict]:
+    if path.is_dir():  # one JSON object per file, e.g. one upload-terminal configuration each
+        return [json.loads(p.read_text()) for p in sorted(path.glob("*.json"))]
     if path.suffix == ".json":
         return json.loads(path.read_text())
     with path.open(newline="", encoding="utf-8") as fh:

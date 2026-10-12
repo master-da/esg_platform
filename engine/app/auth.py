@@ -71,6 +71,7 @@ def user_tx(user: User = Depends(current_user)) -> Iterator[Tx]:
 
 # -- authorisation helpers (evaluated in the database, same functions RLS uses) ---------
 
+
 def _check(tx: Tx, expr: str, *params: Any, message: str) -> None:
     if not tx.scalar(f"select {expr}", params):
         raise HTTPException(status.HTTP_403_FORBIDDEN, message)
