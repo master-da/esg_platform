@@ -1,0 +1,120 @@
+{
+  "key": "s3_c02",
+  "module": "ghg",
+  "scope": 3,
+  "category_no": "3.2",
+  "name": "Capital goods",
+  "description": "Machinery, equipment, IT hardware and buildings bought during the period (spend-based, grade C).",
+  "excludes": "Do not include them again in Spend-based or Purchased goods and services.",
+  "instructions": "One row per asset type and supplier, with the amount paid in the period.",
+  "taxonomy_root": "s3.c02",
+  "accepts_bills": false,
+  "enabled": true,
+  "disabled_reason": null,
+  "template_version": "0.1-provisional",
+  "sort": 32,
+  "config": {
+    "activity_type": "capital_goods_spend",
+    "columns": [
+      {
+        "key": "facility",
+        "header": "Facility",
+        "type": "facility",
+        "required": true
+      },
+      {
+        "key": "period_start",
+        "header": "Period start",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "period_end",
+        "header": "Period end",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "supplier_name",
+        "header": "Supplier",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "asset_type",
+        "header": "Asset type",
+        "type": "enum",
+        "required": true,
+        "options": [
+          "Industrial machinery",
+          "Computers & IT hardware",
+          "Building construction",
+          "Other asset"
+        ]
+      },
+      {
+        "key": "quantity",
+        "header": "Amount spent",
+        "type": "decimal",
+        "required": true,
+        "min": 0,
+        "role": "quantity"
+      },
+      {
+        "key": "unit",
+        "header": "Unit",
+        "type": "unit",
+        "required": true,
+        "role": "unit",
+        "options": [
+          "BDT",
+          "USD"
+        ]
+      },
+      {
+        "key": "data_basis",
+        "header": "Data basis",
+        "type": "enum",
+        "required": true,
+        "role": "data_basis",
+        "options": [
+          "Accounting records / invoices",
+          "Estimate"
+        ]
+      },
+      {
+        "key": "notes",
+        "header": "Notes",
+        "type": "text",
+        "required": false
+      }
+    ],
+    "categorization_keys": [
+      "asset_type"
+    ],
+    "quality_grades": {
+      "Accounting records / invoices": "C",
+      "Estimate": "C"
+    },
+    "canonical_units": {
+      "currency": "BDT"
+    },
+    "rules": [
+      {
+        "type": "unit_dimension_in",
+        "dimensions": [
+          "currency"
+        ],
+        "problem": "Spend-based categories expect an amount of money",
+        "fix": "Enter the amount in BDT or USD."
+      },
+      {
+        "type": "period_order"
+      },
+      {
+        "type": "period_within_project"
+      }
+    ],
+    "default_grade": "C"
+  }
+}

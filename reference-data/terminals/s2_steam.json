@@ -1,0 +1,120 @@
+{
+  "key": "s2_steam",
+  "module": "ghg",
+  "scope": 2,
+  "category_no": "2.3",
+  "name": "Purchased steam",
+  "description": "Purchased steam bought from a third party (e.g. a neighbouring plant or a district system).",
+  "excludes": "Heat or steam you produce yourself from fuel is Scope 1 stationary combustion (enter the fuel).",
+  "instructions": "One row per supplier and period with the energy delivered, from the supplier's invoice.",
+  "taxonomy_root": "s2.steam",
+  "accepts_bills": false,
+  "enabled": true,
+  "disabled_reason": null,
+  "template_version": "0.1-provisional",
+  "sort": 23,
+  "config": {
+    "activity_type": "purchased_steam",
+    "columns": [
+      {
+        "key": "facility",
+        "header": "Facility",
+        "type": "facility",
+        "required": true
+      },
+      {
+        "key": "period_start",
+        "header": "Period start",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "period_end",
+        "header": "Period end",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "supplier_name",
+        "header": "Supplier",
+        "type": "text",
+        "required": true
+      },
+      {
+        "key": "energy_type",
+        "header": "Energy type",
+        "type": "enum",
+        "required": true,
+        "options": [
+          "Purchased steam"
+        ]
+      },
+      {
+        "key": "quantity",
+        "header": "Energy delivered",
+        "type": "decimal",
+        "required": true,
+        "min": 0,
+        "role": "quantity"
+      },
+      {
+        "key": "unit",
+        "header": "Unit",
+        "type": "unit",
+        "required": true,
+        "role": "unit",
+        "options": [
+          "kWh",
+          "MWh",
+          "GJ",
+          "MMBtu"
+        ]
+      },
+      {
+        "key": "data_basis",
+        "header": "Data basis",
+        "type": "enum",
+        "required": true,
+        "role": "data_basis",
+        "options": [
+          "Metered / invoice",
+          "Supplier or third-party data",
+          "Estimate"
+        ]
+      },
+      {
+        "key": "notes",
+        "header": "Notes",
+        "type": "text",
+        "required": false
+      }
+    ],
+    "categorization_keys": [
+      "energy_type"
+    ],
+    "quality_grades": {
+      "Metered / invoice": "A",
+      "Supplier or third-party data": "B",
+      "Estimate": "C"
+    },
+    "canonical_units": {
+      "energy": "kWh"
+    },
+    "rules": [
+      {
+        "type": "unit_dimension_in",
+        "dimensions": [
+          "energy"
+        ],
+        "problem": "This category expects an energy quantity",
+        "fix": "Enter kWh, MWh, GJ or MMBtu."
+      },
+      {
+        "type": "period_order"
+      },
+      {
+        "type": "period_within_project"
+      }
+    ]
+  }
+}

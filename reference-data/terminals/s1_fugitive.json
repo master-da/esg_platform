@@ -1,0 +1,136 @@
+{
+  "key": "s1_fugitive",
+  "module": "ghg",
+  "scope": 1,
+  "category_no": "1.1",
+  "name": "Fugitive emissions (refrigerants)",
+  "description": "Refrigerant and other greenhouse gases leaked from equipment you control: air-conditioning, chillers, refrigeration and fire suppression.",
+  "excludes": "Enter the mass of gas lost (top-ups or recharges), not the equipment's total charge. HCFC-22 (R-22) is a Montreal Protocol gas and is not reported in Scope 1.",
+  "instructions": "Use service records: kilograms of refrigerant added during the period, by gas.",
+  "taxonomy_root": "s1.fugitive",
+  "accepts_bills": false,
+  "enabled": true,
+  "disabled_reason": null,
+  "template_version": "0.1-provisional",
+  "sort": 11,
+  "config": {
+    "activity_type": "fugitive_refrigerant",
+    "columns": [
+      {
+        "key": "facility",
+        "header": "Facility",
+        "type": "facility",
+        "required": true
+      },
+      {
+        "key": "period_start",
+        "header": "Period start",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "period_end",
+        "header": "Period end",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "supplier_name",
+        "header": "Service company",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "equipment_type",
+        "header": "Equipment",
+        "type": "enum",
+        "required": true,
+        "options": [
+          "Air-conditioning",
+          "Chiller",
+          "Refrigeration",
+          "Fire suppression",
+          "Other"
+        ]
+      },
+      {
+        "key": "gas",
+        "header": "Refrigerant / gas",
+        "type": "enum",
+        "required": true,
+        "options": [
+          "HFC-134a",
+          "HFC-32 (R-32)",
+          "R-410A",
+          "R-404A",
+          "R-407C",
+          "Other gas"
+        ]
+      },
+      {
+        "key": "quantity",
+        "header": "Gas lost (topped up)",
+        "type": "decimal",
+        "required": true,
+        "min": 0,
+        "role": "quantity"
+      },
+      {
+        "key": "unit",
+        "header": "Unit",
+        "type": "unit",
+        "required": true,
+        "role": "unit",
+        "options": [
+          "kg",
+          "t"
+        ]
+      },
+      {
+        "key": "data_basis",
+        "header": "Data basis",
+        "type": "enum",
+        "required": true,
+        "role": "data_basis",
+        "options": [
+          "Service records",
+          "Supplier estimate",
+          "Estimate"
+        ]
+      },
+      {
+        "key": "notes",
+        "header": "Notes",
+        "type": "text",
+        "required": false
+      }
+    ],
+    "categorization_keys": [
+      "gas"
+    ],
+    "quality_grades": {
+      "Service records": "A",
+      "Supplier estimate": "B",
+      "Estimate": "C"
+    },
+    "canonical_units": {
+      "mass": "kg"
+    },
+    "rules": [
+      {
+        "type": "unit_dimension_in",
+        "dimensions": [
+          "mass"
+        ],
+        "problem": "Volume figure entered under a kg-only column",
+        "fix": "Change the unit or the column"
+      },
+      {
+        "type": "period_order"
+      },
+      {
+        "type": "period_within_project"
+      }
+    ]
+  }
+}

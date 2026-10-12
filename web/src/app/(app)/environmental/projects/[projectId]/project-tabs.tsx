@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { engine } from "@/lib/engine-client";
 import { createClient } from "@/lib/supabase/client";
 import { fmtDate, fmtDateTime, fmtNum } from "@/lib/format";
-import type { CategoryRow, FileStatus, ProjectDetail } from "@/lib/types";
+import type { CategoryRow, Coverage, FileStatus, ProjectDetail } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -29,14 +29,16 @@ const CAT_STATUS: Record<string, { label: string; tone: "green" | "amber" | "red
   NOT_APPLICABLE: { label: "Not applicable", tone: "blue" },
 };
 
-export function ProjectTabs({ detail, files, notes, issues, members, canWrite }: {
-  detail: ProjectDetail; files: FileStatus[]; notes: Note[]; issues: IssueRow[]; members: Member[]; canWrite: boolean;
+export function ProjectTabs({ detail, files, notes, issues, members, coverage, canWrite }: {
+  detail: ProjectDetail; files: FileStatus[]; notes: Note[]; issues: IssueRow[]; members: Member[]; coverage: Coverage[]; canWrite: boolean;
 }) {
   const pid = detail.project.id;
   const terminalName = new Map(detail.categories.map((c) => [c.terminal_key, c.name]));
   const scopes = [1, 2, 3].map((s) => ({ scope: s, rows: detail.categories.filter((c) => c.module === "ghg" && c.scope === s) }));
   const other = detail.categories.filter((c) => c.module !== "ghg");
-  const qualityCount = files.filter((f) => f.status === "NEED_ATTENTION").length + detail.categories.filter((c) => c.in_scope && c.status === "NO_DATA" && c.module === "ghg").length;
+  const gaps = coverage.filter((c) => c.missing_months.length > 0);
+  const qualityCount = files.filter((f) => f.status === "NEED_ATTENTION").length + gaps.length +
+    detail.categories.filter((c) => c.in_scope && c.status === "NO_DATA" && c.module === "ghg").length;
 
   return (
     <Tabs defaultValue="categories">
@@ -80,7 +82,7 @@ export function ProjectTabs({ detail, files, notes, issues, members, canWrite }:
       </TabsContent>
 
       <TabsContent value="quality" className="grid gap-4">
-        <QualityChecks detail={detail} files={files} issues={issues} pid={pid} />
+        <QualityChecks detail={detail} files={files} issues={issues} pid={pid} gaps={gaps} />
       </TabsContent>
 
       <TabsContent value="notes">
@@ -192,7 +194,7 @@ function CategoryTable({ title, rows, pid, members, canWrite }: { title: string;
   );
 }
 
-function QualityChecks({ detail, files, issues, pid }: { detail: ProjectDetail; files: FileStatus[]; issues: IssueRow[]; pid: string }) {
+function QualityChecks({ detail, files, issues, pid, gaps }: { detail: ProjectDetail; files: FileStatus[]; issues: IssueRow[]; pid: string; gaps: Coverage[] }) {
   const attention = files.filter((f) => f.status === "NEED_ATTENTION");
   const missing = detail.categories.filter((c) => c.in_scope && c.status === "NO_DATA" && c.enabled && c.module === "ghg");
   const na = detail.categories.filter((c) => !c.in_scope);
@@ -215,6 +217,26 @@ function QualityChecks({ detail, files, issues, pid }: { detail: ProjectDetail; 
               </div>
             </div>
           ))}
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader><CardTitle>Missing months ({gaps.length})</CardTitle></CardHeader>
+        <CardContent className="text-sm">
+          {gaps.length === 0 ? <p className="text-muted-foreground">Every facility that reports in a category covers every month of the project.</p> : (
+            <Table>
+              <TableHeader><TableRow><TableHead>Category</TableHead><TableHead>Facility</TableHead><TableHead>Coverage</TableHead><TableHead>Missing</TableHead></TableRow></TableHeader>
+              <TableBody>
+                {gaps.map((g) => (
+                  <TableRow key={`${g.terminal_key}-${g.facility_id}`}>
+                    <TableCell><Link className="hover:underline" href={`/environmental/projects/${pid}/${g.terminal_key}`}>{g.terminal_name}</Link></TableCell>
+                    <TableCell>{g.facility}</TableCell>
+                    <TableCell className="tabular-nums">{g.covered_months}/{g.expected_months} months</TableCell>
+                    <TableCell className="flex flex-wrap gap-1">{g.missing_months.map((m) => <StatusBadge key={m} status="MISSING" label={m} tone="red" />)}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
       <Card>

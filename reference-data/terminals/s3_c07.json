@@ -1,0 +1,128 @@
+{
+  "key": "s3_c07",
+  "module": "ghg",
+  "scope": 3,
+  "category_no": "3.7",
+  "name": "Employee commuting",
+  "description": "Employees' travel between home and work in vehicles the company does not own.",
+  "excludes": "Company-provided transport in company vehicles is Scope 1 mobile combustion.",
+  "instructions": "Totals per mode and period from a commuting survey: vehicle-km for cars and motorbikes, passenger-km for bus and rail.",
+  "taxonomy_root": "s3.c07",
+  "accepts_bills": false,
+  "enabled": true,
+  "disabled_reason": null,
+  "template_version": "0.1-provisional",
+  "sort": 37,
+  "config": {
+    "activity_type": "employee_commuting",
+    "columns": [
+      {
+        "key": "facility",
+        "header": "Facility",
+        "type": "facility",
+        "required": true
+      },
+      {
+        "key": "period_start",
+        "header": "Period start",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "period_end",
+        "header": "Period end",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "mode",
+        "header": "Commuting mode",
+        "type": "enum",
+        "required": true,
+        "options": [
+          "Car",
+          "Motorbike",
+          "Bus",
+          "Rail"
+        ]
+      },
+      {
+        "key": "quantity",
+        "header": "Quantity",
+        "type": "decimal",
+        "required": true,
+        "min": 0,
+        "role": "quantity"
+      },
+      {
+        "key": "unit",
+        "header": "Unit",
+        "type": "unit",
+        "required": true,
+        "role": "unit",
+        "options": [
+          "km",
+          "mile",
+          "pkm"
+        ]
+      },
+      {
+        "key": "data_basis",
+        "header": "Data basis",
+        "type": "enum",
+        "required": true,
+        "role": "data_basis",
+        "options": [
+          "Survey of all employees",
+          "Sample survey (extrapolated)",
+          "Estimate"
+        ]
+      },
+      {
+        "key": "notes",
+        "header": "Notes",
+        "type": "text",
+        "required": false
+      }
+    ],
+    "categorization_keys": [
+      "mode"
+    ],
+    "quality_grades": {
+      "Survey of all employees": "B",
+      "Sample survey (extrapolated)": "C",
+      "Estimate": "C"
+    },
+    "canonical_units": {
+      "distance": "km"
+    },
+    "rules": [
+      {
+        "type": "unit_by_value",
+        "column": "mode",
+        "allowed": {
+          "Car": [
+            "km",
+            "mile"
+          ],
+          "Motorbike": [
+            "km",
+            "mile"
+          ],
+          "Bus": [
+            "pkm"
+          ],
+          "Rail": [
+            "pkm"
+          ]
+        }
+      },
+      {
+        "type": "period_order"
+      },
+      {
+        "type": "period_within_project"
+      }
+    ]
+  }
+}

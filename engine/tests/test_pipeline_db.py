@@ -287,3 +287,32 @@ def test_unknown_factor_is_never_zero(engine, tenant_b):
     assert rows[0]["status"] == "UNKNOWN_FACTOR" and rows[0]["co2e_t"] is None
     status = Rest(tenant_b.tokens["COMPANY_ADMIN"]).get("v_file_status", project_id=f"eq.{pid}").json()[0]["status"]
     assert status == "NEED_ATTENTION"
+
+
+def test_missing_months_are_reported_not_zero(engine, tenant_a):
+    """A facility that reported January and March but not February shows February as Missing."""
+    h = bearer(tenant_a.tokens["SUSTAINABILITY_MANAGER"])
+    pid = engine.post(
+        "/projects",
+        headers=h,
+        json={
+            "company_id": tenant_a.company_id,
+            "name": "Q1 coverage",
+            "period_type": "quarter",
+            "boundary": "division",
+            "division_name": "coverage",
+            "start_date": "2025-01-01",
+            "end_date": "2025-03-31",
+        },
+    ).json()["id"]
+    tpl = engine.get(f"/projects/{pid}/terminals/s1_mobile/template", headers=h).content
+    rows = [
+        ["Plant 1", date(2025, m, 1), date(2025, m, 28), "Padma", "Car", "Diesel", 0 if m == 3 else 10, "L", "Estimate"]
+        for m in (1, 3)
+    ]
+    assert (
+        upload(engine, tenant_a.tokens["DATA_ENTRY"], pid, "s1_mobile", "q1.xlsx", fill(tpl, rows)).status_code == 201
+    )
+    cov = engine.get(f"/projects/{pid}/coverage", headers=h).json()
+    plant = next(c for c in cov if c["terminal_key"] == "s1_mobile")
+    assert plant["missing_months"] == ["2025-02"], "an explicit 0 in March is data; February is Missing"

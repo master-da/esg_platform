@@ -1,0 +1,151 @@
+{
+  "key": "s3_c05",
+  "module": "ghg",
+  "scope": 3,
+  "category_no": "3.5",
+  "name": "Waste generated in operations",
+  "description": "All waste leaving your facilities, by type and treatment route. This data also drives the Waste module (totals, hazardous split and recycling rate).",
+  "excludes": "Wastewater volumes go in the Water module. Waste from sold products after use goes in 3.12.",
+  "instructions": "One row per waste type, treatment route, contractor and period, from waste manifests or weighbridge records. Mark hazardous waste.",
+  "taxonomy_root": "s3.c05",
+  "accepts_bills": false,
+  "enabled": true,
+  "disabled_reason": null,
+  "template_version": "0.1-provisional",
+  "sort": 35,
+  "config": {
+    "activity_type": "waste_generated",
+    "columns": [
+      {
+        "key": "facility",
+        "header": "Facility",
+        "type": "facility",
+        "required": true
+      },
+      {
+        "key": "period_start",
+        "header": "Period start",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "period_end",
+        "header": "Period end",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "supplier_name",
+        "header": "Waste contractor / destination",
+        "type": "text",
+        "required": true
+      },
+      {
+        "key": "waste_type",
+        "header": "Waste type",
+        "type": "enum",
+        "required": true,
+        "options": [
+          "Commercial & industrial waste (mixed)",
+          "Plastics",
+          "Paper & board",
+          "Textiles & fabric offcuts",
+          "Sludge (ETP)",
+          "Chemical containers",
+          "Other waste"
+        ]
+      },
+      {
+        "key": "treatment",
+        "header": "Treatment method",
+        "type": "enum",
+        "required": true,
+        "options": [
+          "Reuse",
+          "Recycling",
+          "Composting",
+          "Incineration with energy recovery",
+          "Incineration",
+          "Landfill",
+          "Treatment",
+          "Other"
+        ]
+      },
+      {
+        "key": "hazardous",
+        "header": "Hazardous",
+        "type": "enum",
+        "required": true,
+        "options": [
+          "Yes",
+          "No"
+        ]
+      },
+      {
+        "key": "quantity",
+        "header": "Quantity",
+        "type": "decimal",
+        "required": true,
+        "min": 0,
+        "role": "quantity"
+      },
+      {
+        "key": "unit",
+        "header": "Unit",
+        "type": "unit",
+        "required": true,
+        "role": "unit",
+        "options": [
+          "kg",
+          "t"
+        ]
+      },
+      {
+        "key": "data_basis",
+        "header": "Data basis",
+        "type": "enum",
+        "required": true,
+        "role": "data_basis",
+        "options": [
+          "Weighbridge / manifest",
+          "Contractor estimate",
+          "Estimate"
+        ]
+      },
+      {
+        "key": "notes",
+        "header": "Notes",
+        "type": "text",
+        "required": false
+      }
+    ],
+    "categorization_keys": [
+      "waste_type",
+      "treatment"
+    ],
+    "quality_grades": {
+      "Weighbridge / manifest": "A",
+      "Contractor estimate": "B",
+      "Estimate": "C"
+    },
+    "canonical_units": {
+      "mass": "kg"
+    },
+    "rules": [
+      {
+        "type": "unit_dimension_in",
+        "dimensions": [
+          "mass"
+        ],
+        "problem": "Waste is entered by mass",
+        "fix": "Enter kg or tonnes."
+      },
+      {
+        "type": "period_order"
+      },
+      {
+        "type": "period_within_project"
+      }
+    ]
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "key": "s3_c08",
+  "module": "ghg",
+  "scope": 3,
+  "category_no": "3.8",
+  "name": "Upstream leased assets",
+  "description": "Energy used in assets you lease (as tenant) that is not already in your Scope 1 and 2.",
+  "excludes": "If the leased space's energy is on your own bills, report it in Scope 1/2 instead.",
+  "instructions": "One row per asset (or site), energy type and period, from bills or the operator's statement.",
+  "taxonomy_root": "s3.c08",
+  "accepts_bills": false,
+  "enabled": true,
+  "disabled_reason": null,
+  "template_version": "0.1-provisional",
+  "sort": 38,
+  "config": {
+    "activity_type": "leased_assets_upstream",
+    "columns": [
+      {
+        "key": "facility",
+        "header": "Facility",
+        "type": "facility",
+        "required": true
+      },
+      {
+        "key": "period_start",
+        "header": "Period start",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "period_end",
+        "header": "Period end",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "supplier_name",
+        "header": "Operator / site",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "energy_type",
+        "header": "Energy type",
+        "type": "enum",
+        "required": true,
+        "options": [
+          "Grid electricity",
+          "Natural gas"
+        ]
+      },
+      {
+        "key": "quantity",
+        "header": "Quantity",
+        "type": "decimal",
+        "required": true,
+        "min": 0,
+        "role": "quantity"
+      },
+      {
+        "key": "unit",
+        "header": "Unit",
+        "type": "unit",
+        "required": true,
+        "role": "unit",
+        "options": [
+          "MWh",
+          "kWh",
+          "m3"
+        ]
+      },
+      {
+        "key": "data_basis",
+        "header": "Data basis",
+        "type": "enum",
+        "required": true,
+        "role": "data_basis",
+        "options": [
+          "Metered / invoice",
+          "Supplier or third-party data",
+          "Estimate"
+        ]
+      },
+      {
+        "key": "notes",
+        "header": "Notes",
+        "type": "text",
+        "required": false
+      }
+    ],
+    "categorization_keys": [
+      "energy_type"
+    ],
+    "quality_grades": {
+      "Metered / invoice": "A",
+      "Supplier or third-party data": "B",
+      "Estimate": "C"
+    },
+    "canonical_units": {
+      "volume": "L",
+      "mass": "kg",
+      "energy": "kWh"
+    },
+    "rules": [
+      {
+        "type": "unit_by_value",
+        "column": "energy_type",
+        "allowed": {
+          "Grid electricity": [
+            "kWh",
+            "MWh"
+          ],
+          "Natural gas": [
+            "m3"
+          ]
+        }
+      },
+      {
+        "type": "period_order"
+      },
+      {
+        "type": "period_within_project"
+      }
+    ]
+  }
+}

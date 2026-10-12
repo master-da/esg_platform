@@ -67,7 +67,14 @@ def sample_value(col, terminal: Terminal):
         return date(2025, 1, 1) if col.key.endswith("start") else date(2025, 1, 31)
     if col.type in ("decimal", "integer"):
         return 1200
-    if col.type in ("enum", "unit"):
+    if col.type == "unit":
+        # Respect the terminal's own unit rules for the sample category value.
+        for rule in terminal.rules:
+            if rule["type"] == "unit_by_value":
+                chosen = terminal.column(rule["column"]).options[0]
+                return rule["allowed"][chosen][0]
+        return col.options[0]
+    if col.type == "enum":
         return col.options[0]
     return "Sample text"
 

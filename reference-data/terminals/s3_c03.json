@@ -1,0 +1,129 @@
+{
+  "key": "s3_c03",
+  "module": "ghg",
+  "scope": 3,
+  "category_no": "3.3",
+  "name": "Fuel- and energy-related activities",
+  "description": "Upstream (well-to-tank) emissions of the fuels you burned: extraction, refining and transport of the fuel.",
+  "excludes": "Enter the same fuel quantities reported in Scope 1. Transmission and distribution losses of electricity are not yet covered (no cited Bangladesh factor).",
+  "instructions": "One row per fuel and period, copying the Scope 1 quantities.",
+  "taxonomy_root": "s3.c03",
+  "accepts_bills": false,
+  "enabled": true,
+  "disabled_reason": null,
+  "template_version": "0.1-provisional",
+  "sort": 33,
+  "config": {
+    "activity_type": "fuel_wtt",
+    "columns": [
+      {
+        "key": "facility",
+        "header": "Facility",
+        "type": "facility",
+        "required": true
+      },
+      {
+        "key": "period_start",
+        "header": "Period start",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "period_end",
+        "header": "Period end",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "supplier_name",
+        "header": "Fuel supplier",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "fuel_type",
+        "header": "Fuel type",
+        "type": "enum",
+        "required": true,
+        "options": [
+          "Natural gas",
+          "Diesel",
+          "Petrol / Octane",
+          "Furnace oil",
+          "LPG",
+          "CNG"
+        ]
+      },
+      {
+        "key": "quantity",
+        "header": "Fuel quantity",
+        "type": "decimal",
+        "required": true,
+        "min": 0,
+        "role": "quantity"
+      },
+      {
+        "key": "unit",
+        "header": "Unit",
+        "type": "unit",
+        "required": true,
+        "role": "unit",
+        "options": [
+          "L",
+          "m3",
+          "kg",
+          "t"
+        ]
+      },
+      {
+        "key": "data_basis",
+        "header": "Data basis",
+        "type": "enum",
+        "required": true,
+        "role": "data_basis",
+        "options": [
+          "Metered / invoice",
+          "Supplier or third-party data",
+          "Estimate"
+        ]
+      },
+      {
+        "key": "notes",
+        "header": "Notes",
+        "type": "text",
+        "required": false
+      }
+    ],
+    "categorization_keys": [
+      "fuel_type"
+    ],
+    "quality_grades": {
+      "Metered / invoice": "A",
+      "Supplier or third-party data": "B",
+      "Estimate": "C"
+    },
+    "canonical_units": {
+      "volume": "L",
+      "mass": "kg",
+      "energy": "kWh"
+    },
+    "rules": [
+      {
+        "type": "unit_dimension_in",
+        "dimensions": [
+          "volume",
+          "mass",
+          "energy"
+        ],
+        "problem": "Distance or other non-fuel quantity entered for a fuel category",
+        "fix": "Enter the fuel quantity (volume, mass or energy). Distance-based travel belongs in Scope 3."
+      },
+      {
+        "type": "period_order"
+      },
+      {
+        "type": "period_within_project"
+      }
+    ]
+  }
+}

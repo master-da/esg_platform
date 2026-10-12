@@ -5,7 +5,7 @@ import { requireCompany } from "@/lib/session";
 import { createClient } from "@/lib/supabase/server";
 import { canApprove, canWrite } from "@/lib/permissions";
 import { fmtDate, fmtNum } from "@/lib/format";
-import type { FileStatus, ProjectDetail } from "@/lib/types";
+import type { Coverage, FileStatus, ProjectDetail } from "@/lib/types";
 import { ProgressBar } from "./progress-bar";
 import { ProjectActions } from "./project-actions";
 import { ProjectTabs } from "./project-tabs";
@@ -13,7 +13,10 @@ import { ProjectTabs } from "./project-tabs";
 export default async function ProjectPage(props: PageProps<"/environmental/projects/[projectId]">) {
   const { projectId } = await props.params;
   const ctx = await requireCompany();
-  const detail = await engineGet<ProjectDetail>(`/projects/${projectId}`);
+  const [detail, coverage] = await Promise.all([
+    engineGet<ProjectDetail>(`/projects/${projectId}`),
+    engineGet<Coverage[]>(`/projects/${projectId}/coverage`),
+  ]);
   const supabase = await createClient();
   const [files, notes, issues, members] = await Promise.all([
     supabase.from("v_file_status").select("*").eq("project_id", projectId).order("uploaded_at", { ascending: false }),
@@ -44,6 +47,7 @@ export default async function ProjectPage(props: PageProps<"/environmental/proje
         notes={(notes.data ?? []) as never}
         issues={(issues.data ?? []) as never}
         members={(members.data ?? []) as never}
+        coverage={coverage}
         canWrite={canWrite(ctx) && !["APPROVED", "LOCKED"].includes(p.stage)}
       />
     </>

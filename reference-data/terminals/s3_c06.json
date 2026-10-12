@@ -1,0 +1,179 @@
+{
+  "key": "s3_c06",
+  "module": "ghg",
+  "scope": 3,
+  "category_no": "3.6",
+  "name": "Business travel",
+  "description": "Employee travel for work in vehicles the company does not own: flights, rail, bus, taxi, rental cars, and hotel nights.",
+  "excludes": "Company-owned vehicles go in Scope 1 mobile combustion. Daily commuting goes in 3.7.",
+  "instructions": "Flights, rail, bus and taxi: passenger-km (distance × travellers). Cars and motorbikes: vehicle-km. Hotels: room-nights.",
+  "taxonomy_root": "s3.c06",
+  "accepts_bills": false,
+  "enabled": true,
+  "disabled_reason": null,
+  "template_version": "0.1-provisional",
+  "sort": 36,
+  "config": {
+    "activity_type": "business_travel",
+    "columns": [
+      {
+        "key": "facility",
+        "header": "Facility",
+        "type": "facility",
+        "required": true
+      },
+      {
+        "key": "period_start",
+        "header": "Period start",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "period_end",
+        "header": "Period end",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "supplier_name",
+        "header": "Travel agency / provider",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "travel_mode",
+        "header": "Travel mode",
+        "type": "enum",
+        "required": true,
+        "options": [
+          "Flight, economy",
+          "Flight, business class",
+          "Flight, class unknown",
+          "Car (own or rental)",
+          "Taxi",
+          "Bus",
+          "Rail",
+          "Motorbike",
+          "Hotel stay, Bangladesh",
+          "Hotel stay, India",
+          "Hotel stay, China",
+          "Hotel stay, Vietnam",
+          "Hotel stay, United Arab Emirates",
+          "Hotel stay, Singapore",
+          "Hotel stay, Thailand"
+        ]
+      },
+      {
+        "key": "quantity",
+        "header": "Quantity",
+        "type": "decimal",
+        "required": true,
+        "min": 0,
+        "role": "quantity"
+      },
+      {
+        "key": "unit",
+        "header": "Unit",
+        "type": "unit",
+        "required": true,
+        "role": "unit",
+        "options": [
+          "pkm",
+          "km",
+          "mile",
+          "room_night"
+        ]
+      },
+      {
+        "key": "data_basis",
+        "header": "Data basis",
+        "type": "enum",
+        "required": true,
+        "role": "data_basis",
+        "options": [
+          "Metered / invoice",
+          "Supplier or third-party data",
+          "Estimate"
+        ]
+      },
+      {
+        "key": "notes",
+        "header": "Notes",
+        "type": "text",
+        "required": false
+      }
+    ],
+    "categorization_keys": [
+      "travel_mode"
+    ],
+    "quality_grades": {
+      "Metered / invoice": "A",
+      "Supplier or third-party data": "B",
+      "Estimate": "C"
+    },
+    "canonical_units": {
+      "distance": "km"
+    },
+    "rules": [
+      {
+        "type": "unit_by_value",
+        "column": "travel_mode",
+        "allowed": {
+          "Flight, economy": [
+            "pkm"
+          ],
+          "Flight, business class": [
+            "pkm"
+          ],
+          "Flight, class unknown": [
+            "pkm"
+          ],
+          "Car (own or rental)": [
+            "km",
+            "mile"
+          ],
+          "Taxi": [
+            "pkm"
+          ],
+          "Bus": [
+            "pkm"
+          ],
+          "Rail": [
+            "pkm"
+          ],
+          "Motorbike": [
+            "km",
+            "mile"
+          ],
+          "Hotel stay, Bangladesh": [
+            "room_night"
+          ],
+          "Hotel stay, India": [
+            "room_night"
+          ],
+          "Hotel stay, China": [
+            "room_night"
+          ],
+          "Hotel stay, Vietnam": [
+            "room_night"
+          ],
+          "Hotel stay, United Arab Emirates": [
+            "room_night"
+          ],
+          "Hotel stay, Singapore": [
+            "room_night"
+          ],
+          "Hotel stay, Thailand": [
+            "room_night"
+          ]
+        }
+      },
+      {
+        "type": "period_order"
+      },
+      {
+        "type": "period_within_project"
+      }
+    ]
+  }
+}

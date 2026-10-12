@@ -1,0 +1,134 @@
+{
+  "key": "s3_spend",
+  "module": "ghg",
+  "scope": 3,
+  "category_no": "3.0",
+  "name": "Spend-based (all Scope 3 purchases)",
+  "description": "Money spent on purchased goods and services when quantities are not available. Spend-based estimates are always graded C (estimated).",
+  "excludes": "Prefer activity data where you have it (e.g. tonnes of material in Purchased goods and services). Do not enter the same purchases in both places.",
+  "instructions": "One row per spend category, supplier and period, from the accounting ledger. BDT amounts are converted to USD with the cited annual exchange rate.",
+  "taxonomy_root": "s3.spend",
+  "accepts_bills": false,
+  "enabled": true,
+  "disabled_reason": null,
+  "template_version": "0.1-provisional",
+  "sort": 30,
+  "config": {
+    "activity_type": "spend",
+    "columns": [
+      {
+        "key": "facility",
+        "header": "Facility",
+        "type": "facility",
+        "required": true
+      },
+      {
+        "key": "period_start",
+        "header": "Period start",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "period_end",
+        "header": "Period end",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "supplier_name",
+        "header": "Supplier",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "spend_category",
+        "header": "Spend category",
+        "type": "enum",
+        "required": true,
+        "options": [
+          "Broadwoven fabric",
+          "Knit fabric",
+          "Textile & fabric finishing services",
+          "Cut-and-sew apparel",
+          "Synthetic dyes & pigments",
+          "Basic organic chemicals",
+          "Other chemical products",
+          "Corrugated & solid fibre boxes",
+          "Plastic bags & pouches",
+          "Other plastic products",
+          "Engineering services",
+          "Management consulting",
+          "Temporary staffing",
+          "Cleaning & janitorial",
+          "Property & casualty insurance",
+          "Freight trucking",
+          "Freight forwarding & arrangement",
+          "Other"
+        ]
+      },
+      {
+        "key": "quantity",
+        "header": "Amount spent",
+        "type": "decimal",
+        "required": true,
+        "min": 0,
+        "role": "quantity"
+      },
+      {
+        "key": "unit",
+        "header": "Unit",
+        "type": "unit",
+        "required": true,
+        "role": "unit",
+        "options": [
+          "BDT",
+          "USD"
+        ]
+      },
+      {
+        "key": "data_basis",
+        "header": "Data basis",
+        "type": "enum",
+        "required": true,
+        "role": "data_basis",
+        "options": [
+          "Accounting records / invoices",
+          "Estimate"
+        ]
+      },
+      {
+        "key": "notes",
+        "header": "Notes",
+        "type": "text",
+        "required": false
+      }
+    ],
+    "categorization_keys": [
+      "spend_category"
+    ],
+    "quality_grades": {
+      "Accounting records / invoices": "C",
+      "Estimate": "C"
+    },
+    "canonical_units": {
+      "currency": "BDT"
+    },
+    "rules": [
+      {
+        "type": "unit_dimension_in",
+        "dimensions": [
+          "currency"
+        ],
+        "problem": "Spend-based categories expect an amount of money",
+        "fix": "Enter the amount in BDT or USD."
+      },
+      {
+        "type": "period_order"
+      },
+      {
+        "type": "period_within_project"
+      }
+    ],
+    "default_grade": "C"
+  }
+}

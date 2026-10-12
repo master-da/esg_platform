@@ -12,6 +12,7 @@ from pydantic import BaseModel, Field, model_validator
 from app.auth import require_approve, require_read, require_write, user_tx
 from app.calc.service import recalculate_project
 from app.db import Tx
+from app.services.coverage import coverage
 
 router = APIRouter(tags=["projects"])
 
@@ -362,3 +363,9 @@ def update_category(project_id: str, terminal_key: str, body: CategoryPatch, tx:
                 {**fields, "p": project_id, "t": terminal_key},
             )
     return {"updated": bool(fields)}
+
+
+@router.get("/projects/{project_id}/coverage")
+def project_coverage(project_id: str, tx: Tx = Depends(user_tx)):
+    """Missing months per category and facility (never treated as zero)."""
+    return coverage(tx, get_project(tx, project_id))

@@ -1,0 +1,119 @@
+{
+  "key": "s3_c15",
+  "module": "ghg",
+  "scope": 3,
+  "category_no": "3.15",
+  "name": "Investments",
+  "description": "Emissions of companies and projects you invest in (equity, debt, project finance).",
+  "excludes": "The attribution method (e.g. PCAF) is pending the domain advisor; calculations show UNKNOWN until it is configured.",
+  "instructions": "One row per investment with the amount outstanding at period end.",
+  "taxonomy_root": "s3.c15",
+  "accepts_bills": false,
+  "enabled": true,
+  "disabled_reason": null,
+  "template_version": "0.1-provisional",
+  "sort": 45,
+  "config": {
+    "activity_type": "investments",
+    "columns": [
+      {
+        "key": "facility",
+        "header": "Facility",
+        "type": "facility",
+        "required": true
+      },
+      {
+        "key": "period_start",
+        "header": "Period start",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "period_end",
+        "header": "Period end",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "supplier_name",
+        "header": "Investee",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "investment_type",
+        "header": "Investment type",
+        "type": "enum",
+        "required": true,
+        "options": [
+          "Equity",
+          "Corporate debt",
+          "Project finance"
+        ]
+      },
+      {
+        "key": "quantity",
+        "header": "Amount outstanding",
+        "type": "decimal",
+        "required": true,
+        "min": 0,
+        "role": "quantity"
+      },
+      {
+        "key": "unit",
+        "header": "Unit",
+        "type": "unit",
+        "required": true,
+        "role": "unit",
+        "options": [
+          "BDT",
+          "USD"
+        ]
+      },
+      {
+        "key": "data_basis",
+        "header": "Data basis",
+        "type": "enum",
+        "required": true,
+        "role": "data_basis",
+        "options": [
+          "Accounting records / invoices",
+          "Estimate"
+        ]
+      },
+      {
+        "key": "notes",
+        "header": "Notes",
+        "type": "text",
+        "required": false
+      }
+    ],
+    "categorization_keys": [
+      "investment_type"
+    ],
+    "quality_grades": {
+      "Accounting records / invoices": "C",
+      "Estimate": "C"
+    },
+    "canonical_units": {
+      "currency": "BDT"
+    },
+    "rules": [
+      {
+        "type": "unit_dimension_in",
+        "dimensions": [
+          "currency"
+        ],
+        "problem": "Spend-based categories expect an amount of money",
+        "fix": "Enter the amount in BDT or USD."
+      },
+      {
+        "type": "period_order"
+      },
+      {
+        "type": "period_within_project"
+      }
+    ],
+    "default_grade": "C"
+  }
+}

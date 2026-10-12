@@ -119,3 +119,8 @@ export type Trail = {
   factor_code?: string;
   history: { id: number; status: string; co2e_t: string | null; calculated_at: string; version_no: number }[];
 };
+
+export type Coverage = {
+  terminal_key: string; terminal_name: string; module: string; facility_id: string; facility: string;
+  expected_months: number; covered_months: number; missing_months: string[];
+};

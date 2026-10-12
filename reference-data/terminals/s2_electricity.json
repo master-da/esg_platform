@@ -10,38 +10,130 @@
   "taxonomy_root": "s2.electricity",
   "accepts_bills": true,
   "enabled": true,
+  "disabled_reason": null,
   "template_version": "0.1-provisional",
   "sort": 21,
   "config": {
     "activity_type": "electricity_purchased",
     "columns": [
-      {"key": "facility", "header": "Facility", "type": "facility", "required": true},
-      {"key": "period_start", "header": "Billing period start", "type": "date", "required": true},
-      {"key": "period_end", "header": "Billing period end", "type": "date", "required": true},
-      {"key": "supplier_name", "header": "Utility / supplier", "type": "text", "required": true},
-      {"key": "meter_id", "header": "Meter / account no.", "type": "text", "required": false},
-      {"key": "electricity_type", "header": "Electricity type", "type": "enum", "required": true,
-       "options": ["Grid electricity"]},
-      {"key": "quantity", "header": "Electricity consumed", "type": "decimal", "required": true, "min": 0, "role": "quantity"},
-      {"key": "unit", "header": "Unit", "type": "unit", "required": true, "role": "unit", "options": ["kWh", "MWh"]},
-      {"key": "amount_billed", "header": "Amount billed (BDT)", "type": "decimal", "required": false, "min": 0},
-      {"key": "data_basis", "header": "Data basis", "type": "enum", "required": true, "role": "data_basis",
-       "options": ["Utility bill / meter reading", "Landlord or supplier statement", "Estimate"]},
-      {"key": "notes", "header": "Notes", "type": "text", "required": false}
+      {
+        "key": "facility",
+        "header": "Facility",
+        "type": "facility",
+        "required": true
+      },
+      {
+        "key": "period_start",
+        "header": "Billing period start",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "period_end",
+        "header": "Billing period end",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "supplier_name",
+        "header": "Utility / supplier",
+        "type": "text",
+        "required": true
+      },
+      {
+        "key": "meter_id",
+        "header": "Meter / account no.",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "electricity_type",
+        "header": "Electricity type",
+        "type": "enum",
+        "required": true,
+        "options": [
+          "Grid electricity"
+        ]
+      },
+      {
+        "key": "quantity",
+        "header": "Electricity consumed",
+        "type": "decimal",
+        "required": true,
+        "min": 0,
+        "role": "quantity"
+      },
+      {
+        "key": "unit",
+        "header": "Unit",
+        "type": "unit",
+        "required": true,
+        "role": "unit",
+        "options": [
+          "kWh",
+          "MWh"
+        ]
+      },
+      {
+        "key": "amount_billed",
+        "header": "Amount billed (BDT)",
+        "type": "decimal",
+        "required": false,
+        "min": 0
+      },
+      {
+        "key": "data_basis",
+        "header": "Data basis",
+        "type": "enum",
+        "required": true,
+        "role": "data_basis",
+        "options": [
+          "Utility bill / meter reading",
+          "Landlord or supplier statement",
+          "Estimate"
+        ]
+      },
+      {
+        "key": "notes",
+        "header": "Notes",
+        "type": "text",
+        "required": false
+      }
     ],
-    "categorization_keys": ["electricity_type"],
-    "quality_grades": {"Utility bill / meter reading": "A", "Landlord or supplier statement": "B", "Estimate": "C"},
-    "canonical_units": {"energy": "kWh"},
-    "bill_fields": {
-      "period_start": "Billing period start", "period_end": "Billing period end", "quantity": "kWh consumed",
-      "amount_billed": "Amount billed (BDT)", "meter_id": "Meter / account no.", "supplier_name": "Utility"
+    "categorization_keys": [
+      "electricity_type"
+    ],
+    "quality_grades": {
+      "Utility bill / meter reading": "A",
+      "Landlord or supplier statement": "B",
+      "Estimate": "C"
+    },
+    "canonical_units": {
+      "energy": "kWh"
     },
     "rules": [
-      {"type": "unit_dimension_in", "dimensions": ["energy"],
-       "problem": "Purchased electricity expects an energy quantity",
-       "fix": "Enter consumption in kWh or MWh from the bill."},
-      {"type": "period_order"},
-      {"type": "period_within_project"}
-    ]
+      {
+        "type": "unit_dimension_in",
+        "dimensions": [
+          "energy"
+        ],
+        "problem": "Purchased electricity expects an energy quantity",
+        "fix": "Enter consumption in kWh or MWh from the bill."
+      },
+      {
+        "type": "period_order"
+      },
+      {
+        "type": "period_within_project"
+      }
+    ],
+    "bill_fields": {
+      "period_start": "Billing period start",
+      "period_end": "Billing period end",
+      "quantity": "kWh consumed",
+      "amount_billed": "Amount billed (BDT)",
+      "meter_id": "Meter / account no.",
+      "supplier_name": "Utility"
+    }
   }
 }

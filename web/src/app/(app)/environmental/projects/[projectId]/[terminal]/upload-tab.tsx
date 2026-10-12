@@ -111,7 +111,11 @@ export function UploadTab({ data, canWrite, isInternal, onReviewCategorizations 
                 <TableRow key={f.file_id}>
                   <TableCell>
                     <div className="font-medium">{f.original_name}</div>
-                    {f.kind === "bill" && <div className="text-xs text-muted-foreground">Bill / invoice</div>}
+                    {f.kind === "bill" && (
+                      <a className="text-xs text-primary hover:underline" href={`/environmental/projects/${project.id}/${t.key}/bills/${f.file_id}`}>
+                        Bill / invoice · {f.status === "AWAITING_CONFIRMATION" ? "review and confirm" : "view"}
+                      </a>
+                    )}
                     {f.last_review_action === "reject" && f.status === "NEED_ATTENTION" && <div className="text-xs text-red-700">Returned: {f.last_review_comment}</div>}
                   </TableCell>
                   <TableCell className="text-sm">{fmtDate(f.uploaded_at)}{f.uploaded_by_name ? <div className="text-xs text-muted-foreground">{f.uploaded_by_name}</div> : null}</TableCell>

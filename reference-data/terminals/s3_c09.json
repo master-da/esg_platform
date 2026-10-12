@@ -1,0 +1,113 @@
+{
+  "key": "s3_c09",
+  "module": "ghg",
+  "scope": 3,
+  "category_no": "3.9",
+  "name": "Downstream transportation and distribution",
+  "description": "Transport of sold products to customers in vehicles you do not own or pay for.",
+  "excludes": "Transport you pay for belongs in 3.4 (upstream).",
+  "instructions": "Tonne-km per mode (tonnes shipped × distance).",
+  "taxonomy_root": "s3.c09",
+  "accepts_bills": false,
+  "enabled": true,
+  "disabled_reason": null,
+  "template_version": "0.1-provisional",
+  "sort": 39,
+  "config": {
+    "activity_type": "downstream_transport",
+    "columns": [
+      {
+        "key": "facility",
+        "header": "Facility",
+        "type": "facility",
+        "required": true
+      },
+      {
+        "key": "period_start",
+        "header": "Period start",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "period_end",
+        "header": "Period end",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "supplier_name",
+        "header": "Carrier",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "transport_mode",
+        "header": "Transport mode",
+        "type": "enum",
+        "required": true,
+        "options": [
+          "Truck (HGV)",
+          "Van (diesel)",
+          "Container ship"
+        ]
+      },
+      {
+        "key": "quantity",
+        "header": "Tonne-km",
+        "type": "decimal",
+        "required": true,
+        "min": 0,
+        "role": "quantity"
+      },
+      {
+        "key": "unit",
+        "header": "Unit",
+        "type": "unit",
+        "required": true,
+        "role": "unit",
+        "options": [
+          "tkm"
+        ]
+      },
+      {
+        "key": "data_basis",
+        "header": "Data basis",
+        "type": "enum",
+        "required": true,
+        "role": "data_basis",
+        "options": [
+          "Metered / invoice",
+          "Supplier or third-party data",
+          "Estimate"
+        ]
+      },
+      {
+        "key": "notes",
+        "header": "Notes",
+        "type": "text",
+        "required": false
+      }
+    ],
+    "categorization_keys": [
+      "transport_mode"
+    ],
+    "quality_grades": {
+      "Metered / invoice": "A",
+      "Supplier or third-party data": "B",
+      "Estimate": "C"
+    },
+    "canonical_units": {
+      "volume": "L",
+      "mass": "kg",
+      "energy": "kWh"
+    },
+    "rules": [
+      {
+        "type": "period_order"
+      },
+      {
+        "type": "period_within_project"
+      }
+    ]
+  }
+}

@@ -235,6 +235,19 @@ def _apply_rules(
                         "Upload this row to the project that covers its period",
                     )
                 )
+        elif kind == "unit_by_value" and unit:
+            # e.g. flights must be in passenger-km, hotel stays in room-nights
+            chosen = values.get(rule["column"])
+            allowed = rule["allowed"].get(chosen) if chosen else None
+            if allowed and unit not in allowed:
+                out.append(
+                    Issue(
+                        row,
+                        unit_col.header,
+                        f"{unit} is not a valid unit for {chosen}",
+                        "Use " + " or ".join(allowed),
+                    )
+                )
         elif kind == "required_if":
             when = rule["when"]
             if all(norm(values.get(k) or "") == norm(v) for k, v in when.items()) and _blank(

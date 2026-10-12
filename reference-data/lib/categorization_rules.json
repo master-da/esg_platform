@@ -1,7 +1,950 @@
 [
-  {"terminal_key": "s1_mobile", "match": {"fuel_type": "diesel"}, "taxonomy_code": "01020000010001", "priority": 100, "note": "Fuel type determines the factor; vehicle type is informational"},
-  {"terminal_key": "s1_mobile", "match": {"fuel_type": "petrol / octane"}, "taxonomy_code": "01020000010002", "priority": 100, "note": null},
-  {"terminal_key": "s1_mobile", "match": {"fuel_type": "cng"}, "taxonomy_code": "01020000010003", "priority": 100, "note": null},
-  {"terminal_key": "s1_mobile", "match": {"fuel_type": "lpg"}, "taxonomy_code": "01020000010004", "priority": 100, "note": null},
-  {"terminal_key": "s2_electricity", "match": {"electricity_type": "grid electricity"}, "taxonomy_code": "02010000010001", "priority": 100, "note": "Location-based national grid factor"}
+  {
+    "terminal_key": "s1_stationary",
+    "match": {
+      "fuel_type": "natural gas"
+    },
+    "taxonomy_code": "01010000001101",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s1_stationary",
+    "match": {
+      "fuel_type": "lpg"
+    },
+    "taxonomy_code": "01010000001102",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s1_stationary",
+    "match": {
+      "fuel_type": "cng"
+    },
+    "taxonomy_code": "01010000001103",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s1_stationary",
+    "match": {
+      "fuel_type": "petrol / octane"
+    },
+    "taxonomy_code": "01010000001201",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s1_stationary",
+    "match": {
+      "fuel_type": "diesel"
+    },
+    "taxonomy_code": "01010000001202",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s1_stationary",
+    "match": {
+      "fuel_type": "furnace oil"
+    },
+    "taxonomy_code": "01010000001203",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s1_stationary",
+    "match": {
+      "fuel_type": "kerosene"
+    },
+    "taxonomy_code": "01010000001204",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s1_stationary",
+    "match": {
+      "fuel_type": "gas oil"
+    },
+    "taxonomy_code": "01010000001205",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s1_stationary",
+    "match": {
+      "fuel_type": "coal"
+    },
+    "taxonomy_code": "01010000001301",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s1_mobile",
+    "match": {
+      "fuel_type": "diesel"
+    },
+    "taxonomy_code": "01020000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s1_mobile",
+    "match": {
+      "fuel_type": "petrol / octane"
+    },
+    "taxonomy_code": "01020000010002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s1_mobile",
+    "match": {
+      "fuel_type": "cng"
+    },
+    "taxonomy_code": "01020000010003",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s1_mobile",
+    "match": {
+      "fuel_type": "lpg"
+    },
+    "taxonomy_code": "01020000010004",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s1_fugitive",
+    "match": {
+      "gas": "hfc-134a"
+    },
+    "taxonomy_code": "01030000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s1_fugitive",
+    "match": {
+      "gas": "hfc-32 (r-32)"
+    },
+    "taxonomy_code": "01030000010002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s1_fugitive",
+    "match": {
+      "gas": "r-410a"
+    },
+    "taxonomy_code": "01030000010003",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s1_fugitive",
+    "match": {
+      "gas": "r-404a"
+    },
+    "taxonomy_code": "01030000010004",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s1_fugitive",
+    "match": {
+      "gas": "r-407c"
+    },
+    "taxonomy_code": "01030000010005",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s2_electricity",
+    "match": {
+      "electricity_type": "grid electricity"
+    },
+    "taxonomy_code": "02010000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s2_heating",
+    "match": {
+      "energy_type": "purchased heat"
+    },
+    "taxonomy_code": "02020000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s2_steam",
+    "match": {
+      "energy_type": "purchased steam"
+    },
+    "taxonomy_code": "02030000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s2_cooling",
+    "match": {
+      "energy_type": "purchased cooling / chilled water"
+    },
+    "taxonomy_code": "02040000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_spend",
+    "match": {
+      "spend_category": "broadwoven fabric"
+    },
+    "taxonomy_code": "03990000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_spend",
+    "match": {
+      "spend_category": "knit fabric"
+    },
+    "taxonomy_code": "03990000010002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_spend",
+    "match": {
+      "spend_category": "textile & fabric finishing services"
+    },
+    "taxonomy_code": "03990000010003",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_spend",
+    "match": {
+      "spend_category": "cut-and-sew apparel"
+    },
+    "taxonomy_code": "03990000010004",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_spend",
+    "match": {
+      "spend_category": "synthetic dyes & pigments"
+    },
+    "taxonomy_code": "03990000020001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_spend",
+    "match": {
+      "spend_category": "basic organic chemicals"
+    },
+    "taxonomy_code": "03990000020002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_spend",
+    "match": {
+      "spend_category": "other chemical products"
+    },
+    "taxonomy_code": "03990000020003",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_spend",
+    "match": {
+      "spend_category": "corrugated & solid fibre boxes"
+    },
+    "taxonomy_code": "03990000030001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_spend",
+    "match": {
+      "spend_category": "plastic bags & pouches"
+    },
+    "taxonomy_code": "03990000030002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_spend",
+    "match": {
+      "spend_category": "other plastic products"
+    },
+    "taxonomy_code": "03990000030003",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_spend",
+    "match": {
+      "spend_category": "engineering services"
+    },
+    "taxonomy_code": "03990000040001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_spend",
+    "match": {
+      "spend_category": "management consulting"
+    },
+    "taxonomy_code": "03990000040002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_spend",
+    "match": {
+      "spend_category": "temporary staffing"
+    },
+    "taxonomy_code": "03990000040003",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_spend",
+    "match": {
+      "spend_category": "cleaning & janitorial"
+    },
+    "taxonomy_code": "03990000040004",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_spend",
+    "match": {
+      "spend_category": "property & casualty insurance"
+    },
+    "taxonomy_code": "03990000040005",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_spend",
+    "match": {
+      "spend_category": "freight trucking"
+    },
+    "taxonomy_code": "03990000050001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_spend",
+    "match": {
+      "spend_category": "freight forwarding & arrangement"
+    },
+    "taxonomy_code": "03990000050002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c01",
+    "match": {
+      "material": "clothing / finished textiles"
+    },
+    "taxonomy_code": "03010000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c01",
+    "match": {
+      "material": "plastics"
+    },
+    "taxonomy_code": "03010000010002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c01",
+    "match": {
+      "material": "paper & board"
+    },
+    "taxonomy_code": "03010000010003",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c01",
+    "match": {
+      "material": "metal cans"
+    },
+    "taxonomy_code": "03010000010004",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c02",
+    "match": {
+      "asset_type": "industrial machinery"
+    },
+    "taxonomy_code": "03020000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c02",
+    "match": {
+      "asset_type": "computers & it hardware"
+    },
+    "taxonomy_code": "03020000010002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c02",
+    "match": {
+      "asset_type": "building construction"
+    },
+    "taxonomy_code": "03020000010003",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c03",
+    "match": {
+      "fuel_type": "natural gas"
+    },
+    "taxonomy_code": "03030000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c03",
+    "match": {
+      "fuel_type": "diesel"
+    },
+    "taxonomy_code": "03030000010002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c03",
+    "match": {
+      "fuel_type": "petrol / octane"
+    },
+    "taxonomy_code": "03030000010003",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c03",
+    "match": {
+      "fuel_type": "furnace oil"
+    },
+    "taxonomy_code": "03030000010004",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c03",
+    "match": {
+      "fuel_type": "lpg"
+    },
+    "taxonomy_code": "03030000010005",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c03",
+    "match": {
+      "fuel_type": "cng"
+    },
+    "taxonomy_code": "03030000010006",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c05",
+    "match": {
+      "waste_type": "commercial & industrial waste (mixed)",
+      "treatment": "landfill"
+    },
+    "taxonomy_code": "03050000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c05",
+    "match": {
+      "waste_type": "commercial & industrial waste (mixed)",
+      "treatment": "incineration with energy recovery"
+    },
+    "taxonomy_code": "03050000010002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c05",
+    "match": {
+      "waste_type": "plastics",
+      "treatment": "landfill"
+    },
+    "taxonomy_code": "03050000020001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c05",
+    "match": {
+      "waste_type": "plastics",
+      "treatment": "recycling"
+    },
+    "taxonomy_code": "03050000020002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c05",
+    "match": {
+      "waste_type": "plastics",
+      "treatment": "incineration with energy recovery"
+    },
+    "taxonomy_code": "03050000020003",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c05",
+    "match": {
+      "waste_type": "paper & board",
+      "treatment": "recycling"
+    },
+    "taxonomy_code": "03050000030001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c05",
+    "match": {
+      "waste_type": "paper & board",
+      "treatment": "incineration with energy recovery"
+    },
+    "taxonomy_code": "03050000030002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c05",
+    "match": {
+      "waste_type": "paper & board",
+      "treatment": "composting"
+    },
+    "taxonomy_code": "03050000030003",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c05",
+    "match": {
+      "waste_type": "paper & board",
+      "treatment": "landfill"
+    },
+    "taxonomy_code": "03050000030004",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c05",
+    "match": {
+      "waste_type": "textiles & fabric offcuts",
+      "treatment": "landfill"
+    },
+    "taxonomy_code": "03050000040001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c05",
+    "match": {
+      "waste_type": "textiles & fabric offcuts",
+      "treatment": "recycling"
+    },
+    "taxonomy_code": "03050000040002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c05",
+    "match": {
+      "waste_type": "textiles & fabric offcuts",
+      "treatment": "incineration"
+    },
+    "taxonomy_code": "03050000040003",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c06",
+    "match": {
+      "travel_mode": "flight, economy"
+    },
+    "taxonomy_code": "03060000010002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c06",
+    "match": {
+      "travel_mode": "flight, business class"
+    },
+    "taxonomy_code": "03060000010003",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c06",
+    "match": {
+      "travel_mode": "flight, class unknown"
+    },
+    "taxonomy_code": "03060000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c06",
+    "match": {
+      "travel_mode": "car (own or rental)"
+    },
+    "taxonomy_code": "03060000020001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c06",
+    "match": {
+      "travel_mode": "taxi"
+    },
+    "taxonomy_code": "03060000020002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c06",
+    "match": {
+      "travel_mode": "bus"
+    },
+    "taxonomy_code": "03060000020003",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c06",
+    "match": {
+      "travel_mode": "rail"
+    },
+    "taxonomy_code": "03060000020004",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c06",
+    "match": {
+      "travel_mode": "motorbike"
+    },
+    "taxonomy_code": "03060000020005",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c06",
+    "match": {
+      "travel_mode": "hotel stay, bangladesh"
+    },
+    "taxonomy_code": "03060000030001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c06",
+    "match": {
+      "travel_mode": "hotel stay, india"
+    },
+    "taxonomy_code": "03060000030002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c06",
+    "match": {
+      "travel_mode": "hotel stay, china"
+    },
+    "taxonomy_code": "03060000030003",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c06",
+    "match": {
+      "travel_mode": "hotel stay, vietnam"
+    },
+    "taxonomy_code": "03060000030004",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c06",
+    "match": {
+      "travel_mode": "hotel stay, united arab emirates"
+    },
+    "taxonomy_code": "03060000030005",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c06",
+    "match": {
+      "travel_mode": "hotel stay, singapore"
+    },
+    "taxonomy_code": "03060000030006",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c06",
+    "match": {
+      "travel_mode": "hotel stay, thailand"
+    },
+    "taxonomy_code": "03060000030007",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c07",
+    "match": {
+      "mode": "car"
+    },
+    "taxonomy_code": "03070000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c07",
+    "match": {
+      "mode": "motorbike"
+    },
+    "taxonomy_code": "03070000010002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c07",
+    "match": {
+      "mode": "bus"
+    },
+    "taxonomy_code": "03070000010003",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c07",
+    "match": {
+      "mode": "rail"
+    },
+    "taxonomy_code": "03070000010004",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c08",
+    "match": {
+      "energy_type": "grid electricity"
+    },
+    "taxonomy_code": "03080000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c08",
+    "match": {
+      "energy_type": "natural gas"
+    },
+    "taxonomy_code": "03080000010002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c09",
+    "match": {
+      "transport_mode": "truck (hgv)"
+    },
+    "taxonomy_code": "03090000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c09",
+    "match": {
+      "transport_mode": "van (diesel)"
+    },
+    "taxonomy_code": "03090000010002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c09",
+    "match": {
+      "transport_mode": "container ship"
+    },
+    "taxonomy_code": "03090000010003",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c10",
+    "match": {
+      "energy_type": "grid electricity"
+    },
+    "taxonomy_code": "03100000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c10",
+    "match": {
+      "energy_type": "natural gas"
+    },
+    "taxonomy_code": "03100000010002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c11",
+    "match": {
+      "energy_type": "electricity consumed in use"
+    },
+    "taxonomy_code": "03110000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c11",
+    "match": {
+      "energy_type": "diesel combusted in use"
+    },
+    "taxonomy_code": "03110000010002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c12",
+    "match": {
+      "material_route": "mixed product waste, landfill"
+    },
+    "taxonomy_code": "03120000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c12",
+    "match": {
+      "material_route": "plastic packaging, landfill"
+    },
+    "taxonomy_code": "03120000010002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c12",
+    "match": {
+      "material_route": "paper packaging, recycling"
+    },
+    "taxonomy_code": "03120000010003",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c12",
+    "match": {
+      "material_route": "textiles, landfill"
+    },
+    "taxonomy_code": "03120000010004",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c13",
+    "match": {
+      "energy_type": "grid electricity"
+    },
+    "taxonomy_code": "03130000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c13",
+    "match": {
+      "energy_type": "natural gas"
+    },
+    "taxonomy_code": "03130000010002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c14",
+    "match": {
+      "energy_type": "grid electricity"
+    },
+    "taxonomy_code": "03140000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c14",
+    "match": {
+      "energy_type": "natural gas"
+    },
+    "taxonomy_code": "03140000010002",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c14",
+    "match": {
+      "energy_type": "diesel"
+    },
+    "taxonomy_code": "03140000010003",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c15",
+    "match": {
+      "investment_type": "equity"
+    },
+    "taxonomy_code": "03150000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c15",
+    "match": {
+      "investment_type": "corporate debt"
+    },
+    "taxonomy_code": "03150000010001",
+    "priority": 100,
+    "note": null
+  },
+  {
+    "terminal_key": "s3_c15",
+    "match": {
+      "investment_type": "project finance"
+    },
+    "taxonomy_code": "03150000010001",
+    "priority": 100,
+    "note": null
+  }
 ]
