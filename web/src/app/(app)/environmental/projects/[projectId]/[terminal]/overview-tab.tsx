@@ -14,7 +14,7 @@ import { Grade, Missing } from "@/components/app/values";
 import type { RecordRow } from "./types";
 
 /** Wireframe "Data Overview": every record, input vs calculated values, each result opens its trail. */
-export function OverviewTab({ projectId, terminalKey, onOpenTrail }: { projectId: string; terminalKey: string; onOpenTrail: (id: number) => void }) {
+export function OverviewTab({ projectId, terminalKey, onOpenTrail, calculated = true }: { projectId: string; terminalKey: string; onOpenTrail: (id: number) => void; calculated?: boolean }) {
   const [rows, setRows] = useState<RecordRow[] | null>(null);
   const [mode, setMode] = useState<"input" | "calc">("input");
   const [q, setQ] = useState("");
@@ -41,7 +41,7 @@ export function OverviewTab({ projectId, terminalKey, onOpenTrail }: { projectId
         <NativeSelect className="w-48" value={cat} onChange={(e) => setCat(e.target.value)} aria-label="Categorization">
           <option value="">Any categorization</option><option value="accepted">Categorized</option><option value="uncategorized">Not yet categorized</option><option value="problems">Calculation issues</option>
         </NativeSelect>
-        <div className="ml-auto flex gap-1">
+        <div className={calculated ? "ml-auto flex gap-1" : "hidden"}>
           <Button size="sm" variant={mode === "input" ? "default" : "outline"} onClick={() => setMode("input")}>Input values</Button>
           <Button size="sm" variant={mode === "calc" ? "default" : "outline"} onClick={() => setMode("calc")}>Calculated values</Button>
         </div>

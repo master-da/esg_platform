@@ -17,6 +17,8 @@ const KNOWN: Record<string, { label: string; tone: Tone }> = {
   PRELIMINARY: { label: "Preliminary", tone: "amber" },
   CALCULATED: { label: "Calculated", tone: "green" },
   NEED_ATTENTION: { label: "Need attention", tone: "red" },
+  CONFIRMED: { label: "✓ Confirmed", tone: "green" },
+  AWAITING_CONFIRMATION: { label: "Awaiting confirmation", tone: "amber" },
   // project stages (PRD 3)
   DRAFT: { label: "DRAFT", tone: "gray" },
   DATA_COLLECTION: { label: "DATA_COLLECTION", tone: "blue" },

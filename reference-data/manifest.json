@@ -89,6 +89,23 @@
       ]
     },
     {
+      "table": "ref.metrics",
+      "file": "ref/metrics.json",
+      "key": [
+        "key"
+      ],
+      "json_columns": [
+        "params"
+      ]
+    },
+    {
+      "table": "ref.wq_parameters",
+      "file": "ref/wq_parameters.csv",
+      "key": [
+        "key"
+      ]
+    },
+    {
       "table": "lib.taxonomy_nodes",
       "file": "lib/taxonomy_nodes.csv",
       "key": [

@@ -5,7 +5,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.api import bills, categorization, intake, library, projects, results, users
+from app.api import bills, categorization, intake, library, modules, projects, reference, results, users
 from app.config import get_settings
 from app.db import close_pool, pool
 
@@ -31,7 +31,7 @@ app.add_middleware(
 
 app.include_router(users.router)
 app.include_router(library.router)
-for module in (projects, intake, categorization, results, bills):
+for module in (projects, intake, categorization, results, bills, modules, reference):
     app.include_router(module.router)
 
 

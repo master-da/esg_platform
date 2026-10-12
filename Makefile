@@ -3,7 +3,7 @@ SHELL := /bin/bash
 ENGINE := cd engine &&
 WEB := cd web &&
 
-.PHONY: help up down env reset refdata bootstrap engine web dev test test-unit test-db e2e lint format typecheck
+.PHONY: help up down env reset refdata bootstrap demo engine web dev test test-unit test-db e2e lint format typecheck
 
 help:
 	@grep -E '^[a-z-]+:.*?## ' $(MAKEFILE_LIST) | awk -F':.*?## ' '{printf "  %-12s %s\n", $$1, $$2}'
@@ -27,6 +27,9 @@ refdata: ## Load cited reference data from reference-data/
 
 bootstrap: ## Create local dev users and demo companies
 	$(ENGINE) uv run python -m scripts.bootstrap_dev
+
+demo: ## Load demo customer data (two demo projects for Sample Textiles Ltd)
+	$(ENGINE) uv run python -m scripts.demo_data
 
 engine: ## Run the engine API on :8000
 	$(ENGINE) uv run uvicorn app.main:app --port 8000 --reload

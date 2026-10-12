@@ -410,6 +410,46 @@ rules_for("s3_c15", "investment_type", {"Equity": "03150000010001", "Corporate d
                                         "Project finance": "03150000010001"})
 
 
+# --- Module terminals (no emission factor; rows are confirmed by a person) -----------------
+TERMINALS.append(terminal(
+    "energy_renewable", None, None, "On-site renewable generation",
+    "Renewable electricity or heat generated and used on site (e.g. rooftop solar PV).",
+    "Grid electricity bought under a green tariff is still purchased electricity (Scope 2).",
+    "One row per facility, source and month, from the inverter or generation meter.",
+    None,
+    [facility(), *period(), enum("source", "Renewable source", ["Solar PV", "Solar thermal", "Wind", "Biomass", "Other renewable"]),
+     qty("Energy generated and used"), unit(["kWh", "MWh"]), basis(STD_BASIS), NOTES],
+    [], STD_BASIS, [ENERGY_ONLY], "renewable_generation", 50, canonical={"energy": "kWh"}, module="energy"))
+TERMINALS.append(terminal(
+    "water_withdrawal", None, None, "Water withdrawal",
+    "Water taken by the facility: groundwater (deep tube wells), municipal supply (WASA), surface water, rainwater "
+    "harvesting and water bought from third parties.",
+    "Wastewater and effluent go in Water discharge.",
+    "One row per facility, source and month, from flow meters or supplier bills. Leave months out rather than "
+    "entering 0 when there is no reading.",
+    None,
+    [facility(), *period(), enum("source", "Water source", ["Groundwater", "Municipal supply", "Surface water",
+                                                           "Rainwater harvesting", "Third-party supplier", "Other"]),
+     {"key": "meter_id", "header": "Meter", "type": "text", "required": False},
+     qty("Volume withdrawn"), unit(["m3", "L", "ML"]), basis(STD_BASIS), NOTES],
+    [], STD_BASIS, [{"type": "unit_dimension_in", "dimensions": ["volume"],
+                     "problem": "Water volumes must be entered as a volume", "fix": "Enter m³, litres or million litres."}],
+    "water_withdrawal", 51, canonical={"volume": "m3"}, module="water"))
+TERMINALS.append(terminal(
+    "water_discharge", None, None, "Water discharge",
+    "Effluent and other water leaving the facility, by destination and treatment.",
+    "Lab results for effluent quality go in Water quality / ETP.",
+    "One row per facility, destination and month, from the ETP outlet meter.",
+    None,
+    [facility(), *period(), enum("destination", "Destination", ["Surface water (river/canal)", "Municipal sewer",
+                                                               "Central ETP (CETP)", "Groundwater", "Third party", "Other"]),
+     enum("treatment", "Treatment", ["Treated in own ETP", "Treated by third party", "Untreated"]),
+     qty("Volume discharged"), unit(["m3", "L", "ML"]), basis(STD_BASIS), NOTES],
+    [], STD_BASIS, [{"type": "unit_dimension_in", "dimensions": ["volume"],
+                     "problem": "Water volumes must be entered as a volume", "fix": "Enter m³, litres or million litres."}],
+    "water_discharge", 52, canonical={"volume": "m3"}, module="water"))
+
+
 def main() -> None:
     out = ROOT / "terminals"
     out.mkdir(exist_ok=True)
@@ -418,7 +458,7 @@ def main() -> None:
         keys.add(t["key"])
         (out / f"{t['key']}.json").write_text(json.dumps(t, indent=2, ensure_ascii=False) + "\n")
     for stale in out.glob("*.json"):
-        if stale.stem not in keys and not stale.stem.startswith(("energy_", "water_")):
+        if stale.stem not in keys:
             stale.unlink()
     (ROOT / "lib" / "categorization_rules.json").write_text(json.dumps(RULES, indent=2, ensure_ascii=False) + "\n")
     print(f"{len(TERMINALS)} terminals, {len(RULES)} categorization rules")

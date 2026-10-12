@@ -165,6 +165,12 @@ def category_rollup(tx: Tx, project_id: str) -> list[dict]:
             status = "NOT_APPLICABLE"
         elif not statuses:
             status = "NO_DATA"
+        elif r["module"] != "ghg":
+            status = (
+                "CONFIRMED"
+                if all(s == "CONFIRMED" for s in statuses)
+                else ("NEED_ATTENTION" if "NEED_ATTENTION" in statuses else "AWAITING_CONFIRMATION")
+            )
         elif "NEED_ATTENTION" in statuses:
             status = "NEED_ATTENTION"
         elif all(s == "CALCULATED" for s in statuses):
@@ -225,9 +231,9 @@ def list_projects(company_id: str, tx: Tx = Depends(user_tx)):
             calc_status = "NEED_ATTENTION"
         elif not counts:
             calc_status = "NO_DATA"
-        elif set(counts) == {"CALCULATED"}:
+        elif set(counts) <= {"CALCULATED", "CONFIRMED"}:
             calc_status = "CALCULATED"
-        elif set(counts) <= {"CALCULATED", "PRELIMINARY"}:
+        elif set(counts) <= {"CALCULATED", "CONFIRMED", "PRELIMINARY"}:
             calc_status = "PRELIMINARY"
         else:
             calc_status = "READY_TO_CATEGORIZE"
@@ -260,7 +266,8 @@ def project_detail(project_id: str, tx: Tx = Depends(user_tx)):
     open_tasks = tx.scalar("select count(*) from public.tasks where project_id = %s and status = 'open'", (project_id,))
     progress: dict[str, int] = {}
     for c in cats:
-        if c["status"] not in ("NO_DATA", "NOT_APPLICABLE"):
+        # The calculation progress bar counts emission categories only (energy/water rows are confirmed, not calculated).
+        if c["module"] == "ghg" and c["status"] not in ("NO_DATA", "NOT_APPLICABLE"):
             progress[c["status"]] = progress.get(c["status"], 0) + 1
     return {
         "project": p,
@@ -282,7 +289,7 @@ def _approval_blockers(tx: Tx, project_id: str) -> list[str]:
         """select f.original_name, f.status, t.name as terminal from public.v_file_status f
            join ref.terminals t on t.key = f.terminal_key
            join public.project_categories pc on pc.project_id = f.project_id and pc.terminal_key = f.terminal_key
-           where f.project_id = %s and pc.in_scope and f.status <> 'CALCULATED' limit 5""",
+           where f.project_id = %s and pc.in_scope and f.status not in ('CALCULATED', 'CONFIRMED') limit 5""",
         (project_id,),
     )
     for f in not_calc:

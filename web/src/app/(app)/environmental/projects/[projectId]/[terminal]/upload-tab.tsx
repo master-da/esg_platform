@@ -46,7 +46,7 @@ export function UploadTab({ data, canWrite, isInternal, onReviewCategorizations 
     }
   }
 
-  async function action(f: FileStatus, kind: "original" | "calculated" | "delete" | "confirm" | "reject" | "errors") {
+  async function action(f: FileStatus, kind: "original" | "calculated" | "delete" | "confirm" | "reject" | "errors" | "confirm-rows") {
     try {
       if (kind === "original") {
         const { url } = await engine<{ url: string }>(`/files/${f.file_id}/original`);
@@ -55,6 +55,9 @@ export function UploadTab({ data, canWrite, isInternal, onReviewCategorizations 
         await engineDownload(`/files/${f.file_id}/calculated`, `calculated_${f.original_name}`);
       } else if (kind === "errors") {
         await engineDownload(`/files/${f.file_id}/issues.xlsx`, `errors_${f.original_name}`);
+      } else if (kind === "confirm-rows") {
+        const r = await engine<{ confirmed: number }>(`/files/${f.file_id}/confirm-rows`, { method: "POST" });
+        toast.success(`${r.confirmed} rows confirmed`);
       } else if (kind === "delete") {
         if (!window.confirm(`Delete ${f.original_name}? Its rows leave the active dataset; the audit log keeps the history.`)) return;
         await engine(`/files/${f.file_id}`, { method: "DELETE" });
@@ -133,6 +136,9 @@ export function UploadTab({ data, canWrite, isInternal, onReviewCategorizations 
                         <DropdownMenuItem onClick={() => action(f, "original")}>Download original file</DropdownMenuItem>
                         {isInternal && <DropdownMenuItem onClick={() => action(f, "calculated")}>Download calculated file (internal)</DropdownMenuItem>}
                         {!f.validation_passed && <DropdownMenuItem onClick={() => setIssuesFor(f)}>View validation issues</DropdownMenuItem>}
+                        {canWrite && t.module !== "ghg" && f.status === "AWAITING_CONFIRMATION" && f.kind !== "bill" && (
+                          <DropdownMenuItem onClick={() => action(f, "confirm-rows")}>Confirm rows</DropdownMenuItem>
+                        )}
                         {isInternal && f.status === "PRELIMINARY" && (
                           <>
                             <DropdownMenuSeparator />
@@ -156,6 +162,11 @@ export function UploadTab({ data, canWrite, isInternal, onReviewCategorizations 
         </CardContent>
       </Card>
 
+      {t.module !== "ghg" && files.some((f) => f.status === "AWAITING_CONFIRMATION") && (
+        <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          Rows in this category have no emission factor step: check them in Data Overview, then use &quot;Confirm rows&quot; on each file.
+        </p>
+      )}
       {(failing.length > 0 || data.needs_categorization > 0) && (
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm">
           <span className="text-red-800">

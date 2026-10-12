@@ -3,6 +3,7 @@ import { defineConfig, devices } from "@playwright/test";
 // Golden-path E2E. Needs the local stack: `make up`, `make engine`, `make web` (or reuse running servers).
 export default defineConfig({
   testDir: "./e2e",
+  globalTeardown: "./e2e/global-teardown.ts",
   timeout: 120_000,
   expect: { timeout: 15_000 },
   fullyParallel: false,

@@ -16,7 +16,19 @@ export const NAV: NavSection[] = [
   },
   {
     label: "Environmental",
-    items: [{ label: "Projects", href: "/environmental/projects" }],
+    items: [
+      { label: "Projects", href: "/environmental/projects" },
+      { label: "Energy", href: "/environmental/energy" },
+      { label: "Water", href: "/environmental/water" },
+      { label: "Waste", href: "/environmental/waste" },
+    ],
+  },
+  {
+    label: "Social",
+    items: [
+      { label: "Labour", href: "/social/labour" },
+      { label: "Health & safety", href: "/social/safety" },
+    ],
   },
   {
     label: "Settings",

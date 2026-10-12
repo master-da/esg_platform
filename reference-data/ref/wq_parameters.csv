@@ -1,0 +1,10 @@
+key,name,unit,sort
+ph,pH,pH,10
+bod5,BOD5 (20 °C),mg/L,20
+cod,COD,mg/L,30
+tss,Total suspended solids (TSS),mg/L,40
+tds,Total dissolved solids (TDS),mg/L,50
+temperature,Temperature,°C,60
+colour,Colour,Pt-Co (Hazen),70
+oil_grease,Oil & grease,mg/L,80
+do,Dissolved oxygen,mg/L,90

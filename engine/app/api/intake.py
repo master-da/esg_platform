@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import io
+import uuid
 from typing import Literal
 from urllib.parse import quote
 
@@ -15,9 +16,11 @@ from pydantic import BaseModel
 from app.api.projects import get_project
 from app.auth import require_internal, require_read, require_write, user_tx
 from app.db import Tx
-from app.ingest.service import handle_upload
+from app.ingest.parser import ParsedFile
+from app.ingest.service import create_records, handle_upload, validation_context
 from app.ingest.templates import build_template
 from app.ingest.terminal import Terminal, load_terminal
+from app.ingest.validation import validate
 from app.supabase_admin import storage_signed_url
 
 router = APIRouter(tags=["intake"])
@@ -315,3 +318,52 @@ def records(project_id: str, key: str, tx: Tx = Depends(user_tx)):
            order by uf.uploaded_at desc nulls last, r.source_row""",
         (project_id, key),
     )
+
+
+@router.post("/files/{file_id}/confirm-rows")
+def confirm_rows(file_id: str, tx: Tx = Depends(user_tx)):
+    """Energy and water data has no categorization step: a person confirms the rows instead (PRD F5)."""
+    f = get_file(tx, file_id)
+    require_write(tx, str(f["company_id"]))
+    t = get_terminal(tx, f["terminal_key"])
+    if t.module == "ghg":
+        raise HTTPException(409, "Rows in emission categories are confirmed by accepting their categorization.")
+    with tx.privileged():
+        n = tx.scalar(
+            """with u as (update public.activity_records set review_status = 'USER_VERIFIED', verified_by = app.uid(),
+                 verified_at = now() where file_id = %s and deleted_at is null and review_status <> 'USER_VERIFIED'
+                 returning 1) select count(*) from u""",
+            (file_id,),
+        )
+    tx.log_event(str(f["company_id"]), "public.uploaded_files", file_id, "CONFIRM_ROWS", {"rows": n})
+    return {"confirmed": n}
+
+
+class ManualEntry(BaseModel):
+    values: dict[str, str | float | int | None]
+
+
+@router.post("/projects/{project_id}/terminals/{key}/manual", status_code=201)
+def manual_entry(project_id: str, key: str, body: ManualEntry, tx: Tx = Depends(user_tx)):
+    """Log a single row through a form (e.g. a water withdrawal). Same validation as a template row."""
+    p = get_project(tx, project_id)
+    require_write(tx, str(p["company_id"]))
+    t = get_terminal(tx, key)
+    if p["stage"] in ("APPROVED", "LOCKED"):
+        raise HTTPException(409, f'Project "{p["name"]}" is {p["stage"]}; no new data can be added.')
+    raw = {c.header: body.values.get(c.key) for c in t.columns}
+    rows, issues = validate(ParsedFile(meta={}, headers=list(raw), rows=[(1, raw)]), t, validation_context(tx, p))
+    if issues:
+        raise HTTPException(422, "; ".join(f"{i.field}: {i.problem}" for i in issues))
+    file_id = str(uuid.uuid4())
+    with tx.privileged():
+        tx.execute(
+            """insert into public.uploaded_files (id, company_id, project_id, terminal_key, kind, original_name,
+                 validation_passed, row_count) values (%s, %s, %s, %s, 'manual', %s, true, 1)""",
+            (file_id, p["company_id"], p["id"], t.key, f"Manual entry ({rows[0].values['period_start']})"),
+        )
+    # A person typed the row in, so module data is verified on save; emission rows still go through categorization.
+    status = "pending_review" if t.module == "ghg" else "USER_VERIFIED"
+    create_records(tx, p, t, rows, file_id=file_id, source_type="manual_entry", review_status=status)
+    tx.log_event(str(p["company_id"]), "public.uploaded_files", file_id, "MANUAL_ENTRY", {"terminal": t.key})
+    return {"file_id": file_id}

@@ -1,0 +1,114 @@
+{
+  "key": "energy_renewable",
+  "module": "energy",
+  "scope": null,
+  "category_no": null,
+  "name": "On-site renewable generation",
+  "description": "Renewable electricity or heat generated and used on site (e.g. rooftop solar PV).",
+  "excludes": "Grid electricity bought under a green tariff is still purchased electricity (Scope 2).",
+  "instructions": "One row per facility, source and month, from the inverter or generation meter.",
+  "taxonomy_root": null,
+  "accepts_bills": false,
+  "enabled": true,
+  "disabled_reason": null,
+  "template_version": "0.1-provisional",
+  "sort": 50,
+  "config": {
+    "activity_type": "renewable_generation",
+    "columns": [
+      {
+        "key": "facility",
+        "header": "Facility",
+        "type": "facility",
+        "required": true
+      },
+      {
+        "key": "period_start",
+        "header": "Period start",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "period_end",
+        "header": "Period end",
+        "type": "date",
+        "required": true
+      },
+      {
+        "key": "source",
+        "header": "Renewable source",
+        "type": "enum",
+        "required": true,
+        "options": [
+          "Solar PV",
+          "Solar thermal",
+          "Wind",
+          "Biomass",
+          "Other renewable"
+        ]
+      },
+      {
+        "key": "quantity",
+        "header": "Energy generated and used",
+        "type": "decimal",
+        "required": true,
+        "min": 0,
+        "role": "quantity"
+      },
+      {
+        "key": "unit",
+        "header": "Unit",
+        "type": "unit",
+        "required": true,
+        "role": "unit",
+        "options": [
+          "kWh",
+          "MWh"
+        ]
+      },
+      {
+        "key": "data_basis",
+        "header": "Data basis",
+        "type": "enum",
+        "required": true,
+        "role": "data_basis",
+        "options": [
+          "Metered / invoice",
+          "Supplier or third-party data",
+          "Estimate"
+        ]
+      },
+      {
+        "key": "notes",
+        "header": "Notes",
+        "type": "text",
+        "required": false
+      }
+    ],
+    "categorization_keys": [],
+    "quality_grades": {
+      "Metered / invoice": "A",
+      "Supplier or third-party data": "B",
+      "Estimate": "C"
+    },
+    "canonical_units": {
+      "energy": "kWh"
+    },
+    "rules": [
+      {
+        "type": "unit_dimension_in",
+        "dimensions": [
+          "energy"
+        ],
+        "problem": "This category expects an energy quantity",
+        "fix": "Enter kWh, MWh, GJ or MMBtu."
+      },
+      {
+        "type": "period_order"
+      },
+      {
+        "type": "period_within_project"
+      }
+    ]
+  }
+}

@@ -40,7 +40,7 @@ export function CategoryWorkspace({ data, tasks, notes, members, canWrite, isInt
       <Tabs value={tab} onValueChange={(v) => setTab(String(v))}>
         <TabsList>
           <TabsTrigger value="upload">Data Upload<Dot on={data.need_attention_files > 0} /></TabsTrigger>
-          <TabsTrigger value="categorization">Data Categorization<Dot on={data.needs_categorization > 0} /></TabsTrigger>
+          {t.module === "ghg" && <TabsTrigger value="categorization">Data Categorization<Dot on={data.needs_categorization > 0} /></TabsTrigger>}
           <TabsTrigger value="overview">Data Overview</TabsTrigger>
         </TabsList>
         <TabsContent value="upload">
@@ -50,7 +50,7 @@ export function CategoryWorkspace({ data, tasks, notes, members, canWrite, isInt
           <CategorizationTab projectId={data.project.id} terminalKey={t.key} canWrite={canWrite} />
         </TabsContent>
         <TabsContent value="overview">
-          <OverviewTab projectId={data.project.id} terminalKey={t.key} onOpenTrail={setTrailId} />
+          <OverviewTab projectId={data.project.id} terminalKey={t.key} onOpenTrail={setTrailId} calculated={t.module === "ghg"} />
         </TabsContent>
       </Tabs>
       <SidePanel data={data} tasks={tasks} notes={notes} members={members} canWrite={canWrite} />

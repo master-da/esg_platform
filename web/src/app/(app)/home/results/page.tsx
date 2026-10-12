@@ -2,7 +2,7 @@ import { PageHeader } from "@/components/app/page-header";
 import { engineGet } from "@/lib/engine-server";
 import { requireCompany } from "@/lib/session";
 import type { ProjectListItem } from "@/lib/types";
-import { ProjectPicker } from "./project-picker";
+import { ProjectPicker } from "@/components/app/project-picker";
 import { ResultsView, type ResultCategory } from "./results-view";
 
 export default async function ResultsPage(props: PageProps<"/home/results">) {
