@@ -27,6 +27,21 @@ def _rows_from(path: Path) -> list[dict]:
         return [{k: (v if v != "" else None) for k, v in row.items()} for row in reader]
 
 
+def _apply_lookups(tx, spec: dict, row: dict) -> dict:
+    """Replace human-readable reference columns (e.g. taxonomy_code) with ids (e.g. taxonomy_node_id)."""
+    row = {**spec.get("defaults", {}), **row}
+    for lk in spec.get("lookups", []):
+        params = [row.pop(c) for c in lk["from"]]
+        if all(p is None for p in params):
+            row[lk["column"]] = None
+            continue
+        value = tx.scalar(lk["sql"], params)
+        if value is None:
+            raise SystemExit(f"{spec['table']}: lookup {lk['column']} found nothing for {params}")
+        row[lk["column"]] = value
+    return row
+
+
 def load_table(tx, spec: dict) -> int:
     table: str = spec["table"]
     key: list[str] = spec["key"]
@@ -36,9 +51,10 @@ def load_table(tx, spec: dict) -> int:
         return 0
     count = 0
     for row in rows:
+        row = _apply_lookups(tx, spec, row)
         cols = list(row.keys())
         values = [json.dumps(row[c]) if c in json_cols and row[c] is not None else row[c] for c in cols]
-        placeholders = ", ".join(f"%s::jsonb" if c in json_cols else "%s" for c in cols)
+        placeholders = ", ".join("%s::jsonb" if c in json_cols else "%s" for c in cols)
         updates = ", ".join(f"{c} = excluded.{c}" for c in cols if c not in key)
         conflict = f"do update set {updates}" if updates else "do nothing"
         tx.execute(

@@ -1,0 +1,14 @@
+code,name,level,parent_code,country_code
+GLOBAL,Global,global,,
+SAS,South Asia,region,GLOBAL,
+BD,Bangladesh,country,SAS,BD
+IN,India,country,SAS,IN
+PK,Pakistan,country,SAS,PK
+LK,Sri Lanka,country,SAS,LK
+EAP,East Asia & Pacific,region,GLOBAL,
+VN,Viet Nam,country,EAP,VN
+CN,China,country,EAP,CN
+EUR,Europe,region,GLOBAL,
+GB,United Kingdom,country,EUR,GB
+NAM,North America,region,GLOBAL,
+US,United States,country,NAM,US

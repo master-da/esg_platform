@@ -1,0 +1,11 @@
+# Official exchange rate, BDT per 1 USD, period (calendar-year) average.
+# Source: World Bank World Development Indicators PA.NUS.FCRF (from IMF International Financial Statistics),
+# retrieved 2026-10-12 (dataset last updated 2026-10-08).
+base_currency,quote_currency,year,rate,source_name,source_url
+USD,BDT,2019,84.4535225,World Bank WDI PA.NUS.FCRF (IMF IFS),https://data.worldbank.org/indicator/PA.NUS.FCRF?locations=BD
+USD,BDT,2020,84.8713916666666,World Bank WDI PA.NUS.FCRF (IMF IFS),https://data.worldbank.org/indicator/PA.NUS.FCRF?locations=BD
+USD,BDT,2021,85.08376325,World Bank WDI PA.NUS.FCRF (IMF IFS),https://data.worldbank.org/indicator/PA.NUS.FCRF?locations=BD
+USD,BDT,2022,91.7454544396961,World Bank WDI PA.NUS.FCRF (IMF IFS),https://data.worldbank.org/indicator/PA.NUS.FCRF?locations=BD
+USD,BDT,2023,106.309484297483,World Bank WDI PA.NUS.FCRF (IMF IFS),https://data.worldbank.org/indicator/PA.NUS.FCRF?locations=BD
+USD,BDT,2024,115.603653796648,World Bank WDI PA.NUS.FCRF (IMF IFS),https://data.worldbank.org/indicator/PA.NUS.FCRF?locations=BD
+USD,BDT,2025,121.920836605034,World Bank WDI PA.NUS.FCRF (IMF IFS),https://data.worldbank.org/indicator/PA.NUS.FCRF?locations=BD

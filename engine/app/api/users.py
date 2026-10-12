@@ -5,11 +5,9 @@ Membership and internal-user changes have no client write path; they go through 
 
 from __future__ import annotations
 
-from typing import Literal
+from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, HTTPException
-from typing import Annotated
-
 from pydantic import BaseModel, Field, StringConstraints
 
 from app.auth import require_internal, require_platform_admin, require_user_admin, user_tx

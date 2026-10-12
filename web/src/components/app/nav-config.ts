@@ -23,7 +23,10 @@ export const NAV: NavSection[] = [
   {
     label: "Internal",
     internalOnly: true,
-    items: [{ label: "Audit log", href: "/internal/audit-log" }],
+    items: [
+      { label: "Emission factor library", href: "/internal/library" },
+      { label: "Audit log", href: "/internal/audit-log" },
+    ],
   },
 ];
 

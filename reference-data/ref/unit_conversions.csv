@@ -1,0 +1,13 @@
+# Exact unit definitions only (SI / international agreements). Same dimension only.
+from_unit,to_unit,multiplier,definition
+t,kg,1000,SI: 1 tonne = 1000 kg
+m3,L,1000,SI: 1 m³ = 1000 L
+ML,m3,1000,1 million litres = 1000 m³
+gal_us,L,3.785411784,US gallon = 231 cubic inches (exact)
+gal_imp,L,4.54609,"Imperial gallon (UK Weights and Measures Act 1985, exact)"
+MWh,kWh,1000,SI prefix
+kWh,MJ,3.6,1 kWh = 3.6 MJ (exact)
+GJ,MJ,1000,SI prefix
+MMBtu,GJ,1.05505585262,International Table Btu = 1055.05585262 J (exact)
+mile,km,1.609344,International mile (exact)
+day,hour,24,Definition

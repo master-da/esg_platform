@@ -1,0 +1,97 @@
+# Maps each taxonomy leaf to its source factor. Consumed by sources/build_factors.py.
+# source=desnz : row in the UK DESNZ GHG conversion factors flat file, matched on Level 1..4, Column Text, UOM.
+#                conversions = other UOMs of the SAME fuel row whose published factors define exact conversion
+#                multipliers to the base unit (published factor in unit X / published factor in base unit).
+# source=epa   : US EPA Supply Chain GHG Emission Factors v1.3 by NAICS-6 (with margins, purchaser price).
+# Leaves not listed here deliberately have NO factor: calculations show UNKNOWN until one is added.
+leaf_code,source,level1,level2,level3,level4,column_text,uom,conversions,naics,note
+01010000001101,desnz,Fuels,Gaseous fuels,Natural gas,,,cubic metres,tonnes;kWh (Net CV),,
+01010000001102,desnz,Fuels,Gaseous fuels,LPG,,,litres,tonnes;kWh (Net CV),,
+01010000001103,desnz,Fuels,Gaseous fuels,CNG,,,litres,tonnes;kWh (Net CV),,
+01010000001201,desnz,Fuels,Liquid fuels,Petrol (100% mineral petrol),,,litres,tonnes;kWh (Net CV),,
+01010000001202,desnz,Fuels,Liquid fuels,Diesel (100% mineral diesel),,,litres,tonnes;kWh (Net CV),,
+01010000001203,desnz,Fuels,Liquid fuels,Fuel oil,,,litres,tonnes;kWh (Net CV),,
+01010000001204,desnz,Fuels,Liquid fuels,Burning oil,,,litres,tonnes;kWh (Net CV),,
+01010000001205,desnz,Fuels,Liquid fuels,Gas oil,,,litres,tonnes;kWh (Net CV),,
+01010000001301,desnz,Fuels,Solid fuels,Coal (industrial),,,tonnes,kWh (Net CV),,
+01020000010001,desnz,Fuels,Liquid fuels,Diesel (100% mineral diesel),,,litres,tonnes;kWh (Net CV),,Fuel-based mobile combustion
+01020000010002,desnz,Fuels,Liquid fuels,Petrol (100% mineral petrol),,,litres,tonnes;kWh (Net CV),,Fuel-based mobile combustion
+01020000010003,desnz,Fuels,Gaseous fuels,CNG,,,litres,tonnes;kWh (Net CV),,Fuel-based mobile combustion; CNG volume in litres at compression per DESNZ
+01020000010004,desnz,Fuels,Gaseous fuels,LPG,,,litres,tonnes;kWh (Net CV),,Fuel-based mobile combustion
+01030000010001,desnz,Refrigerant & other,Kyoto protocol products,HFC-134a,,Emissions including only Kyoto products,kg,,,Mass of refrigerant leaked / topped up
+01030000010002,desnz,Refrigerant & other,Kyoto protocol products,HFC-32,,Emissions including only Kyoto products,kg,,,Mass of refrigerant leaked / topped up
+01030000010003,desnz,Refrigerant & other,Blends,R410A,,Emissions including only Kyoto products,kg,,,Mass of refrigerant leaked / topped up
+01030000010004,desnz,Refrigerant & other,Blends,R404A,,Emissions including only Kyoto products,kg,,,Mass of refrigerant leaked / topped up
+01030000010005,desnz,Refrigerant & other,Blends,R407C,,Emissions including only Kyoto products,kg,,,Mass of refrigerant leaked / topped up
+03990000010001,epa,,,,,,,,313210,
+03990000010002,epa,,,,,,,,313240,
+03990000010003,epa,,,,,,,,313310,
+03990000010004,epa,,,,,,,,315240,Women's/girls'/infants' cut-and-sew apparel (same factor as men's/boys' 315220 in v1.3)
+03990000020001,epa,,,,,,,,325130,
+03990000020002,epa,,,,,,,,325199,
+03990000020003,epa,,,,,,,,325998,
+03990000030001,epa,,,,,,,,322211,
+03990000030002,epa,,,,,,,,326111,
+03990000030003,epa,,,,,,,,326199,
+03990000040001,epa,,,,,,,,541330,
+03990000040002,epa,,,,,,,,541611,
+03990000040003,epa,,,,,,,,561320,
+03990000040004,epa,,,,,,,,561720,
+03990000040005,epa,,,,,,,,524126,
+03990000050001,epa,,,,,,,,484121,
+03990000050002,epa,,,,,,,,488510,
+03010000010001,desnz,Material use,Other,Clothing,,Primary material production,tonnes,,,
+03010000010002,desnz,Material use,Plastic,Plastics: average plastics,,Primary material production,tonnes,,,
+03010000010003,desnz,Material use,Paper,Paper and board: mixed,,Primary material production,tonnes,,,
+03010000010004,desnz,Material use,Metal,Metal: mixed cans,,Primary material production,tonnes,,,
+03020000010001,epa,,,,,,,,333249,
+03020000010002,epa,,,,,,,,334111,
+03020000010003,epa,,,,,,,,236220,
+03030000010001,desnz,WTT- fuels,Gaseous fuels,Natural gas,,,cubic metres,tonnes,,
+03030000010002,desnz,WTT- fuels,Liquid fuels,Diesel (100% mineral diesel),,,litres,tonnes,,
+03030000010003,desnz,WTT- fuels,Liquid fuels,Petrol (100% mineral petrol),,,litres,tonnes,,
+03030000010004,desnz,WTT- fuels,Liquid fuels,Fuel oil,,,litres,tonnes,,
+03030000010005,desnz,WTT- fuels,Gaseous fuels,LPG,,,litres,tonnes,,
+03030000010006,desnz,WTT- fuels,Gaseous fuels,CNG,,,litres,tonnes,,
+03040000010001,desnz,Freighting goods,HGV (all diesel),All HGVs,,Average laden,tonne.km,,,
+03040000010002,desnz,Freighting goods,Vans,Average (up to 3.5 tonnes),,Diesel,tonne.km,,,
+03040000010003,desnz,Freighting goods,Cargo ship,Container ship,Average,,tonne.km,,,
+03050000010001,desnz,Waste disposal,Refuse,Commercial and industrial waste,,Landfill,tonnes,,,
+03050000010002,desnz,Waste disposal,Refuse,Commercial and industrial waste,,Incineration with Energy Recovery,tonnes,,,
+03050000020001,desnz,Waste disposal,Plastic,Plastics: average plastics,,Landfill,tonnes,,,
+03050000020002,desnz,Waste disposal,Plastic,Plastics: average plastics,,Closed-loop,tonnes,,,
+03050000020003,desnz,Waste disposal,Plastic,Plastics: average plastics,,Incineration with Energy Recovery,tonnes,,,
+03050000030001,desnz,Waste disposal,Paper,Paper and board: mixed,,Closed-loop,tonnes,,,
+03050000030002,desnz,Waste disposal,Paper,Paper and board: mixed,,Incineration with Energy Recovery,tonnes,,,
+03050000030003,desnz,Waste disposal,Paper,Paper and board: mixed,,Composting,tonnes,,,
+03050000030004,desnz,Waste disposal,Paper,Paper and board: mixed,,Landfill,tonnes,,,
+03060000010001,desnz,Business travel- air,Flights,"International, to/from non-UK",Average passenger,With RF,passenger.km,,,Includes radiative forcing uplift per DESNZ recommendation
+03060000010002,desnz,Business travel- air,Flights,"International, to/from non-UK",Economy class,With RF,passenger.km,,,Includes radiative forcing uplift per DESNZ recommendation
+03060000010003,desnz,Business travel- air,Flights,"International, to/from non-UK",Business class,With RF,passenger.km,,,Includes radiative forcing uplift per DESNZ recommendation
+03060000020001,desnz,Business travel- land,Cars (by size),Average car,,Unknown,km,,,
+03060000020002,desnz,Business travel- land,Taxis,Regular taxi,,,passenger.km,,,
+03060000020003,desnz,Business travel- land,Bus,Average local bus,,,passenger.km,,,
+03060000020004,desnz,Business travel- land,Rail,National rail,,,passenger.km,,,
+03060000020005,desnz,Business travel- land,Motorbike,Average,,,km,,,
+03060000030002,desnz,Hotel stay,Hotel stay,India,,,Room per night,,,
+03060000030003,desnz,Hotel stay,Hotel stay,China,,,Room per night,,,
+03060000030004,desnz,Hotel stay,Hotel stay,Vietnam,,,Room per night,,,
+03060000030005,desnz,Hotel stay,Hotel stay,United Arab Emirates,,,Room per night,,,
+03060000030006,desnz,Hotel stay,Hotel stay,Singapore,,,Room per night,,,
+03060000030007,desnz,Hotel stay,Hotel stay,Thailand,,,Room per night,,,
+03070000010001,desnz,Business travel- land,Cars (by size),Average car,,Unknown,km,,,
+03070000010002,desnz,Business travel- land,Motorbike,Average,,,km,,,
+03070000010003,desnz,Business travel- land,Bus,Average local bus,,,passenger.km,,,
+03070000010004,desnz,Business travel- land,Rail,National rail,,,passenger.km,,,
+03080000010002,desnz,Fuels,Gaseous fuels,Natural gas,,,cubic metres,tonnes;kWh (Net CV),,
+03090000010001,desnz,Freighting goods,HGV (all diesel),All HGVs,,Average laden,tonne.km,,,
+03090000010002,desnz,Freighting goods,Vans,Average (up to 3.5 tonnes),,Diesel,tonne.km,,,
+03090000010003,desnz,Freighting goods,Cargo ship,Container ship,Average,,tonne.km,,,
+03100000010002,desnz,Fuels,Gaseous fuels,Natural gas,,,cubic metres,tonnes;kWh (Net CV),,
+03110000010002,desnz,Fuels,Liquid fuels,Diesel (100% mineral diesel),,,litres,tonnes;kWh (Net CV),,
+03120000010001,desnz,Waste disposal,Refuse,Commercial and industrial waste,,Landfill,tonnes,,,
+03120000010002,desnz,Waste disposal,Plastic,Plastics: average plastics,,Landfill,tonnes,,,
+03120000010003,desnz,Waste disposal,Paper,Paper and board: mixed,,Closed-loop,tonnes,,,
+03130000010002,desnz,Fuels,Gaseous fuels,Natural gas,,,cubic metres,tonnes;kWh (Net CV),,
+03140000010002,desnz,Fuels,Gaseous fuels,Natural gas,,,cubic metres,tonnes;kWh (Net CV),,
+03140000010003,desnz,Fuels,Liquid fuels,Diesel (100% mineral diesel),,,litres,tonnes;kWh (Net CV),,

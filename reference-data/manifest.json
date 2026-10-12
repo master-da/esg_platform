@@ -1,12 +1,146 @@
 {
   "tables": [
-    {"table": "ref.currencies", "file": "ref/currencies.csv", "key": ["code"]},
-    {"table": "ref.countries", "file": "ref/countries.csv", "key": ["code"]},
-    {"table": "ref.sectors", "file": "ref/sectors.csv", "key": ["code"]},
-    {"table": "ref.company_sizes", "file": "ref/company_sizes.csv", "key": ["code"]},
-    {"table": "ref.facility_types", "file": "ref/facility_types.csv", "key": ["code"]},
-    {"table": "ref.environmental_classifications", "file": "ref/environmental_classifications.csv", "key": ["code"]},
-    {"table": "ref.org_categories", "file": "ref/org_categories.csv", "key": ["code"]},
-    {"table": "ref.license_tiers", "file": "ref/license_tiers.csv", "key": ["code"]}
+    {
+      "table": "ref.currencies",
+      "file": "ref/currencies.csv",
+      "key": [
+        "code"
+      ]
+    },
+    {
+      "table": "ref.countries",
+      "file": "ref/countries.csv",
+      "key": [
+        "code"
+      ]
+    },
+    {
+      "table": "ref.sectors",
+      "file": "ref/sectors.csv",
+      "key": [
+        "code"
+      ]
+    },
+    {
+      "table": "ref.company_sizes",
+      "file": "ref/company_sizes.csv",
+      "key": [
+        "code"
+      ]
+    },
+    {
+      "table": "ref.facility_types",
+      "file": "ref/facility_types.csv",
+      "key": [
+        "code"
+      ]
+    },
+    {
+      "table": "ref.environmental_classifications",
+      "file": "ref/environmental_classifications.csv",
+      "key": [
+        "code"
+      ]
+    },
+    {
+      "table": "ref.org_categories",
+      "file": "ref/org_categories.csv",
+      "key": [
+        "code"
+      ]
+    },
+    {
+      "table": "ref.license_tiers",
+      "file": "ref/license_tiers.csv",
+      "key": [
+        "code"
+      ]
+    },
+    {
+      "table": "ref.units",
+      "file": "ref/units.csv",
+      "key": [
+        "code"
+      ]
+    },
+    {
+      "table": "ref.unit_conversions",
+      "file": "ref/unit_conversions.csv",
+      "key": [
+        "from_unit",
+        "to_unit"
+      ]
+    },
+    {
+      "table": "ref.geographies",
+      "file": "ref/geographies.csv",
+      "key": [
+        "code"
+      ]
+    },
+    {
+      "table": "lib.taxonomy_nodes",
+      "file": "lib/taxonomy_nodes.csv",
+      "key": [
+        "code"
+      ],
+      "lookups": [
+        {
+          "column": "parent_id",
+          "from": [
+            "parent_code"
+          ],
+          "sql": "select id from lib.taxonomy_nodes where code = %s"
+        }
+      ]
+    },
+    {
+      "table": "lib.emission_factors",
+      "file": "lib/emission_factors.csv",
+      "key": [
+        "factor_code",
+        "version"
+      ],
+      "defaults": {
+        "status": "active"
+      },
+      "lookups": [
+        {
+          "column": "taxonomy_node_id",
+          "from": [
+            "taxonomy_code"
+          ],
+          "sql": "select id from lib.taxonomy_nodes where code = %s"
+        }
+      ]
+    },
+    {
+      "table": "lib.factor_conversions",
+      "file": "lib/factor_conversions.csv",
+      "key": [
+        "emission_factor_id",
+        "from_unit",
+        "to_unit"
+      ],
+      "lookups": [
+        {
+          "column": "emission_factor_id",
+          "from": [
+            "factor_code",
+            "version"
+          ],
+          "sql": "select id from lib.emission_factors where factor_code = %s and version = %s"
+        }
+      ]
+    },
+    {
+      "table": "lib.fx_rates",
+      "file": "lib/fx_rates.csv",
+      "key": [
+        "base_currency",
+        "quote_currency",
+        "year"
+      ]
+    }
   ]
 }

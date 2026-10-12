@@ -46,19 +46,19 @@ class Rest:
         h.update(extra or {})
         return h
 
-    def get(self, path: str, schema: str | None = None, **params) -> httpx.Response:
-        return httpx.get(f"{self.base}/{path}", headers=self._h(schema), params=params, timeout=20)
+    def get(self, resource: str, schema: str | None = None, **params) -> httpx.Response:
+        return httpx.get(f"{self.base}/{resource}", headers=self._h(schema), params=params, timeout=20)
 
-    def post(self, path: str, body, schema: str | None = None) -> httpx.Response:
-        return httpx.post(f"{self.base}/{path}", headers=self._h(schema, {"Prefer": "return=representation"}),
+    def post(self, resource: str, body, schema: str | None = None) -> httpx.Response:
+        return httpx.post(f"{self.base}/{resource}", headers=self._h(schema, {"Prefer": "return=representation"}),
                           json=body, timeout=20)
 
-    def patch(self, path: str, body, schema: str | None = None, **params) -> httpx.Response:
-        return httpx.patch(f"{self.base}/{path}", headers=self._h(schema, {"Prefer": "return=representation"}),
+    def patch(self, resource: str, body, schema: str | None = None, **params) -> httpx.Response:
+        return httpx.patch(f"{self.base}/{resource}", headers=self._h(schema, {"Prefer": "return=representation"}),
                            params=params, json=body, timeout=20)
 
-    def delete(self, path: str, schema: str | None = None, **params) -> httpx.Response:
-        return httpx.delete(f"{self.base}/{path}", headers=self._h(schema, {"Prefer": "return=representation"}),
+    def delete(self, resource: str, schema: str | None = None, **params) -> httpx.Response:
+        return httpx.delete(f"{self.base}/{resource}", headers=self._h(schema, {"Prefer": "return=representation"}),
                             params=params, timeout=20)
 
     def rpc(self, fn: str, body: dict | None = None) -> httpx.Response:
@@ -93,7 +93,8 @@ def _create_tenant(tag: str) -> Tenant:
         for role in ROLES:
             email = f"{role.lower()}.{tag}.{suffix}@tests.example"
             uid = create_user(email, PASSWORD)
-            tx.execute("insert into public.memberships (company_id, user_id, role, status) values (%s, %s, %s, 'active')",
+            tx.execute("insert into public.memberships (company_id, user_id, role, status) "
+                       "values (%s, %s, %s, 'active')",
                        (company_id, uid, role))
             tenant.emails[role] = email
     for role, email in tenant.emails.items():

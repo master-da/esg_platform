@@ -1,0 +1,23 @@
+code,name,dimension,sort
+kg,kg,mass,10
+t,tonnes,mass,11
+L,litres,volume,20
+m3,m³,volume,21
+ML,million litres,volume,22
+gal_us,US gallons,volume,23
+gal_imp,imperial gallons,volume,24
+kWh,kWh,energy,30
+MWh,MWh,energy,31
+MJ,MJ,energy,32
+GJ,GJ,energy,33
+MMBtu,MMBtu,energy,34
+km,km,distance,40
+mile,miles,distance,41
+pkm,passenger-km,passenger_distance,50
+tkm,tonne-km,freight_distance,60
+BDT,BDT,currency,70
+USD,USD,currency,71
+room_night,room-nights,count,80
+unit,units,count,81
+hour,hours,time,90
+day,days,time,91

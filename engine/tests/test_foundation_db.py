@@ -127,7 +127,8 @@ def test_changes_are_audited_with_actor(tenant_a, superuser_conn):
 
 def test_audit_log_is_immutable_even_for_owner(superuser_conn):
     with pytest.raises(psycopg.errors.RaiseException):
-        superuser_conn.execute("update public.audit_log set action = 'X' where id = (select min(id) from public.audit_log)")
+        superuser_conn.execute("update public.audit_log set action = 'X' "
+                               "where id = (select min(id) from public.audit_log)")
     with pytest.raises(psycopg.errors.RaiseException):
         superuser_conn.execute("delete from public.audit_log where id = (select min(id) from public.audit_log)")
     with pytest.raises(psycopg.errors.RaiseException):
@@ -163,7 +164,8 @@ def test_lib_schema_not_granted_to_clients(superuser_conn):
         """select table_name from information_schema.role_table_grants
            where grantee in ('authenticated', 'anon') and table_schema = 'lib'""").fetchall()
     assert rows == []
-    assert not superuser_conn.execute("select has_schema_privilege('authenticated', 'lib', 'usage') as u").fetchone()["u"]
+    row = superuser_conn.execute("select has_schema_privilege('authenticated', 'lib', 'usage') as u").fetchone()
+    assert not row["u"]
 
 
 def test_authenticated_cannot_write_reference_data(tenant_a):

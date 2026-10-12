@@ -17,7 +17,7 @@ from collections.abc import Iterator
 from contextlib import contextmanager
 from typing import Any
 
-from psycopg import Connection
+from psycopg import Connection, pq
 from psycopg.rows import dict_row
 from psycopg_pool import ConnectionPool
 
@@ -66,7 +66,10 @@ class Tx:
             yield self
         finally:
             self._privileged_depth -= 1
-            if self._privileged_depth == 0:
+            # If a statement failed, the enclosing (sub)transaction is aborted and its rollback restores
+            # the role; issuing SQL now would only mask the original error.
+            aborted = self.conn.info.transaction_status == pq.TransactionStatus.INERROR
+            if self._privileged_depth == 0 and not aborted:
                 self._as_user()
 
     # -- query helpers --------------------------------------------------------------
