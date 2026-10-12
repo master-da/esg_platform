@@ -1,0 +1,9 @@
+code,name,default_currency,default_timezone
+BD,Bangladesh,BDT,Asia/Dhaka
+IN,India,INR,Asia/Kolkata
+PK,Pakistan,PKR,Asia/Karachi
+LK,Sri Lanka,LKR,Asia/Colombo
+VN,Viet Nam,VND,Asia/Ho_Chi_Minh
+CN,China,CNY,Asia/Shanghai
+GB,United Kingdom,GBP,Europe/London
+US,United States,USD,America/New_York

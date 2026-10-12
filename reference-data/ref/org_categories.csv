@@ -1,0 +1,4 @@
+code,name,requires_crm_record
+customer,Customer,true
+partner,Partner,false
+internal,Internal / test,false

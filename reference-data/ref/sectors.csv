@@ -1,0 +1,25 @@
+code,name,parent_code,sort
+TEXTILES_APPAREL,Textiles & apparel,,10
+TEX_SPINNING,Spinning,TEXTILES_APPAREL,11
+TEX_WEAVING,Weaving,TEXTILES_APPAREL,12
+TEX_KNITTING,Knitting,TEXTILES_APPAREL,13
+TEX_DYEING_FINISHING,Dyeing & finishing,TEXTILES_APPAREL,14
+TEX_GARMENTS,Garments (cut-make-trim),TEXTILES_APPAREL,15
+TEX_WASHING,Garment washing,TEXTILES_APPAREL,16
+LEATHER_FOOTWEAR,Leather & footwear,,20
+PHARMA,Pharmaceuticals,,30
+CHEMICALS,Chemicals,,40
+FOOD_BEVERAGE,Food & beverage,,50
+CEMENT,Cement,,60
+STEEL_METALS,Steel & metals,,70
+CERAMICS,Ceramics & glass,,80
+PAPER_PULP,Paper & pulp,,90
+PLASTICS,Plastics & packaging,,100
+ELECTRONICS,Electronics & electrical,,110
+POWER_ENERGY,Power & energy,,120
+AGRICULTURE,Agriculture & fisheries,,130
+CONSTRUCTION,Construction & real estate,,140
+TRANSPORT_LOGISTICS,Transport & logistics,,150
+FINANCIAL_SERVICES,Financial services,,160
+IT_SERVICES,IT & business services,,170
+OTHER,Other,,999

@@ -1,0 +1,9 @@
+code,name,sort
+MANUFACTURING,Manufacturing,10
+OFFICE,Office,20
+WAREHOUSE,Warehouse / distribution,30
+RETAIL,Retail,40
+LABORATORY,Laboratory,50
+UTILITY,Utility / ETP / power house,60
+DORMITORY,Dormitory / residential,70
+OTHER,Other,99

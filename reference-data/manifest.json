@@ -1,0 +1,12 @@
+{
+  "tables": [
+    {"table": "ref.currencies", "file": "ref/currencies.csv", "key": ["code"]},
+    {"table": "ref.countries", "file": "ref/countries.csv", "key": ["code"]},
+    {"table": "ref.sectors", "file": "ref/sectors.csv", "key": ["code"]},
+    {"table": "ref.company_sizes", "file": "ref/company_sizes.csv", "key": ["code"]},
+    {"table": "ref.facility_types", "file": "ref/facility_types.csv", "key": ["code"]},
+    {"table": "ref.environmental_classifications", "file": "ref/environmental_classifications.csv", "key": ["code"]},
+    {"table": "ref.org_categories", "file": "ref/org_categories.csv", "key": ["code"]},
+    {"table": "ref.license_tiers", "file": "ref/license_tiers.csv", "key": ["code"]}
+  ]
+}

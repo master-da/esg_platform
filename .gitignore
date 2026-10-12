@@ -1,0 +1,24 @@
+# Local secrets / generated env (scripts/gen-env.sh)
+engine/.env
+web/.env.local
+.env
+.env.*
+
+# Python
+engine/.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Node / Next
+node_modules/
+web/.next/
+web/test-results/
+web/playwright-report/
+
+# Supabase local state
+supabase/.temp/
+supabase/.branches/
+
+.DS_Store
