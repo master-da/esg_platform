@@ -1,0 +1,4 @@
+Facility,Period start,Period end,Fuel supplier,Vehicle type,Fuel type,Fuel quantity,Unit,Data basis,Notes
+Gazipur Factory,2025-01-01,2025-01-31,Padma Oil,Pick-up truck,Diesel,1200,L,Fuel receipts / fuel card,
+Gazipur Factory,2025-02-01,2025-02-28,Padma Oil,Pick-up truck,Diesel,1.5,t,Supplier statement,
+Dhaka Head Office,2025-01-01,2025-01-31,Meghna Petroleum,Car,Petrol / Octane,300,L,Fuel receipts / fuel card,
