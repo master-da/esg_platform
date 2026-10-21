@@ -1,5 +1,6 @@
 from functools import lru_cache
 
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -26,6 +27,13 @@ class Settings(BaseSettings):
     ai_provider: str = "anthropic"
     anthropic_api_key: str = ""
     ai_model: str = "claude-opus-5-5"
+
+    @field_validator("supabase_url")
+    @classmethod
+    def _bare_project_url(cls, v: str) -> str:
+        """Accept the dashboard's API URL too (".../rest/v1/"): every client here appends its own path."""
+        v = v.strip().rstrip("/")
+        return v.removesuffix("/rest/v1").rstrip("/")
 
     @property
     def jwt_issuer(self) -> str:

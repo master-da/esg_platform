@@ -23,20 +23,26 @@ def main() -> None:
     password = getpass.getpass("Password (min 12 characters): ")
     if len(password) < 12 or password != getpass.getpass("Repeat password: "):
         raise SystemExit("Passwords must match and be at least 12 characters.")
-    with transaction(None) as tx:
-        tx.execute("select set_config('app.source', 'create-admin', true)")
-        uid = tx.scalar("select user_id from public.profiles where lower(email) = %s", (email,))
-        if not uid:
-            uid = create_user(email, password, name)
-        tx.execute(
-            """insert into public.internal_users (user_id, internal_role, can_edit_library)
-               values (%s, 'PLATFORM_ADMIN', true)
-               on conflict (user_id) do update set internal_role = 'PLATFORM_ADMIN', can_edit_library = true""",
-            (uid,),
-        )
-    close_pool()
+    try:
+        with transaction(None) as tx:
+            tx.execute("select set_config('app.source', 'create-admin', true)")
+            uid = tx.scalar("select user_id from public.profiles where lower(email) = %s", (email,))
+            if not uid:
+                uid = create_user(email, password, name)
+            tx.execute(
+                """insert into public.internal_users (user_id, internal_role, can_edit_library)
+                   values (%s, 'PLATFORM_ADMIN', true)
+                   on conflict (user_id) do update set internal_role = 'PLATFORM_ADMIN', can_edit_library = true""",
+                (uid,),
+            )
+    finally:
+        close_pool()
     print(f"{email} is now a platform admin.")
 
 
 if __name__ == "__main__":
     main()
+# project url: https://ybeksgmxjohmvazzwgby.supabase.co/rest/v1/
+# publishable key: sb_publishable_N5rqY57aKE3lCfxbNCMNfA_x1svE_Rg
+# secret key: sb_secret_f7K61zc6QKjURtzBa8ug-Q_xnEDbolQ
+# postgresql://engine_app.ybeksgmxjohmvazzwgby:1olKPfs*xuIDf&@aws-0-ap-south-1.pooler.supabase.com:5432/postgres?sslmode=require

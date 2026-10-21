@@ -1,4 +1,5 @@
-export const ENGINE_URL = process.env.NEXT_PUBLIC_ENGINE_URL ?? "http://localhost:8000";
+// Trailing slashes are dropped: every caller appends a path that starts with "/".
+export const ENGINE_URL = (process.env.NEXT_PUBLIC_ENGINE_URL ?? "http://localhost:8000").trim().replace(/\/+$/, "");
 
 export class EngineError extends Error {
   status: number;
