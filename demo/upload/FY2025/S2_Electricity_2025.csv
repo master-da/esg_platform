@@ -1,0 +1,25 @@
+Facility,Billing period start,Billing period end,Utility / supplier,Meter / account no.,Electricity type,Electricity consumed,Unit,Amount billed (BDT),Data basis,Notes
+Gazipur Factory,2025-01-01,2025-01-31,BREB / Gazipur PBS,GZP-0001,Grid electricity,119952.0,kWh,999600.0,Utility bill / meter reading
+Gazipur Factory,2025-02-01,2025-02-28,BREB / Gazipur PBS,GZP-0001,Grid electricity,123984.0,kWh,1033200.0,Utility bill / meter reading
+Gazipur Factory,2025-03-01,2025-03-31,BREB / Gazipur PBS,GZP-0001,Grid electricity,128016.0,kWh,1066800.0,Utility bill / meter reading
+Gazipur Factory,2025-04-01,2025-04-30,BREB / Gazipur PBS,GZP-0001,Grid electricity,132048.0,kWh,1100400.0,Utility bill / meter reading
+Gazipur Factory,2025-05-01,2025-05-31,BREB / Gazipur PBS,GZP-0001,Grid electricity,136080.0,kWh,1134000.0,Utility bill / meter reading
+Gazipur Factory,2025-06-01,2025-06-30,BREB / Gazipur PBS,GZP-0001,Grid electricity,115920.0,kWh,966000.0,Utility bill / meter reading
+Gazipur Factory,2025-07-01,2025-07-31,BREB / Gazipur PBS,GZP-0001,Grid electricity,119952.0,kWh,999600.0,Utility bill / meter reading
+Gazipur Factory,2025-08-01,2025-08-31,BREB / Gazipur PBS,GZP-0001,Grid electricity,123984.0,kWh,1033200.0,Utility bill / meter reading
+Gazipur Factory,2025-09-01,2025-09-30,BREB / Gazipur PBS,GZP-0001,Grid electricity,128016.0,kWh,1066800.0,Utility bill / meter reading
+Gazipur Factory,2025-10-01,2025-10-31,BREB / Gazipur PBS,GZP-0001,Grid electricity,132048.0,kWh,1100400.0,Utility bill / meter reading
+Gazipur Factory,2025-11-01,2025-11-30,BREB / Gazipur PBS,GZP-0001,Grid electricity,136080.0,kWh,1134000.0,Utility bill / meter reading
+Gazipur Factory,2025-12-01,2025-12-31,BREB / Gazipur PBS,GZP-0001,Grid electricity,115920.0,kWh,966000.0,Utility bill / meter reading
+Dhaka Head Office,2025-01-01,2025-01-31,DESCO,DSC-7781,Grid electricity,9329.6,kWh,93296.0,Utility bill / meter reading
+Dhaka Head Office,2025-02-01,2025-02-28,DESCO,DSC-7781,Grid electricity,9643.2,kWh,96432.0,Utility bill / meter reading
+Dhaka Head Office,2025-03-01,2025-03-31,DESCO,DSC-7781,Grid electricity,9956.8,kWh,99568.0,Utility bill / meter reading
+Dhaka Head Office,2025-04-01,2025-04-30,DESCO,DSC-7781,Grid electricity,10270.4,kWh,102704.0,Utility bill / meter reading
+Dhaka Head Office,2025-05-01,2025-05-31,DESCO,DSC-7781,Grid electricity,10584.0,kWh,105840.0,Utility bill / meter reading
+Dhaka Head Office,2025-06-01,2025-06-30,DESCO,DSC-7781,Grid electricity,9016.0,kWh,90160.0,Utility bill / meter reading
+Dhaka Head Office,2025-07-01,2025-07-31,DESCO,DSC-7781,Grid electricity,9329.6,kWh,93296.0,Utility bill / meter reading
+Dhaka Head Office,2025-08-01,2025-08-31,DESCO,DSC-7781,Grid electricity,9643.2,kWh,96432.0,Utility bill / meter reading
+Dhaka Head Office,2025-09-01,2025-09-30,DESCO,DSC-7781,Grid electricity,9956.8,kWh,99568.0,Utility bill / meter reading
+Dhaka Head Office,2025-10-01,2025-10-31,DESCO,DSC-7781,Grid electricity,10270.4,kWh,102704.0,Utility bill / meter reading
+Dhaka Head Office,2025-11-01,2025-11-30,DESCO,DSC-7781,Grid electricity,10584.0,kWh,105840.0,Utility bill / meter reading
+Dhaka Head Office,2025-12-01,2025-12-31,DESCO,DSC-7781,Grid electricity,9016.0,kWh,90160.0,Utility bill / meter reading

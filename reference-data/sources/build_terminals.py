@@ -195,7 +195,7 @@ SPEND = {"Broadwoven fabric": "03990000010001", "Knit fabric": "03990000010002",
          "Freight forwarding & arrangement": "03990000050002"}
 SPEND_UNITS = ["BDT", "USD"]
 TERMINALS.append(terminal(
-    "s3_spend", 3, "3.0", "Spend-based (all Scope 3 purchases)",
+    "s3_spend", 3, None, "Spend-based (all Scope 3 purchases)",
     "Money spent on purchased goods and services when quantities are not available. Spend-based estimates are "
     "always graded C (estimated).",
     "Prefer activity data where you have it (e.g. tonnes of material in Purchased goods and services). Do not "

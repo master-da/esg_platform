@@ -1,0 +1,19 @@
+Facility,Period start,Period end,Fuel supplier,Vehicle type,Fuel type,Fuel quantity,Unit,Data basis,Notes
+Gazipur Factory,2026-01-01,2026-01-31,Padma Oil,Pick-up truck,Diesel,1138.6,L,Fuel receipts / fuel card
+Gazipur Factory,2026-02-01,2026-02-28,Padma Oil,Pick-up truck,Diesel,1176.9,L,Fuel receipts / fuel card
+Gazipur Factory,2026-03-01,2026-03-31,Padma Oil,Pick-up truck,Diesel,1215.1,L,Fuel receipts / fuel card
+Gazipur Factory,2026-04-01,2026-04-30,Padma Oil,Pick-up truck,Diesel,1253.4,L,Fuel receipts / fuel card
+Gazipur Factory,2026-05-01,2026-05-31,Padma Oil,Pick-up truck,Diesel,1291.7,L,Fuel receipts / fuel card
+Gazipur Factory,2026-06-01,2026-06-30,Padma Oil,Pick-up truck,Diesel,1100.3,L,Fuel receipts / fuel card
+Gazipur Factory,2026-07-01,2026-07-31,Padma Oil,Pick-up truck,Diesel,1138.6,L,Fuel receipts / fuel card
+Gazipur Factory,2026-08-01,2026-08-31,Padma Oil,Pick-up truck,Diesel,1176.9,L,Fuel receipts / fuel card
+Gazipur Factory,2026-09-01,2026-09-30,Padma Oil,Pick-up truck,Diesel,1215.1,L,Fuel receipts / fuel card
+Dhaka Head Office,2026-01-01,2026-01-31,Meghna Petroleum,Car,Petrol / Octane,415.8,L,Fuel receipts / fuel card
+Dhaka Head Office,2026-02-01,2026-02-28,Meghna Petroleum,Car,Petrol / Octane,429.8,L,Fuel receipts / fuel card
+Dhaka Head Office,2026-03-01,2026-03-31,Meghna Petroleum,Car,Petrol / Octane,443.8,L,Fuel receipts / fuel card
+Dhaka Head Office,2026-04-01,2026-04-30,Meghna Petroleum,Car,Petrol / Octane,457.8,L,Fuel receipts / fuel card
+Dhaka Head Office,2026-05-01,2026-05-31,Meghna Petroleum,Car,Petrol / Octane,471.7,L,Fuel receipts / fuel card
+Dhaka Head Office,2026-06-01,2026-06-30,Meghna Petroleum,Car,Petrol / Octane,401.9,L,Fuel receipts / fuel card
+Dhaka Head Office,2026-07-01,2026-07-31,Meghna Petroleum,Car,Petrol / Octane,415.8,L,Fuel receipts / fuel card
+Dhaka Head Office,2026-08-01,2026-08-31,Meghna Petroleum,Car,Petrol / Octane,429.8,L,Fuel receipts / fuel card
+Dhaka Head Office,2026-09-01,2026-09-30,Meghna Petroleum,Car,Petrol / Octane,443.8,L,Fuel receipts / fuel card

@@ -88,6 +88,18 @@ def test_read_only_roles_cannot_create_projects_or_upload(engine, tenant_a, proj
     assert r.status_code == 403, r.text
 
 
+def test_every_category_is_listed_and_unavailable_ones_are_not_applicable(engine, tenant_a, project):
+    h = bearer(tenant_a.tokens["SUSTAINABILITY_MANAGER"])
+    cats = {c["terminal_key"]: c for c in engine.get(f"/projects/{project}", headers=h).json()["categories"]}
+    assert {f"s3_c{n:02d}" for n in range(1, 16)} <= set(cats)
+    c4 = cats["s3_c04"]
+    assert (c4["category_no"], c4["enabled"], c4["in_scope"]) == ("3.4", False, False)
+    assert "domain advisor" in c4["na_reason"]
+    assert cats["s3_spend"]["category_no"] is None
+    r = engine.patch(f"/projects/{project}/categories/s3_c04", headers=h, json={"in_scope": True})
+    assert r.status_code == 409, r.text
+
+
 def test_other_tenant_cannot_see_or_touch_the_project(engine, tenant_b, project):
     h = bearer(tenant_b.tokens["COMPANY_ADMIN"])
     assert engine.get(f"/projects/{project}", headers=h).status_code == 404

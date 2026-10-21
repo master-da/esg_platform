@@ -95,9 +95,12 @@ def create_project(body: ProjectIn, tx: Tx = Depends(user_tx)):
             (body.company_id, pid),
         )
         tx.execute("update public.projects set current_version_id = %s where id = %s", (vid, pid))
+        # Every category is listed. One whose template is not available yet starts as not applicable,
+        # with the reason shown, so it is visible in the project and in the report's boundary section.
         tx.execute(
-            """insert into public.project_categories (company_id, project_id, terminal_key)
-               select %s, %s, key from ref.terminals where enabled""",
+            """insert into public.project_categories (company_id, project_id, terminal_key, in_scope, na_reason)
+               select %s, %s, key, enabled, case when enabled then null else coalesce(disabled_reason, 'Not available yet') end
+               from ref.terminals""",
             (body.company_id, pid),
         )
     return {"id": str(pid)}
@@ -361,6 +364,8 @@ def update_category(project_id: str, terminal_key: str, body: CategoryPatch, tx:
     if fields.get("in_scope") is False and not (fields.get("na_reason") or "").strip():
         raise HTTPException(422, "Give a reason when marking a category as not applicable")
     if fields.get("in_scope"):
+        if not tx.scalar("select enabled from ref.terminals where key = %s", (terminal_key,)):
+            raise HTTPException(409, "This category has no upload template yet, so it can't be in scope")
         fields["na_reason"] = None
     if fields:
         with tx.privileged():

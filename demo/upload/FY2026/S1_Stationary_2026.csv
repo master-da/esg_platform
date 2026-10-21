@@ -1,0 +1,19 @@
+Facility,Period start,Period end,Fuel supplier,Equipment,Fuel type,Fuel quantity,Unit,Data basis,Notes
+Gazipur Factory,2026-01-01,2026-01-31,Titas Gas,Boiler,Natural gas,24257.0,m3,Metered / invoice
+Gazipur Factory,2026-02-01,2026-02-28,Titas Gas,Boiler,Natural gas,25072.3,m3,Metered / invoice
+Gazipur Factory,2026-03-01,2026-03-31,Titas Gas,Boiler,Natural gas,25887.7,m3,Metered / invoice
+Gazipur Factory,2026-04-01,2026-04-30,Titas Gas,Boiler,Natural gas,26703.0,m3,Metered / invoice
+Gazipur Factory,2026-05-01,2026-05-31,Titas Gas,Boiler,Natural gas,27518.4,m3,Metered / invoice
+Gazipur Factory,2026-06-01,2026-06-30,Titas Gas,Boiler,Natural gas,23441.6,m3,Metered / invoice
+Gazipur Factory,2026-07-01,2026-07-31,Titas Gas,Boiler,Natural gas,24257.0,m3,Metered / invoice
+Gazipur Factory,2026-08-01,2026-08-31,Titas Gas,Boiler,Natural gas,25072.3,m3,Metered / invoice
+Gazipur Factory,2026-09-01,2026-09-30,Titas Gas,Boiler,Natural gas,25887.7,m3,Metered / invoice
+Gazipur Factory,2026-01-01,2026-01-31,Padma Oil,Generator,Diesel,3069.2,L,Metered / invoice
+Gazipur Factory,2026-02-01,2026-02-28,Padma Oil,Generator,Diesel,3172.4,L,Metered / invoice
+Gazipur Factory,2026-03-01,2026-03-31,Padma Oil,Generator,Diesel,3275.6,L,Metered / invoice
+Gazipur Factory,2026-04-01,2026-04-30,Padma Oil,Generator,Diesel,3378.8,L,Metered / invoice
+Gazipur Factory,2026-05-01,2026-05-31,Padma Oil,Generator,Diesel,3481.9,L,Metered / invoice
+Gazipur Factory,2026-06-01,2026-06-30,Padma Oil,Generator,Diesel,2966.1,L,Metered / invoice
+Gazipur Factory,2026-07-01,2026-07-31,Padma Oil,Generator,Diesel,3069.2,L,Metered / invoice
+Gazipur Factory,2026-08-01,2026-08-31,Padma Oil,Generator,Diesel,3172.4,L,Metered / invoice
+Gazipur Factory,2026-09-01,2026-09-30,Padma Oil,Generator,Diesel,3275.6,L,Metered / invoice

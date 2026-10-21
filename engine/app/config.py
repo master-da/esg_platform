@@ -1,7 +1,9 @@
+import json
 from functools import lru_cache
+from typing import Annotated
 
 from pydantic import field_validator
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -17,7 +19,8 @@ class Settings(BaseSettings):
     database_url: str = "postgresql://engine_app:engine_app_local_only@127.0.0.1:54322/postgres"
 
     web_url: str = "http://localhost:3000"
-    cors_origins: list[str] = ["http://localhost:3000", "http://127.0.0.1:3000"]
+    # Browser origins allowed to call the engine: a JSON list or a comma-separated list.
+    cors_origins: Annotated[list[str], NoDecode] = ["http://localhost:3000", "http://127.0.0.1:3000"]
 
     storage_bucket: str = "uploads"
     max_upload_rows: int = 20000
@@ -34,6 +37,14 @@ class Settings(BaseSettings):
         """Accept the dashboard's API URL too (".../rest/v1/"): every client here appends its own path."""
         v = v.strip().rstrip("/")
         return v.removesuffix("/rest/v1").rstrip("/")
+
+    @field_validator("cors_origins", mode="before")
+    @classmethod
+    def _origins(cls, v: str | list[str]) -> list[str]:
+        """An origin never ends in "/", so "https://app.vercel.app/" is accepted as "https://app.vercel.app"."""
+        if isinstance(v, str):
+            v = json.loads(v) if v.strip().startswith("[") else v.split(",")
+        return [o.strip().rstrip("/") for o in v if o.strip()]
 
     @property
     def jwt_issuer(self) -> str:

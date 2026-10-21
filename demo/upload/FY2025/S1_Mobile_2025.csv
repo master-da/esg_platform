@@ -1,0 +1,25 @@
+Facility,Period start,Period end,Fuel supplier,Vehicle type,Fuel type,Fuel quantity,Unit,Data basis,Notes
+Gazipur Factory,2025-01-01,2025-01-31,Padma Oil,Pick-up truck,Diesel,1094.8,L,Fuel receipts / fuel card
+Gazipur Factory,2025-02-01,2025-02-28,Padma Oil,Pick-up truck,Diesel,1131.6,L,Fuel receipts / fuel card
+Gazipur Factory,2025-03-01,2025-03-31,Padma Oil,Pick-up truck,Diesel,1168.4,L,Fuel receipts / fuel card
+Gazipur Factory,2025-04-01,2025-04-30,Padma Oil,Pick-up truck,Diesel,1205.2,L,Fuel receipts / fuel card
+Gazipur Factory,2025-05-01,2025-05-31,Padma Oil,Pick-up truck,Diesel,1242.0,L,Fuel receipts / fuel card
+Gazipur Factory,2025-06-01,2025-06-30,Padma Oil,Pick-up truck,Diesel,1058.0,L,Fuel receipts / fuel card
+Gazipur Factory,2025-07-01,2025-07-31,Padma Oil,Pick-up truck,Diesel,1094.8,L,Fuel receipts / fuel card
+Gazipur Factory,2025-08-01,2025-08-31,Padma Oil,Pick-up truck,Diesel,1131.6,L,Fuel receipts / fuel card
+Gazipur Factory,2025-09-01,2025-09-30,Padma Oil,Pick-up truck,Diesel,1168.4,L,Fuel receipts / fuel card
+Gazipur Factory,2025-10-01,2025-10-31,Padma Oil,Pick-up truck,Diesel,1205.2,L,Fuel receipts / fuel card
+Gazipur Factory,2025-11-01,2025-11-30,Padma Oil,Pick-up truck,Diesel,1242.0,L,Fuel receipts / fuel card
+Gazipur Factory,2025-12-01,2025-12-31,Padma Oil,Pick-up truck,Diesel,1058.0,L,Fuel receipts / fuel card
+Dhaka Head Office,2025-01-01,2025-01-31,Meghna Petroleum,Car,Petrol / Octane,399.8,L,Fuel receipts / fuel card
+Dhaka Head Office,2025-02-01,2025-02-28,Meghna Petroleum,Car,Petrol / Octane,413.3,L,Fuel receipts / fuel card
+Dhaka Head Office,2025-03-01,2025-03-31,Meghna Petroleum,Car,Petrol / Octane,426.7,L,Fuel receipts / fuel card
+Dhaka Head Office,2025-04-01,2025-04-30,Meghna Petroleum,Car,Petrol / Octane,440.2,L,Fuel receipts / fuel card
+Dhaka Head Office,2025-05-01,2025-05-31,Meghna Petroleum,Car,Petrol / Octane,453.6,L,Fuel receipts / fuel card
+Dhaka Head Office,2025-06-01,2025-06-30,Meghna Petroleum,Car,Petrol / Octane,386.4,L,Fuel receipts / fuel card
+Dhaka Head Office,2025-07-01,2025-07-31,Meghna Petroleum,Car,Petrol / Octane,399.8,L,Fuel receipts / fuel card
+Dhaka Head Office,2025-08-01,2025-08-31,Meghna Petroleum,Car,Petrol / Octane,413.3,L,Fuel receipts / fuel card
+Dhaka Head Office,2025-09-01,2025-09-30,Meghna Petroleum,Car,Petrol / Octane,426.7,L,Fuel receipts / fuel card
+Dhaka Head Office,2025-10-01,2025-10-31,Meghna Petroleum,Car,Petrol / Octane,440.2,L,Fuel receipts / fuel card
+Dhaka Head Office,2025-11-01,2025-11-30,Meghna Petroleum,Car,Petrol / Octane,453.6,L,Fuel receipts / fuel card
+Dhaka Head Office,2025-12-01,2025-12-31,Meghna Petroleum,Car,Petrol / Octane,386.4,L,Fuel receipts / fuel card

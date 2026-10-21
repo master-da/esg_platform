@@ -1,0 +1,5 @@
+Facility,Period start,Period end,Travel agency / provider,Travel mode,Quantity,Unit,Data basis,Notes
+Company-level (all sites),2025-02-01,2025-02-28,Travel desk,"Flight, economy",18400.0,pkm,Supplier or third-party data
+Company-level (all sites),2025-02-01,2025-02-28,Travel desk,"Hotel stay, India",12,room_night,Supplier or third-party data
+Company-level (all sites),2025-06-01,2025-06-30,Travel desk,"Flight, business class",9200.0,pkm,Supplier or third-party data
+Company-level (all sites),2025-06-01,2025-06-30,Travel desk,"Hotel stay, Bangladesh",8,room_night,Supplier or third-party data

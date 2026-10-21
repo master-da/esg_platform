@@ -42,7 +42,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-# project url: https://ybeksgmxjohmvazzwgby.supabase.co/rest/v1/
-# publishable key: sb_publishable_N5rqY57aKE3lCfxbNCMNfA_x1svE_Rg
-# secret key: sb_secret_f7K61zc6QKjURtzBa8ug-Q_xnEDbolQ
-# postgresql://engine_app.ybeksgmxjohmvazzwgby:1olKPfs*xuIDf&@aws-0-ap-south-1.pooler.supabase.com:5432/postgres?sslmode=require
+    

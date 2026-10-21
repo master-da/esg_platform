@@ -3,7 +3,8 @@
 # Local-development keys only. Never commit the generated files.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-eval "$(supabase status -o env | sed -E 's/^([A-Z_]+)=/SB_\1=/')"
+STATUS=$(supabase status -o env) || { echo "Supabase is not running or not ready yet; run 'make up' and retry." >&2; exit 1; }
+eval "$(printf '%s\n' "$STATUS" | sed -E 's/^([A-Z_]+)=/SB_\1=/')"
 
 # Keep any manually-added ANTHROPIC_API_KEY across regenerations.
 ANTHROPIC_API_KEY_LINE=$(grep -E '^ANTHROPIC_API_KEY=' engine/.env 2>/dev/null || true)

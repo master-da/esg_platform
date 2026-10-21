@@ -2,7 +2,7 @@
   "key": "s3_spend",
   "module": "ghg",
   "scope": 3,
-  "category_no": "3.0",
+  "category_no": null,
   "name": "Spend-based (all Scope 3 purchases)",
   "description": "Money spent on purchased goods and services when quantities are not available. Spend-based estimates are always graded C (estimated).",
   "excludes": "Prefer activity data where you have it (e.g. tonnes of material in Purchased goods and services). Do not enter the same purchases in both places.",

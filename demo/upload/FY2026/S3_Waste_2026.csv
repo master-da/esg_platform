@@ -1,0 +1,28 @@
+Facility,Period start,Period end,Waste contractor / destination,Waste type,Treatment method,Hazardous,Quantity,Unit,Data basis,Notes
+Gazipur Factory,2026-01-01,2026-01-31,Green Recycling Ltd,Textiles & fabric offcuts,Recycling,No,17.8,t,Weighbridge / manifest
+Gazipur Factory,2026-02-01,2026-02-28,Green Recycling Ltd,Textiles & fabric offcuts,Recycling,No,18.4,t,Weighbridge / manifest
+Gazipur Factory,2026-03-01,2026-03-31,Green Recycling Ltd,Textiles & fabric offcuts,Recycling,No,19.0,t,Weighbridge / manifest
+Gazipur Factory,2026-04-01,2026-04-30,Green Recycling Ltd,Textiles & fabric offcuts,Recycling,No,19.6,t,Weighbridge / manifest
+Gazipur Factory,2026-05-01,2026-05-31,Green Recycling Ltd,Textiles & fabric offcuts,Recycling,No,20.2,t,Weighbridge / manifest
+Gazipur Factory,2026-06-01,2026-06-30,Green Recycling Ltd,Textiles & fabric offcuts,Recycling,No,17.2,t,Weighbridge / manifest
+Gazipur Factory,2026-07-01,2026-07-31,Green Recycling Ltd,Textiles & fabric offcuts,Recycling,No,17.8,t,Weighbridge / manifest
+Gazipur Factory,2026-08-01,2026-08-31,Green Recycling Ltd,Textiles & fabric offcuts,Recycling,No,18.4,t,Weighbridge / manifest
+Gazipur Factory,2026-09-01,2026-09-30,Green Recycling Ltd,Textiles & fabric offcuts,Recycling,No,19.0,t,Weighbridge / manifest
+Gazipur Factory,2026-01-01,2026-01-31,City Corporation,Commercial & industrial waste (mixed),Landfill,No,6.4,t,Weighbridge / manifest
+Gazipur Factory,2026-02-01,2026-02-28,City Corporation,Commercial & industrial waste (mixed),Landfill,No,6.7,t,Weighbridge / manifest
+Gazipur Factory,2026-03-01,2026-03-31,City Corporation,Commercial & industrial waste (mixed),Landfill,No,6.9,t,Weighbridge / manifest
+Gazipur Factory,2026-04-01,2026-04-30,City Corporation,Commercial & industrial waste (mixed),Landfill,No,7.1,t,Weighbridge / manifest
+Gazipur Factory,2026-05-01,2026-05-31,City Corporation,Commercial & industrial waste (mixed),Landfill,No,7.3,t,Weighbridge / manifest
+Gazipur Factory,2026-06-01,2026-06-30,City Corporation,Commercial & industrial waste (mixed),Landfill,No,6.2,t,Weighbridge / manifest
+Gazipur Factory,2026-07-01,2026-07-31,City Corporation,Commercial & industrial waste (mixed),Landfill,No,6.4,t,Weighbridge / manifest
+Gazipur Factory,2026-08-01,2026-08-31,City Corporation,Commercial & industrial waste (mixed),Landfill,No,6.7,t,Weighbridge / manifest
+Gazipur Factory,2026-09-01,2026-09-30,City Corporation,Commercial & industrial waste (mixed),Landfill,No,6.9,t,Weighbridge / manifest
+Gazipur Factory,2026-01-01,2026-01-31,Licensed hazardous handler,Sludge (ETP),Treatment,Yes,2.2,t,Weighbridge / manifest
+Gazipur Factory,2026-02-01,2026-02-28,Licensed hazardous handler,Sludge (ETP),Treatment,Yes,2.3,t,Weighbridge / manifest
+Gazipur Factory,2026-03-01,2026-03-31,Licensed hazardous handler,Sludge (ETP),Treatment,Yes,2.3,t,Weighbridge / manifest
+Gazipur Factory,2026-04-01,2026-04-30,Licensed hazardous handler,Sludge (ETP),Treatment,Yes,2.4,t,Weighbridge / manifest
+Gazipur Factory,2026-05-01,2026-05-31,Licensed hazardous handler,Sludge (ETP),Treatment,Yes,2.5,t,Weighbridge / manifest
+Gazipur Factory,2026-06-01,2026-06-30,Licensed hazardous handler,Sludge (ETP),Treatment,Yes,2.1,t,Weighbridge / manifest
+Gazipur Factory,2026-07-01,2026-07-31,Licensed hazardous handler,Sludge (ETP),Treatment,Yes,2.2,t,Weighbridge / manifest
+Gazipur Factory,2026-08-01,2026-08-31,Licensed hazardous handler,Sludge (ETP),Treatment,Yes,2.3,t,Weighbridge / manifest
+Gazipur Factory,2026-09-01,2026-09-30,Licensed hazardous handler,Sludge (ETP),Treatment,Yes,2.3,t,Weighbridge / manifest
